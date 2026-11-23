@@ -14,10 +14,10 @@
 
 | | | |
 |---|---|---|
-| ![](previews/01-editorial.jpg)<br>**01-editorial** 瑞士編輯：超大字、網格、紅色編號 | ![](previews/02-bento.jpg)<br>**02-bento** Apple 產品頁：筆電外框、捲動放大 | ![](previews/03-minimal.jpg)<br>**03-minimal** 極簡索引：大字作品索引、滑過浮出截圖 |
-| ![](previews/04-aurora.jpg)<br>**04-aurora** 極光暗色：流動極光、毛玻璃 | ![](previews/05-brutal.jpg)<br>**05-brutal** 新粗獷：色塊、可拖的貼紙 | ![](previews/06-terminal.jpg)<br>**06-terminal** 開發者終端：⌘K 指令面板、打字開場 |
-| ![](previews/07-magazine.jpg)<br>**07-magazine** 文藝雜誌：直排標題、印章、圖說 | ![](previews/08-studio.jpg)<br>**08-studio** 作品集工作室：左側欄、大圖展開 | ![](previews/09-soft.jpg)<br>**09-soft** 柔和黏土：粉嫩、Q 彈互動 |
-| ![](previews/10-cv.jpg)<br>**10-cv** 履歷 CV：單欄精排、可列印 |  |  |
+| ![](previews/01-editorial.jpg)<br>**01-editorial** 瑞士海報：滿版紅、黑白交替、超大字 | ![](previews/02-bento.jpg)<br>**02-bento** Apple 產品頁：白灰、筆電外框、捲動放大 | ![](previews/03-minimal.jpg)<br>**03-minimal** 像素冒險：深藍星空、角色卡、任務卡 |
+| ![](previews/04-aurora.jpg)<br>**04-aurora** 液態玻璃：繽紛漸層、毛玻璃面板 | ![](previews/05-brutal.jpg)<br>**05-brutal** 新粗獷：米底、色塊、可拖的貼紙 | ![](previews/06-terminal.jpg)<br>**06-terminal** 復古桌面：綠松石桌面、可拖的灰視窗 |
+| ![](previews/07-magazine.jpg)<br>**07-magazine** 藍染雜誌：深靛藍、直排、印章 | ![](previews/08-studio.jpg)<br>**08-studio** 作品集工作室：暖黑＋螢光、大圖展開 | ![](previews/09-soft.jpg)<br>**09-soft** 柔和黏土：粉嫩、Q 彈互動 |
+| ![](previews/10-cv.jpg)<br>**10-cv** 紙本履歷：永遠淺色、襯線、可列印 |  |  |
 
 自己的內容換好之後跑 `npm run themes`，會用**你的內容**做出 10 種版本給你比較。
 
