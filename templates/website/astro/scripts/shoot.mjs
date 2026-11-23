@@ -64,7 +64,7 @@ const shot = (url, file, w, h) => new Promise((ok) => {
 });
 
 const dir = path.join(root, 'theme-previews', theme + (noImages ? '-noimg' : ''));
-fs.rmSync(dir, { recursive: true, force: true });
+if (!pagesArg) fs.rmSync(dir, { recursive: true, force: true }); // 只截幾頁時，保留其他頁的舊圖
 fs.mkdirSync(dir, { recursive: true });
 for (const pg of pages) {
   const name = pg === '/' ? 'home' : pg.replace(/^\/|\/$|\.html$/g, '').replace(/\//g, '_');
