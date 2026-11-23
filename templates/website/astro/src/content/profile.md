@@ -1,57 +1,61 @@
 ---
-name: 林小安
-nameEn: Anna Lin
-role: 開南大學資管系三年級｜前端實習生
-tagline: 把複雜的流程，做成每個人都用得順手的介面。
-intro: 我是資管系三年級的林小安，喜歡從使用者卡住的地方找題目。做過校園二手書平台、系學會報名系統，正在找 2027 暑期前端實習。
-status: 正在找 2027 暑期前端實習
-location: 桃園，台灣
-avatar: /images/portrait.jpg
+name: 盧小熙
+nameEn: Eric Lu
+role: WPORT 職航站創辦人｜AI 工作流講師
+tagline: 幫在台灣的外籍人才找到工作，也教大家把 AI 用進工作裡。
+intro: 我是盧小熙，做的是 WPORT 職航站，一個給在台外籍人才的求職平台，從零到 1,060 間合作企業。也在大學和企業教 AI 工作流與 SSOT 知識管理。
+status: 歡迎洽談 AI 工作坊與企業內訓
+location: 台北，台灣
+avatar: /images/me.webp
 photos:
-  - /images/portrait-2.jpg
-  - /images/desk.jpg
-email: anna.lin.demo@example.com
+  - /images/me-talk.webp
+  - /images/me-lifeguard.webp
+email: hello@example.com
 resume: ""
 links:
-  - label: GitHub
-    url: https://github.com/
+  - label: 個人網站
+    url: https://sup-eric.com
   - label: LinkedIn
-    url: https://www.linkedin.com/
+    url: https://www.linkedin.com/in/xu-xi-lu-922823b9/
+  - label: GitHub
+    url: https://github.com/ericlu-sys
   - label: Instagram
-    url: https://www.instagram.com/
+    url: https://www.instagram.com/eric_rookie_ceo/
 highlights:
-  - value: "4"
-    label: 完成的專案
-  - value: "320+"
-    label: 系統累積使用者
-  - value: "2"
-    label: 擔任過的幹部
-  - value: "TOEIC 785"
-    label: 英文能力
+  - value: "1,060"
+    label: WPORT 合作企業
+  - value: "90+"
+    label: 做過軟體提案的企業
+  - value: "24"
+    label: 扶青團團長任內專案
+  - value: "N2"
+    label: 日文檢定
 skills:
-  - group: 前端
-    items: [HTML, CSS, JavaScript, TypeScript, Astro, Vue]
-  - group: 設計與工具
-    items: [Figma, GitHub, Cloudflare, Vercel, Obsidian]
-  - group: AI 工作流
-    items: [Claude Code, OpenCode, Gemini, PRD 撰寫]
-  - group: 證照
-    items: [TOEIC 785, TQC 網頁設計]
+  - group: AI 與自動化
+    items: [AI 工作流設計, Cursor／AI IDE, PRD, Obsidian SSOT, n8n, Vercel, Cloudflare, Google Apps Script]
+  - group: 職能
+    items: [B2B 業務開發, 專案管理, 客戶提案簡報, Agile, 跨部門協調, 數位轉型顧問]
+  - group: 行銷與工具
+    items: [GA4, Google Ads, Facebook Ads, Google Search Console, WordPress, Photoshop, Premiere]
+  - group: 語言
+    items: [中文（母語）, 英文（流利）, 日文 JLPT N2]
 traits:
-  - title: 先畫流程，再寫程式
-    text: 做系學會報名系統前，我先跟三位幹部各訪談 20 分鐘，畫出報名到繳費的流程圖，才發現最大的問題是對帳，不是報名表。
-  - title: 做完一定量數字
-    text: 二手書平台上線後，我每週看一次刊登數和成交數，發現沒照片的書幾乎賣不掉，就把「上傳照片」改成必填。
-  - title: 卡住就問，問完寫下來
-    text: 實習時遇到不熟的部署流程，我會先查 30 分鐘，還是不懂就帶著試過的方法去問，問完寫成筆記給下一個人。
-interests: [攝影：記錄校園和街景, 羽球：系隊替補兩年, 咖啡：週末練手沖, 閱讀：設計與心理學]
-quote: 好的介面不需要說明書。
+  - title: 把卡關的流程收斂成表單
+    text: 僑外生找工作最容易卡在文件。WPORT 把這段流程整理成表單，資料填一次，需要的文件自動產生。
+  - title: 用工具管專案，不靠記性
+    text: 當扶青團團長那年，20 個人要跑 24 項專案。我導入 Trello，每一項誰負責、做到哪裡，打開就看得到。
+  - title: 需要什麼，就學什麼
+    text: PS、GA4、GTM、Google Script、OBS，沒有一項是坐下來好好學的，都是因為某件事非做不可才學會。
+interests: [溯溪與野溪溫泉, 救生教練（台大第一期）, 主持沙龍與聚會]
+quote: 很多當下看起來不相關的點，會在未來連成線。
 ---
 
-我是林小安，開南大學資訊管理學系三年級。
+我是盧小熙，現在在做的是 WPORT 職航站，一個給在台外籍人才的求職平台。
 
-大一修程式設計時，我其實不太喜歡寫程式，直到第一次把作業做成網頁、傳給室友用，看到她卡在一個按鈕前面找不到下一步，我才發現自己真正在意的是「人怎麼用」。從那之後，我做每個作品都先問：誰會用、在哪裡卡住、怎麼讓他少想一步。
+說起來也很好笑，大學在教育系不學無術，修了哲學、外交、經濟、西文、日文，大概就是把想學的東西都學了一遍。後來被同班同學慫恿去修資科系的課，從那時候開啟了跟軟體的不解之緣。不過當時菜得可憐，連巴斯卡三角形都寫不出來。
 
-大二我和兩位同學做了校園二手書交換平台，一學期有 320 位同學註冊；大三接下系學會資訊長，把原本靠 Google 表單和手動對帳的活動報名，改成一個有繳費狀態的小系統，幹部每場活動少花大約兩小時。
+後來到了錫諾系統，開始做各種專案，服務過 O 型環、牙科器材、FMCG、文創、自行車零件這些看起來八竿子打不著的產業。實際做下來才發現，B2B 雖然業態不同，背後的邏輯卻很相似。
 
-現在我正在找 2027 年暑期的前端實習，希望到一個重視使用者體驗的團隊，學習怎麼把設計稿做成穩定、好維護的產品。
+可能是社團跟工作都還算主動，有點名氣之後被挖到 WPORT。之後還是一路摸爬滾打，帶著團隊往前走，短影片、雇主品牌、軟體架構更換這些大小事都碰過。現在因為 AI 浪潮，也開始教 AI 課程了。
+
+回頭看，我的人生大概就是一直在嘗試，也一直有人願意給機會。賈伯斯說過，很多當下看起來不相關的點，會在未來連成線。我後來是真的信了。

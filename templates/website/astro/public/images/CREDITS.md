@@ -1,12 +1,8 @@
-# 範例照片來源
+# 範例照片
 
-範例人物「林小安」是虛構的，照片來自 Unsplash，依 [Unsplash License](https://unsplash.com/license) 免費使用。換成自己的照片時，這幾個檔案可以整個刪掉。
+範例人物「盧小熙」用的是老師（盧旭熙）本人的照片與公開資料，學生換成自己的。
 
-| 檔案 | 來源 |
-|---|---|
-| portrait.jpg | https://unsplash.com/photos/pqJ3V8nCSSM |
-| portrait-2.jpg | https://unsplash.com/photos/sdRi6boBozA |
-| desk.jpg | https://unsplash.com/photos/tRjfyx6KKKw |
-| notebook.jpg | https://unsplash.com/photos/pUAM5hPaCRI |
+- `me.webp`、`me-talk.webp`、`me-lifeguard.webp`：老師本人的照片，用程式轉成線條插畫（去背、線稿、幾何色塊）。
+- `projects/`：老師做過的專案網站截圖（wport.me、youth7.sup-eric.com、nodullardsclub.com、sup-eric.com/work/youth-growth）。
 
-`projects/` 裡的作品畫面是用 HTML 做出來再截圖的，不是真的產品。
+換成自己的內容之後，這些檔案可以整個刪掉。

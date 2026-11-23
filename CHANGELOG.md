@@ -6,7 +6,7 @@
 
 - 每個風格自己擁有版面：`src/themes/<編號>/` 有自己的 `Layout.astro`、9 個頁面、元件和 CSS；共用的只剩資料讀取、`<head>`、聯絡表單、動畫工具。規則見 `src/themes/README.md`。
 - 加入 GSAP（ScrollTrigger、SplitText）和 Lenis 平滑捲動；`?shot` 和「減少動態」時直接顯示最後狀態。
-- 範例有真的圖：Unsplash 人像與桌面照（`public/images/CREDITS.md`），作品截圖是用 HTML 畫出來的介面（書窩 BookNest、系學會報名後台、記帳 App）。
+- 範例人物改成「盧小熙」：用老師本人的照片轉成線條插畫（去背＋線稿＋幾何色塊），作品是老師真的做過的專案（WPORT、桃園青諮會國際展望組、創業人生、無白丁會所），封面是真實網站截圖、附真網址；經歷與兩篇文章取自老師個人網站。
 - 內容欄位新增 `photos`（關於頁照片）、`gallery`（作品頁更多截圖）、文章 `cover`；網頁版 AI prompt 要求照片先留空。
 - 每種風格都設計了「沒有照片」的版面（`npm run shoot -- <編號> --no-images` 檢查）。
 - 新工具 `npm run shoot -- <編號>`：建置一個風格並把每一頁截圖（桌機＋手機）。

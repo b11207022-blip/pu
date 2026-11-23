@@ -12,7 +12,7 @@
 - `site.config.mjs`：只改 `theme`、`accent`、`contactEndpoint` 這三行
 - `public/images/`：放照片，欄位填 `/images/檔名.jpg`
   - 大頭照 `avatar`、生活照 `photos`（關於頁）、作品封面 `cover`、作品頁更多截圖 `gallery`（每張可加 `caption`）
-  - 範例的 `portrait.jpg`、`desk.jpg`、`projects/` 是示範用，換成自己的之後可以刪
+  - 範例的 `me*.webp`、`projects/` 是老師的照片和截圖，換成自己的之後可以刪
 
 ## 不要改的地方
 - `src/themes/`、`src/shared/`、`src/lib/`、`src/pages/`、`scripts/`、`astro.config.mjs`

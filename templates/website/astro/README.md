@@ -8,7 +8,7 @@
 - 推上 GitHub 自動部署到 GitHub Pages；也能放 Vercel、Cloudflare
 - 聯絡表單可以接 Cloudflare Worker：留言存進 D1 資料庫，有網域還能寄信通知你（見 [`contact-worker/`](contact-worker/README.md)）
 
-範例人物「林小安」是虛構的，全部換成你的。
+範例人物「盧小熙」是老師拿自己的資料和專案做的，全部換成你的。
 
 ## 10 種風格
 
@@ -73,7 +73,7 @@ run: gh api -X POST "repos/{owner}/{repo}/pages" -f build_type=workflow
 | 加大頭照 | 照片放 `public/images/me.jpg`，`profile.md` 的 `avatar` 填 `/images/me.jpg` |
 | 作品加封面 | 照片放 `public/images/`，作品的 `cover` 填 `/images/檔名.jpg`；沒照片會自動產生色塊封面 |
 | 換主色 | `site.config.mjs` 的 `accent` 填色碼，例如 `'#1F5FAF'` |
-| 加作品 | 複製 `src/content/projects/book-swap.md`，改英文檔名和內容 |
+| 加作品 | 複製 `src/content/projects/wport.md`，改英文檔名和內容 |
 | 不想要文章頁 | 刪掉 `src/content/posts/` 裡的檔案，導覽列會自動拿掉 |
 | 聯絡表單 | 照 [`contact-worker/README.md`](contact-worker/README.md) 做，再把網址填進 `site.config.mjs` 的 `contactEndpoint` |
 
@@ -105,4 +105,4 @@ Public repo 誰都看得到：手機、地址、生日、身分證字號、帳�
 - 檢查一個風格的每一頁：`npm run shoot -- 05`（桌機＋手機截圖到 `theme-previews/05-brutal/`）；加 `--no-images` 看學生還沒放照片時的樣子。
 - 改了範例內容，要跑 `npm run prompt` 重新產生 `網頁版AI-prompt.md`（範例是從 `src/content/` 打包的）。
 - 改了風格，跑 `npm run themes` 看 10 種並排；README 的預覽圖在 `previews/`。
-- 範例照片來源見 `public/images/CREDITS.md`（Unsplash License）；作品畫面是用 HTML 畫的。
+- 範例照片與截圖的來源見 `public/images/CREDITS.md`。
