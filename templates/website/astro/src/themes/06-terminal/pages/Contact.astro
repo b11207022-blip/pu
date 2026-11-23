@@ -1,5 +1,38 @@
 ---
-// 暫時沿用舊版；重做時整個檔案換掉
-import P from "../../../legacy/pages/contact.astro";
+import Layout from '../Layout.astro';
+import Window from '../components/Window.astro';
+import ContactForm from '../../../shared/ContactForm.astro';
+import { getProfile, u } from '../../../lib/site';
+const p = (await getProfile()).data;
 ---
-<P {...Astro.props} />
+<Layout title="聯絡" path="contact">
+  <section class="page-head wrap">
+    <p class="crumb" data-intro><span class="ps">~</span> open ./contact</p>
+    <h1 class="page-title" data-intro>來聊聊吧</h1>
+    <p class="page-lead" data-intro>{p.status ? `${p.status}。` : ''}實習、合作或只是想交流，都歡迎來信，通常一兩天內回覆。</p>
+  </section>
+  <section class="wrap contact">
+    <Window title="contact.json" meta="JSON">
+      <ol class="code json">
+        <li>{'{'}</li>
+        {p.email && <li class="ind"><span class="tok-key">"email"</span><span class="tok-op">:</span> <a class="tok-str tok-link" href={`mailto:${p.email}`}>"{p.email}"</a>,</li>}
+        {p.location && <li class="ind"><span class="tok-key">"location"</span><span class="tok-op">:</span> <span class="tok-str">"{p.location}"</span>,</li>}
+        {p.status && <li class="ind"><span class="tok-key">"status"</span><span class="tok-op">:</span> <span class="tok-str">"{p.status}"</span>,</li>}
+        <li class="ind"><span class="tok-key">"reply"</span><span class="tok-op">:</span> <span class="tok-str">"1–2 天"</span>{p.links.length > 0 && ','}</li>
+        {p.links.length > 0 && <li class="ind"><span class="tok-key">"links"</span><span class="tok-op">:</span> {'{'}</li>}
+        {p.links.map((l, i) => <li class="ind2"><span class="tok-key">"{l.label.toLowerCase()}"</span><span class="tok-op">:</span> <a class="tok-str tok-link" href={u(l.url)} target="_blank" rel="noopener">"{l.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}"</a>{i < p.links.length - 1 && ','}</li>)}
+        {p.links.length > 0 && <li class="ind">{'}'}</li>}
+        <li>{'}'}</li>
+      </ol>
+      {p.email && (
+        <div class="json-actions">
+          <button class="btn btn-ghost btn-sm" type="button" data-copy={p.email}><span class="btn-ic" aria-hidden="true">⧉</span>複製 Email</button>
+          <a class="btn btn-ghost btn-sm" href={`mailto:${p.email}`}>開啟郵件 App</a>
+        </div>
+      )}
+    </Window>
+    <Window title="new-message" meta="Compose" class="compose">
+      <ContactForm email={p.email} />
+    </Window>
+  </section>
+</Layout>

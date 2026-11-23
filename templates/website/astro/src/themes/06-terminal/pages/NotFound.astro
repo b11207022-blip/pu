@@ -1,5 +1,38 @@
 ---
-// 暫時沿用舊版；重做時整個檔案換掉
-import P from "../../../legacy/pages/404.astro";
+import Layout from '../Layout.astro';
+import { navItems, u } from '../../../lib/site';
+const items = await navItems();
 ---
-<P {...Astro.props} />
+<Layout title="找不到頁面" path="404">
+  <section class="wrap nf">
+    <div class="win nf-win" data-window>
+      <header class="win-bar">
+        <span class="win-lights" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="win-title">zsh — exit 1</span>
+        <span class="win-meta">404</span>
+      </header>
+      <div class="win-body term-body">
+        <p class="t-line"><span class="ps">~</span> <span class="t-cmd">cd <span data-nf-path>/this-page</span></span></p>
+        <p class="t-out t-err">cd: no such file or directory: <span data-nf-path>/this-page</span></p>
+        <p class="t-line"><span class="ps">~</span> <span class="t-cmd">ls /</span></p>
+        <ul class="t-out nf-list">
+          {items.map((i) => <li><a href={u(i.href)}><span class="tok-fn">{i.href === '/' ? '/' : i.href.replace(/\/$/, '')}</span><span class="tok-dim">{i.label}</span></a></li>)}
+        </ul>
+        <p class="t-line"><span class="ps">~</span> <span class="caret" aria-hidden="true"></span></p>
+      </div>
+    </div>
+    <div class="nf-copy">
+      <p class="nf-code">404</p>
+      <h1 class="page-title">這一頁不在這裡</h1>
+      <p class="page-lead">網址可能打錯了，或是頁面已經搬家。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href={u('/')}>回首頁 <span aria-hidden="true">→</span></a>
+        <button class="btn btn-ghost" type="button" data-palette-open><kbd><span data-mod>⌘</span>K</kbd> 找找看</button>
+      </div>
+    </div>
+  </section>
+</Layout>
+<script>
+  const path = location.pathname.replace(/\/404(\.html)?$/, '') || '/this-page';
+  if (!/404/.test(location.pathname)) document.querySelectorAll('[data-nf-path]').forEach((el) => (el.textContent = decodeURI(path)));
+</script>

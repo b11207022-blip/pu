@@ -1,0 +1,183 @@
+---
+// 極光暗色：全站外框。背景極光、雜訊、頁首、頁尾、全站動畫都在這裡。
+import Seo from '../../shared/Seo.astro';
+import Header from './components/Header.astro';
+import Footer from './components/Footer.astro';
+import { config } from '../../lib/site';
+import './aurora.css';
+
+interface Props { title?: string; description?: string; image?: string; page?: string }
+const { title, description, image, page = 'page' } = Astro.props;
+---
+<!doctype html>
+<html lang={config.lang || 'zh-Hant'}>
+  <head>
+    <Seo title={title} description={description} image={image} />
+  </head>
+  <body data-page={page}>
+    <a class="skip" href="#main">跳到主要內容</a>
+    <div class="sky" aria-hidden="true">
+      <span class="blob b1"></span>
+      <span class="blob b2"></span>
+      <span class="blob b3"></span>
+      <span class="blob b4"></span>
+      <span class="horizon"></span>
+    </div>
+    <div class="grain" aria-hidden="true"></div>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<script>
+  import { gsap, ScrollTrigger, SplitText, still, smoothScroll, onReady, canHover } from '../../lib/motion';
+
+  // 手機選單（不靠動畫，still 也能用）
+  const html = document.documentElement;
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const sheet = document.querySelector<HTMLElement>('[data-menu]');
+  const setMenu = (open: boolean) => {
+    html.classList.toggle('menu-open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    toggle?.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+    if (open && !still && sheet) {
+      gsap.from(sheet.querySelectorAll('.sheet-link, .sheet-foot'), { y: 28, autoAlpha: 0, duration: 0.7, stagger: 0.05, ease: 'expo.out' });
+    }
+  };
+  toggle?.addEventListener('click', () => setMenu(!html.classList.contains('menu-open')));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+  sheet?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+
+  // 頁首捲動後變實
+  const header = document.querySelector('.site-head');
+  const onScroll = () => header?.classList.toggle('scrolled', window.scrollY > 24);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // 卡片聚光燈：跟著游標（只有能 hover 的裝置）
+  if (canHover) {
+    document.addEventListener('pointermove', (e) => {
+      const el = (e.target as HTMLElement)?.closest?.<HTMLElement>('.spot');
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      el.style.setProperty('--my', `${e.clientY - r.top}px`);
+    }, { passive: true });
+  }
+
+  // 複製 email
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((b) => {
+    b.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(b.dataset.copy || ''); } catch { return; }
+      const label = b.querySelector('.copy-label');
+      const old = label?.textContent;
+      b.classList.add('copied');
+      if (label) label.textContent = '已複製';
+      setTimeout(() => { b.classList.remove('copied'); if (label && old) label.textContent = old; }, 1800);
+    });
+  });
+
+  smoothScroll({ lerp: 0.09 });
+
+  onReady(() => {
+    // 極光慢慢飄；分頁看不到時暫停
+    const sky = gsap.timeline({ repeat: -1, yoyo: true, defaults: { ease: 'sine.inOut', duration: 16 } });
+    sky.to('.b1', { xPercent: 28, yPercent: 14, scale: 1.18 }, 0)
+      .to('.b2', { xPercent: -22, yPercent: 20, scale: 0.86 }, 0)
+      .to('.b3', { xPercent: 18, yPercent: -16, scale: 1.12 }, 0)
+      .to('.b4', { xPercent: -16, yPercent: -10, scale: 1.25 }, 0);
+    document.addEventListener('visibilitychange', () => (document.hidden ? sky.pause() : sky.resume()));
+    gsap.from('.sky', { autoAlpha: 0, duration: 2.4, ease: 'power2.out' });
+
+    // 頁首進場
+    gsap.from('.site-head .pill', { y: -24, autoAlpha: 0, duration: 1.1, ease: 'expo.out', delay: 0.15 });
+
+    // 大標：一個字一個字浮上來
+    document.querySelectorAll<HTMLElement>('[data-split]').forEach((el, i) => {
+      const split = SplitText.create(el, { type: 'words,chars', charsClass: 'ch', mask: 'chars' });
+      gsap.from(split.chars, {
+        yPercent: 110, opacity: 0, filter: 'blur(8px)', duration: 1.15, ease: 'expo.out',
+        stagger: Math.min(0.035, 0.9 / split.chars.length), delay: 0.25 + i * 0.1,
+        onComplete: () => split.revert(),
+      });
+    });
+
+    // 首屏其他元素
+    gsap.from('[data-intro]', { y: 24, autoAlpha: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, delay: 0.55 });
+
+    // 捲動進場
+    ScrollTrigger.batch('[data-reveal]', {
+      start: 'top 88%', once: true,
+      onEnter: (els) => gsap.from(els, { y: 40, autoAlpha: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, overwrite: true }),
+    });
+
+    // 裝置框：捲動時從傾斜、縮小，放大到定位
+    document.querySelectorAll<HTMLElement>('[data-device]').forEach((el) => {
+      gsap.fromTo(el, { scale: 0.86, rotateX: 16, y: 60, opacity: 0.4 }, {
+        scale: 1, rotateX: 0, y: 0, opacity: 1, ease: 'none',
+        scrollTrigger: { trigger: el, start: 'top 98%', end: 'top 30%', scrub: 0.6 },
+      });
+      const shot = el.querySelector('.screen img');
+      if (shot) gsap.fromTo(shot, { scale: 1.12 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: el, start: 'top 98%', end: 'bottom 40%', scrub: 0.6 } });
+    });
+
+    // 發光分隔線：從中間拉開
+    document.querySelectorAll('.glow-rule').forEach((el) => {
+      gsap.from(el, { scaleX: 0, duration: 1.6, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 92%', once: true } });
+    });
+
+    // 數字跑上來
+    document.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => {
+      const end = Number(el.dataset.count);
+      const suffix = el.dataset.suffix || '';
+      const o = { v: 0 };
+      gsap.to(o, {
+        v: end, duration: 1.8, ease: 'expo.out',
+        scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+        onStart: () => { el.textContent = '0' + suffix; },
+        onUpdate: () => { el.textContent = Math.round(o.v) + suffix; },
+      });
+    });
+
+    // 時間軸發光線
+    document.querySelectorAll('[data-line]').forEach((el) => {
+      gsap.from(el, { scaleY: 0, ease: 'none', scrollTrigger: { trigger: el.parentElement, start: 'top 70%', end: 'bottom 70%', scrub: true } });
+    });
+
+    // 閱讀進度
+    const bar = document.querySelector<HTMLElement>('[data-progress]');
+    if (bar) gsap.fromTo(bar, { scaleX: 0 }, { scaleX: 1, ease: 'none', scrollTrigger: { trigger: '.post', start: 'top top', end: 'bottom bottom', scrub: true } });
+
+    // 跑馬燈
+    document.querySelectorAll<HTMLElement>('[data-marquee]').forEach((el) => {
+      const track = el.querySelector('.marquee-track');
+      if (!track) return;
+      el.classList.add('is-running');
+      const t = gsap.to(track, { xPercent: -50, duration: 40, ease: 'none', repeat: -1 });
+      if (canHover) {
+        el.addEventListener('mouseenter', () => gsap.to(t, { timeScale: 0.2, duration: 0.6 }));
+        el.addEventListener('mouseleave', () => gsap.to(t, { timeScale: 1, duration: 0.6 }));
+      }
+      document.addEventListener('visibilitychange', () => (document.hidden ? t.pause() : t.resume()));
+    });
+
+    // 磁吸按鈕
+    if (canHover) {
+      document.querySelectorAll<HTMLElement>('.magnet').forEach((el) => {
+        const xTo = gsap.quickTo(el, 'x', { duration: 0.5, ease: 'power3.out' });
+        const yTo = gsap.quickTo(el, 'y', { duration: 0.5, ease: 'power3.out' });
+        el.addEventListener('pointermove', (e) => {
+          const r = el.getBoundingClientRect();
+          xTo((e.clientX - r.left - r.width / 2) * 0.25);
+          yTo((e.clientY - r.top - r.height / 2) * 0.35);
+        });
+        el.addEventListener('pointerleave', () => { xTo(0); yTo(0); });
+      });
+    }
+
+    ScrollTrigger.refresh();
+  });
+</script>

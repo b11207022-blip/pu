@@ -1,5 +1,20 @@
 ---
-// 暫時沿用舊版；重做時整個檔案換掉
-import P from "../../../legacy/pages/projects-index.astro";
+import Layout from '../Layout.astro';
+import ProjectBrowser from '../components/ProjectBrowser.astro';
+import { getProjects, u } from '../../../lib/site';
+const projects = await getProjects();
 ---
-<P {...Astro.props} />
+<Layout title="作品" path="projects">
+  <section class="page-head wrap">
+    <p class="crumb" data-intro><span class="ps">~</span> ls projects/ <span class="tok-dim">--sort=order</span></p>
+    <h1 class="page-title" data-intro>作品</h1>
+    <p class="page-lead" data-intro>每個作品都寫了背景、我負責的部分，和最後留下的數字。滑過清單看預覽，或直接輸入關鍵字篩選。</p>
+  </section>
+  <section class="wrap">
+    {projects.length > 0 ? (
+      <ProjectBrowser projects={projects} search={projects.length > 2} />
+    ) : (
+      <div class="win empty"><p class="empty-t">projects/ 目前是空的</p><p>第一個作品快要放上來了。</p><a class="link" href={u('/about/')}>先認識我 →</a></div>
+    )}
+  </section>
+</Layout>

@@ -1,0 +1,9 @@
+---
+// 成果寫成 diff：每一條都是綠色的 + 行
+interface Props { results: string[]; file?: string }
+const { results, file = 'results' } = Astro.props;
+---
+<div class="diff" data-diff>
+  <p class="d-line d-meta">@@ {file} · +{results.length} @@</p>
+  {results.map((r) => <p class="d-line d-add"><span class="d-sign" aria-hidden="true">+</span><span>{r}</span></p>)}
+</div>
