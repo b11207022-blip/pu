@@ -58,7 +58,7 @@ const num = (s: string) => { const all = s.match(/\d[\d,.]*(?:\s*[–~-]\s*\d[\d
         <div class="gallery-row">
           {d.gallery.map((g: any) => (
             <figure class="shot" data-reveal>
-              <div class="shot-frame"><img src={img(g.src)} alt={g.caption || d.title} loading="lazy" decoding="async" /></div>
+              <div class="shot-frame"><img src={img(g.src)} alt={g.caption || d.title} loading="lazy" /></div>
               {g.caption && <figcaption>{g.caption}</figcaption>}
             </figure>
           ))}

@@ -21,7 +21,7 @@ const more = p.photos.slice(p.photos[0] ? 1 : 0).map((s) => img(s)!).filter(Bool
   <section class="about wrap">
     <aside class="id-card glass spot" data-intro>
       {hero
-        ? <div class="id-photo"><img src={hero} alt={`${p.name} 的照片`} loading="eager" decoding="async" /></div>
+        ? <div class="id-photo"><img src={hero} alt={`${p.name} 的照片`} loading="eager" /></div>
         : <div class="id-emblem"><Monogram size="lg" /><span class="id-rings" aria-hidden="true"></span></div>}
       <div class="id-body">
         <p class="id-name">{p.name}</p>
@@ -53,7 +53,7 @@ const more = p.photos.slice(p.photos[0] ? 1 : 0).map((s) => img(s)!).filter(Bool
   {more.length > 0 && (
     <section class="wrap photo-row" aria-label="照片">
       {more.map((s, i) => (
-        <figure class="photo glass" data-reveal><img src={s} alt={`${p.name} 的照片 ${i + 2}`} loading="lazy" decoding="async" /></figure>
+        <figure class="photo glass" data-reveal><img src={s} alt={`${p.name} 的照片 ${i + 2}`} loading="lazy" /></figure>
       ))}
     </section>
   )}

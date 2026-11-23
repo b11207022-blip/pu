@@ -20,7 +20,7 @@ const cover = img(d.cover);
       <h1 class="post-h1"><span class="gt" data-split>{d.title}</span></h1>
       <p class="page-lead" data-intro>{d.summary}</p>
     </header>
-    {cover && <figure class="wrap post-cover" data-reveal><img src={cover} alt="" loading="eager" decoding="async" /></figure>}
+    {cover && <figure class="wrap post-cover" data-reveal><img src={cover} alt="" loading="eager" /></figure>}
     <div class="wrap post-body">
       <div class="glow-rule"></div>
       <div class="prose prose-lg" data-reveal><Content /></div>

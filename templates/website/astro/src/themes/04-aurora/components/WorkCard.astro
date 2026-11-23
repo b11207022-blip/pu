@@ -9,7 +9,7 @@ const cover = img(d.cover);
 <a class:list={['work', 'spot', wide && 'work-wide', !cover && 'no-cover']} href={u(`/projects/${entry.id}/`)} data-reveal data-tags={d.tags.join('|')}>
   <div class="work-media">
     {cover
-      ? <img src={cover} alt={`${d.title} 畫面`} loading="lazy" decoding="async" />
+      ? <img src={cover} alt={`${d.title} 畫面`} loading="lazy" />
       : <Spec title={d.title} summary={d.summary} results={d.results} tags={[]} period={d.period} index={index} compact />}
   </div>
   <div class="work-body">

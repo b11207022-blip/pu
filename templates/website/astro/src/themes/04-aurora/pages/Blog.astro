@@ -21,7 +21,7 @@ const posts = await getPosts();
               <span class="post-title">{x.data.title}</span>
               <span class="post-sum">{x.data.summary}</span>
             </span>
-            {cover && <span class="post-thumb"><img src={cover} alt="" loading="lazy" decoding="async" /></span>}
+            {cover && <span class="post-thumb"><img src={cover} alt="" loading="lazy" /></span>}
             <span class="post-go" aria-hidden="true">→</span>
           </a>
         );
