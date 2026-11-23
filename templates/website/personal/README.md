@@ -1,5 +1,7 @@
 # 個人網站範本｜Vibe Coding 課程
 
+> 新版在 [`../astro/`](../astro/README.md)：多頁、10 種風格、聯絡表單。這裡是一頁式的舊版，給還在用 `code_artifact.html` 的同學。
+
 Eric Lu 盧旭熙 的 Vibe Coding 課程模板。裡面放的是 Eric 自己的資料當範例，上一堂課還沒把作品傳上 GitHub 的同學，直接從這裡開始就好。
 
 - 講師：Eric Lu 盧旭熙｜熱火數碼資訊執行長、WPORT 職航站創辦人

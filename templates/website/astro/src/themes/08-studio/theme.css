@@ -1,0 +1,34 @@
+/* 08 作品集工作室：象牙白、黑字、螢光黃綠重點、左側欄 */
+:root {
+  --bg: #FAFAF7; --surface: #F0F0EA; --surface-2: #E6E6DE; --ink: #0E0E0E; --muted: #71716A; --line: #E2E2DA;
+  --accent: #C6F432; --on-accent: #0E0E0E;
+  --font-body: 'Manrope', 'Noto Sans TC', sans-serif; --font-display: 'Manrope', 'Noto Sans TC', sans-serif;
+  --h1: clamp(42px, 6.4vw, 96px); --display-weight: 800; --display-tracking: -0.045em; --display-leading: 1;
+  --radius: 6px; --radius-sm: 4px; --shadow: none; --shadow-hover: none; --side-w: 260px;
+}
+.h-side { background: var(--bg); }
+.brand-name { font-size: 24px; letter-spacing: -0.03em; }
+.nav-num { color: var(--muted); }
+.nav-link.active { background: var(--ink); color: var(--bg); }
+.nav-link.active .nav-num { color: var(--accent); }
+.hero-statement .hero-title { max-width: 12em; }
+.hero-statement .hero-title::first-line { background: linear-gradient(transparent 62%, var(--accent) 62% 90%, transparent 90%); }
+.btn { border-radius: 4px; background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.btn:hover { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
+.kicker-num, .pj-n { color: var(--ink); background: var(--accent); padding: 2px 6px; border-radius: 3px; }
+.pj-stack .cover { border-radius: 4px; }
+.pj-result { border-left-color: var(--ink); background: var(--accent); padding: 6px 12px; display: inline-block; border-left: 0; border-radius: 3px; }
+.cover-ph { background: var(--ink); }
+.cover-ph span { color: var(--accent); font-size: clamp(56px, 10vw, 140px); }
+.pj-stack li:nth-child(even) .cover-ph { background: var(--accent); }
+.pj-stack li:nth-child(even) .cover-ph span { color: var(--ink); }
+.tags li { background: transparent; border-color: var(--ink); color: var(--ink); border-radius: 3px; }
+.tl-table { border-top-color: var(--ink); }
+.tl-type { background: var(--ink); color: var(--accent); border-radius: 3px; }
+.highlights { border-top-color: var(--ink); }
+.prose ul li::before, .tl-points li::before { background: var(--ink); }
+.results li { border-left-color: var(--ink); }
+.avatar { border-radius: 4px; background: var(--ink); }
+.avatar span { color: var(--accent); }
+.side-status .dot { background: var(--accent); box-shadow: 0 0 0 4px rgb(198 244 50 / 0.35); }

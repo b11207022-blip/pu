@@ -1,0 +1,43 @@
+/* 10 履歷 CV：淡灰藍底、深藍側欄、白色資訊卡 */
+:root {
+  --bg: #F4F6FA; --surface: #FFFFFF; --surface-2: #E7ECF4; --ink: #142033; --muted: #5E6B80; --line: #DDE3EC;
+  --accent: #1F4FA0; --on-accent: #fff;
+  --font-body: 'IBM Plex Sans', 'Noto Sans TC', sans-serif; --font-display: 'IBM Plex Sans', 'Noto Sans TC', sans-serif;
+  --display-weight: 700; --display-tracking: -0.02em; --radius: 14px; --radius-sm: 10px;
+  --shadow: 0 1px 3px rgb(20 32 51 / 0.06); --shadow-hover: 0 12px 30px rgb(20 32 51 / 0.1);
+  --side-w: 272px;
+}
+.h-side { background: #12305C; color: #E8EEF8; border-right: 0; }
+.h-side .brand-mark { background: #fff; color: #12305C; }
+.h-side .brand-role { color: #A9BBD6; }
+.h-side .nav-link { color: #A9BBD6; }
+.h-side .nav-link:hover { color: #fff; }
+.h-side .nav-link.active { background: rgb(255 255 255 / 0.1); color: #fff; }
+.h-side .side-status, .h-side .side-links a { color: #A9BBD6; }
+.h-side .side-links a:hover { color: #fff; }
+@media (max-width: 860px) {
+  .h-side { background: #12305C; }
+  .h-side .menu-btn i { background: #fff; }
+  .h-side .nav { background: #12305C; }
+  .h-side .nav-link { color: #fff; border-color: rgb(255 255 255 / 0.12); }
+}
+.hero { padding-top: clamp(32px, 5vw, 56px); }
+.btn { border-radius: 8px; }
+.cv-card, .cv-summary, .pj-index, .tl-line, .posts, .traits li, .form, .results { background: var(--surface); }
+.cv-card, .cv-summary { box-shadow: var(--shadow); }
+.pj-index { border: 1px solid var(--line); border-radius: var(--radius); padding: 0 24px; overflow: hidden; }
+.pj-index li:last-child a { border-bottom: 0; }
+.pj-index a:hover { background: var(--bg); }
+.tl-line { border: 1px solid var(--line); border-radius: var(--radius); padding: 32px 32px 0 56px; }
+.tl-line::before { left: 33px; top: 40px; bottom: 40px; }
+.posts { border: 1px solid var(--line); border-radius: var(--radius); padding: 0 24px; }
+.posts li:first-child { border-top: 0; }
+.posts li:last-child { border-bottom: 0; }
+.sec-head { margin-bottom: 18px; }
+.sec-title { font-size: clamp(22px, 2.4vw, 28px); }
+.highlights { gap: 0; border-top: 1px solid var(--line); }
+.highlights strong { color: var(--accent); font-size: clamp(26px, 3vw, 36px); }
+.cover-ph { background: linear-gradient(135deg, #DCE6F5, #F4F6FA); }
+.cover-ph span { color: rgb(31 79 160 / 0.18); }
+.page-title { font-size: clamp(34px, 4.6vw, 56px); }
+.f-title { font-size: clamp(26px, 3.6vw, 40px); }

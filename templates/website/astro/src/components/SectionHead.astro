@@ -1,0 +1,12 @@
+---
+import { u } from '../lib/site';
+interface Props { kicker: string; title: string; num?: string; href?: string; more?: string }
+const { kicker, title, num, href, more = '看全部' } = Astro.props;
+---
+<div class="sec-head" data-reveal>
+  <div>
+    <p class="kicker">{num && <span class="kicker-num">{num}</span>}{kicker}</p>
+    <h2 class="sec-title">{title}</h2>
+  </div>
+  {href && <a class="more" href={u(href)}>{more}<span aria-hidden="true">→</span></a>}
+</div>

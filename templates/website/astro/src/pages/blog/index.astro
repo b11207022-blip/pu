@@ -1,0 +1,16 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+import { getPosts } from '../../lib/site';
+const items = await getPosts();
+---
+<Base title="文章" description="學習筆記與心得。">
+  <section class="page-head">
+    <div data-reveal>
+      <p class="kicker">Writing</p>
+      <h1 class="page-title">文章</h1>
+      <p class="page-lead">做專案、上課、打工學到的事，寫下來給之後的自己。</p>
+    </div>
+  </section>
+  <section class="sec"><PostList items={items} /></section>
+</Base>
