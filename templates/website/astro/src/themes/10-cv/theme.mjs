@@ -1,7 +1,8 @@
-// 履歷 CV：資訊卡、時間軸、深藍。適合：求職、面試前直接傳網址
+// 履歷 CV：像 Read.cv、Linear。單欄、資訊密度高、等寬字標註、深淺色自動切換、⌘K 快速跳頁、可以直接印成履歷。
+// 適合：求職、面試前直接傳網址、要印出來帶去面試
 export default {
-  label: '履歷 CV', description: '資訊卡首頁、時間軸、沉穩深藍',
-  header: 'side', hero: 'cv', projects: 'index', timeline: 'line',
-  brandMark: true, themeColor: '#F4F6FA',
-  fonts: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500&display=swap',
+  label: '履歷 CV',
+  description: '像 Read.cv：單欄精排、時間軸、⌘K 跳頁、自動深色、可直接列印成一到兩頁履歷',
+  themeColor: '#FBFBFA',
+  fonts: 'https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700&display=swap',
 };
