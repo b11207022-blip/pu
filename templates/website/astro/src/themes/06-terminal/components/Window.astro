@@ -1,0 +1,15 @@
+---
+// 視窗：標題列（三顆燈＋標題＋右側小字）＋內容
+interface Props { title: string; meta?: string; class?: string; flush?: boolean; tag?: string }
+const { title, meta, class: cls, flush = false } = Astro.props;
+---
+<section class:list={['win', cls]} data-window>
+  <header class="win-bar">
+    <span class="win-lights" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="win-title">{title}</span>
+    <span class="win-meta">{meta}</span>
+  </header>
+  <div class:list={['win-body', flush && 'flush']}>
+    <slot />
+  </div>
+</section>

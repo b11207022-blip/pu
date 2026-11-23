@@ -1,0 +1,13 @@
+---
+import { u } from '../../../lib/site';
+interface Props { eyebrow: string; title: string; href?: string; linkLabel?: string; lead?: string }
+const { eyebrow, title, href, linkLabel = '查看全部', lead } = Astro.props;
+---
+<div class="sec-head">
+  <div>
+    <p class="eyebrow" data-reveal>{eyebrow}</p>
+    <h2 class="sec-title" data-reveal>{title}</h2>
+    {lead && <p class="sec-lead" data-reveal>{lead}</p>}
+  </div>
+  {href && <a class="link-arrow" href={u(href)} data-reveal>{linkLabel}<span aria-hidden="true">→</span></a>}
+</div>

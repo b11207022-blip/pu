@@ -1,5 +1,32 @@
 ---
-// 暫時沿用舊版；重做時整個檔案換掉
-import P from "../../../legacy/pages/post.astro";
+import Layout from '../Layout.astro';
+import { img, u, fmtDate, readMinutes } from '../../../lib/site';
+import { render } from 'astro:content';
+const { entry, prev, next } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const cover = img(d.cover);
 ---
-<P {...Astro.props} />
+<Layout title={d.title} description={d.summary} image={d.cover || undefined} path={`writing/${entry.id}`}>
+  <article class="wrap post">
+    <header class="post-head">
+      <p class="crumb" data-intro><a href={u('/blog/')}>writing</a> <span class="tok-dim">/</span> {entry.id}.md</p>
+      <h1 class="post-title" data-intro>{d.title}</h1>
+      <p class="page-lead" data-intro>{d.summary}</p>
+      <div class="fm" data-intro>
+        <span><span class="tok-key">date</span><span class="tok-op">:</span> <span class="tok-num">{fmtDate(d.date)}</span></span>
+        <span><span class="tok-key">read</span><span class="tok-op">:</span> <span class="tok-num">{readMinutes(entry.body)} min</span></span>
+        {d.tags.length > 0 && <span><span class="tok-key">tags</span><span class="tok-op">:</span> [{d.tags.map((t: string, i: number) => <><span class="tok-str">{t}</span>{i < d.tags.length - 1 && ', '}</>)}]</span>}
+      </div>
+    </header>
+    {cover && <figure class="post-cover" data-reveal><img src={cover} alt="" decoding="async" /></figure>}
+    <div class="prose post-body" data-reveal><Content /></div>
+    <p class="eof" aria-hidden="true">EOF</p>
+    {(prev || next) && (
+      <nav class="pager" aria-label="其他文章">
+        {prev ? <a href={u(`/blog/${prev.id}/`)} class="pg"><span class="pg-k">← newer</span><span class="pg-t">{prev.data.title}</span></a> : <span></span>}
+        {next ? <a href={u(`/blog/${next.id}/`)} class="pg pg-next"><span class="pg-k">older →</span><span class="pg-t">{next.data.title}</span></a> : <span></span>}
+      </nav>
+    )}
+  </article>
+</Layout>

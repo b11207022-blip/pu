@@ -1,0 +1,11 @@
+---
+// 識別標記：有大頭照用照片，沒有就用縮寫做成 App 圖示的樣子
+import { getProfile, img, initials } from '../../../lib/site';
+interface Props { size?: number; photo?: boolean }
+const { size = 28, photo = false } = Astro.props;
+const p = (await getProfile()).data;
+const src = photo ? img(p.avatar) : undefined;
+---
+<span class:list={['mark', src && 'mark-photo']} style={`--s:${size}px`} aria-hidden="true">
+  {src ? <img src={src} alt="" decoding="async" /> : <span>{initials(p.name, p.nameEn)}</span>}
+</span>

@@ -1,0 +1,53 @@
+---
+// ⌘K 指令面板：頁面、作品、文章、動作。鍵盤：↑↓ 選、Enter 執行、Esc 關閉
+import { getProfile, getProjects, getPosts, navItems, u } from '../../../lib/site';
+const p = (await getProfile()).data;
+const nav = await navItems();
+const projects = await getProjects();
+const posts = (await getPosts()).slice(0, 6);
+type Cmd = { id: string; label: string; hint?: string; href?: string; copy?: string; ext?: boolean; icon: string; search: string };
+const g: { name: string; items: Cmd[] }[] = [
+  { name: '頁面', items: nav.map((i, n) => ({ id: `nav-${n}`, label: i.label, hint: i.en, href: u(i.href), icon: '→', search: `${i.label} ${i.en} ${i.href}`.toLowerCase() })) },
+  { name: '作品', items: projects.map((x, n) => ({ id: `prj-${n}`, label: x.data.title, hint: x.data.tags.slice(0, 2).join(' · '), href: u(`/projects/${x.id}/`), icon: '#', search: `${x.data.title} ${x.id} ${x.data.tags.join(' ')}`.toLowerCase() })) },
+  { name: '文章', items: posts.map((x, n) => ({ id: `post-${n}`, label: x.data.title, hint: x.data.tags[0], href: u(`/blog/${x.id}/`), icon: '¶', search: `${x.data.title} ${x.data.tags.join(' ')}`.toLowerCase() })) },
+  {
+    name: '動作', items: [
+      ...(p.email ? [{ id: 'act-copy', label: '複製 Email', hint: p.email, copy: p.email, icon: '⧉', search: `copy email 複製 ${p.email}` }, { id: 'act-mail', label: '寫信給我', hint: 'mailto', href: `mailto:${p.email}`, icon: '@', search: 'mail email 寫信 寄信' }] : []),
+      ...(p.resume ? [{ id: 'act-cv', label: '下載履歷', hint: 'PDF', href: u(p.resume), ext: true, icon: '↓', search: 'resume cv 履歷' }] : []),
+      ...p.links.map((l, n) => ({ id: `lnk-${n}`, label: `開啟 ${l.label}`, hint: '外部連結', href: u(l.url), ext: true, icon: '↗', search: `${l.label} link 連結`.toLowerCase() })),
+    ],
+  },
+].filter((x) => x.items.length);
+---
+<div class="palette" data-palette hidden>
+  <div class="pal-scrim"></div>
+  <div class="pal-box" role="dialog" aria-modal="true" aria-label="指令面板">
+    <div class="pal-search">
+      <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="m10.5 10.5 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input type="text" placeholder="輸入頁面、作品或指令…" aria-label="搜尋指令" role="combobox" aria-expanded="true" aria-controls="pal-list" autocomplete="off" spellcheck="false" />
+      <kbd>esc</kbd>
+    </div>
+    <div class="pal-list" id="pal-list" role="listbox" aria-label="結果">
+      {g.map((grp) => (
+        <div class="pal-group" data-group role="group" aria-label={grp.name}>
+          <p class="pal-gname">{grp.name}</p>
+          {grp.items.map((c) => (
+            <div class="pal-item" role="option" id={c.id} aria-selected="false" data-cmd data-search={c.search}
+              data-href={c.href} data-copy={c.copy} data-ext={c.ext ? '1' : undefined}>
+              <span class="pal-ic" aria-hidden="true">{c.icon}</span>
+              <span class="pal-label">{c.label}</span>
+              {c.hint && <span class="pal-hint">{c.hint}</span>}
+              <span class="pal-enter" aria-hidden="true">↵</span>
+            </div>
+          ))}
+        </div>
+      ))}
+      <p class="pal-empty" data-empty hidden>找不到符合的項目</p>
+    </div>
+    <div class="pal-foot">
+      <span><kbd>↑</kbd><kbd>↓</kbd> 選擇</span>
+      <span><kbd>↵</kbd> 開啟</span>
+      <span class="pal-foot-r"><kbd><span data-mod>⌘</span>K</kbd> 開關</span>
+    </div>
+  </div>
+</div>

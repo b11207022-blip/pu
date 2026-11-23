@@ -1,0 +1,22 @@
+---
+// 深色裝置框（瀏覽器視窗）。有截圖放截圖；沒有截圖，畫面裡排出作品的重點，不放空色塊。
+import Spec from './Spec.astro';
+interface Props {
+  src?: string; alt?: string; label?: string; eager?: boolean; scrub?: boolean;
+  project?: { title: string; summary: string; results: string[]; tags: string[]; period?: string };
+  index?: number;
+}
+const { src, alt = '', label = '', eager = false, scrub = true, project, index = 0 } = Astro.props;
+---
+<figure class="device" data-device={scrub ? '' : undefined}>
+  <div class="device-bar">
+    <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="device-url">{label}</span>
+    <span class="lights-pad" aria-hidden="true"></span>
+  </div>
+  <div class="screen">
+    {src
+      ? <img src={src} alt={alt} loading={eager ? 'eager' : 'lazy'} />
+      : project && <Spec {...project} index={index} />}
+  </div>
+</figure>

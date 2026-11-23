@@ -1,5 +1,30 @@
 ---
-// 暫時沿用舊版；重做時整個檔案換掉
-import P from "../../../legacy/pages/blog-index.astro";
+import Layout from '../Layout.astro';
+import { getPosts, u, fmtDate, readMinutes } from '../../../lib/site';
+const posts = await getPosts();
 ---
-<P {...Astro.props} />
+<Layout title="文章" path="writing">
+  <section class="page-head wrap">
+    <p class="crumb" data-intro><span class="ps">~</span> ls -l writing/</p>
+    <h1 class="page-title" data-intro>文章</h1>
+    <p class="page-lead" data-intro>做作品時的心得和學習筆記。</p>
+  </section>
+  <section class="wrap">
+    {posts.length > 0 ? (
+      <div class="win table" data-window>
+        <div class="tb-head" aria-hidden="true"><span>date</span><span>title</span><span>tags</span><span>read</span></div>
+        {posts.map((x) => (
+          <a class="tb-row" href={u(`/blog/${x.id}/`)}>
+            <time class="tb-date" datetime={x.data.date.toISOString()}>{fmtDate(x.data.date)}</time>
+            <span class="tb-main"><span class="tb-title">{x.data.title}</span><span class="tb-sum">{x.data.summary}</span></span>
+            <span class="tb-tags">{x.data.tags.slice(0, 3).map((t) => <span class="label">{t}</span>)}</span>
+            <span class="tb-read">{readMinutes(x.body)} min</span>
+          </a>
+        ))}
+        <p class="tb-foot">total {posts.length}</p>
+      </div>
+    ) : (
+      <div class="win empty"><p class="empty-t">writing/ 目前是空的</p><p>第一篇心得正在寫。</p></div>
+    )}
+  </section>
+</Layout>
