@@ -1,5 +1,37 @@
 ---
-// 暫時沿用舊版；重做時整個檔案換掉
-import P from "../../../legacy/pages/experience.astro";
+import Layout from '../Layout.astro';
+import PageHead from '../components/PageHead.astro';
+import { getExperience } from '../../../lib/site';
+const exp = await getExperience();
+const groups: { year: string; items: typeof exp }[] = [];
+exp.forEach((x) => {
+  const y = (x.data.start.match(/\d{4}/) || ['—'])[0];
+  const g = groups.find((g) => g.year === y);
+  g ? g.items.push(x) : groups.push({ year: y, items: [x] });
+});
+const span = groups.length ? (groups.length > 1 ? `${groups[groups.length - 1].year} — ${groups[0].year}` : groups[0].year) : undefined;
 ---
-<P {...Astro.props} />
+<Layout title="經歷" page="experience">
+  <PageHead label="Experience — 經歷" meta={span} title="經歷" en="Experience" />
+  <section class="sec sec-tight wrap">
+    {groups.length === 0 && <p class="empty">經歷整理中。</p>}
+    {groups.map((g) => (
+      <div class="xp">
+        <div class="xp-y"><span>{g.year}</span></div>
+        <div class="xp-items">
+          {g.items.map((x) => (
+            <article class="xp-item" data-fade>
+              <div class="xp-head">
+                <h2>{x.data.title}</h2>
+                {x.data.type && <span class="label muted">{x.data.type}</span>}
+              </div>
+              <p class="xp-org">{x.data.org}<span class="muted"> — {x.data.period}</span></p>
+              <p class="xp-sum">{x.data.summary}</p>
+              {x.data.points.length > 0 && <ul class="xp-pts">{x.data.points.map((pt) => <li>{pt}</li>)}</ul>}
+            </article>
+          ))}
+        </div>
+      </div>
+    ))}
+  </section>
+</Layout>

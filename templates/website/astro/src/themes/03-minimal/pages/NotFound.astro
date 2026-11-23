@@ -1,5 +1,19 @@
 ---
-// 暫時沿用舊版；重做時整個檔案換掉
-import P from "../../../legacy/pages/404.astro";
+import Layout from '../Layout.astro';
+import Arrow from '../components/Arrow.astro';
+import Phrase from '../components/Phrase.astro';
+import { navItems, u } from '../../../lib/site';
+const items = await navItems();
 ---
-<P {...Astro.props} />
+<Layout title="找不到這一頁" page="404" cta={false}>
+  <section class="ph wrap nf">
+    <div class="ph-top" data-fade><span class="label">Error — 404</span><span class="label muted">Page not found</span></div>
+    <h1 class="ph-title" data-lines><Phrase text="這一頁不在這裡，或已經搬走了。" /></h1>
+    <p class="ph-lead" data-fade>網址可能打錯了。從下面任何一個地方重新開始：</p>
+    <ul class="rows nf-list">
+      {items.map((it, i) => (
+        <li class="row row-link"><a href={u(it.href)}><span class="row-a muted">{String(i + 1).padStart(2, '0')}</span><span class="row-b row-title">{it.label}</span><span class="row-c label muted">{it.en}</span><Arrow class="row-arrow" /></a></li>
+      ))}
+    </ul>
+  </section>
+</Layout>

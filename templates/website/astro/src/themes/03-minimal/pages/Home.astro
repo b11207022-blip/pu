@@ -1,5 +1,121 @@
 ---
-// 暫時沿用舊版；重做時整個檔案換掉
-import P from "../../../legacy/pages/index.astro";
+import Layout from '../Layout.astro';
+import WorkIndex from '../components/WorkIndex.astro';
+import Arrow from '../components/Arrow.astro';
+import Phrase from '../components/Phrase.astro';
+import { getProfile, getProjects, getExperience, getPosts, u, img, fmtDate } from '../../../lib/site';
+const p = (await getProfile()).data;
+const projects = await getProjects();
+const featured = projects.filter((x) => x.data.featured);
+const work = (featured.length ? featured : projects).slice(0, 6);
+const exp = (await getExperience()).slice(0, 4);
+const posts = (await getPosts()).slice(0, 3);
+const wide = p.photos.length ? p.photos[p.photos.length - 1] : undefined;
+const year = new Date().getFullYear();
 ---
-<P {...Astro.props} />
+<Layout page="home">
+  <section class="hero wrap">
+    <div class="hero-top" data-fade>
+      <span class="label">Portfolio — {year}</span>
+      <span class="label muted hero-role">{p.role}</span>
+    </div>
+    <h1 class="hero-title" data-lines><Phrase text={p.tagline} /></h1>
+    <div class:list={['hero-foot', { 'no-photo': !p.avatar }]}>
+      <dl class="facts" data-fade>
+        {p.status && <div><dt>Now</dt><dd>{p.status}</dd></div>}
+        {p.location && <div><dt>Based in</dt><dd>{p.location}</dd></div>}
+        {p.email && <div><dt>Contact</dt><dd><a class="lnk" href={`mailto:${p.email}`}>{p.email}</a></dd></div>}
+      </dl>
+      <div class="hero-intro" data-fade>
+        <p>{p.intro}</p>
+        <div class="hero-links">
+          <a class="btn" href={u('/projects/')}><span>看作品</span><Arrow /></a>
+          <a class="lnk" href={u('/about/')}>關於我</a>
+        </div>
+      </div>
+      {p.avatar && (
+        <figure class="hero-photo" data-img>
+          <img src={img(p.avatar)} alt={p.name} fetchpriority="high" />
+          <figcaption class="label muted">{p.nameEn || p.name}{p.location ? ` — ${p.location}` : ''}</figcaption>
+        </figure>
+      )}
+    </div>
+  </section>
+
+  {p.highlights.length > 0 && (
+    <section class="wrap stats-sec">
+      <ul class="stats" data-stagger>
+        {p.highlights.map((h) => <li><span class="stat-v" data-count>{h.value}</span><span class="stat-l">{h.label}</span></li>)}
+      </ul>
+    </section>
+  )}
+
+  {work.length > 0 && (
+    <section class="sec wrap" id="work">
+      <header class="sec-head">
+        <span class="label">Selected Work</span>
+        <span class="label muted">({String(work.length).padStart(2, '0')})</span>
+        <a class="label lnk sec-more" href={u('/projects/')}>全部作品 {projects.length}</a>
+      </header>
+      <WorkIndex items={work} />
+    </section>
+  )}
+
+  {wide && (
+    <section class="wide wrap">
+      <figure class="wide-fig" data-img><img src={img(wide)} alt="" loading="lazy" decoding="async" /></figure>
+    </section>
+  )}
+
+  {p.traits.length > 0 && (
+    <section class="sec wrap">
+      <header class="sec-head"><span class="label">Approach</span><span class="label muted">做事的方式</span></header>
+      {p.quote && <p class="statement" data-lines><Phrase text={p.quote} /></p>}
+      <ol class="traits" data-stagger>
+        {p.traits.map((t, i) => (
+          <li><span class="label muted">{String(i + 1).padStart(2, '0')}</span><h3>{t.title}</h3><p>{t.text}</p></li>
+        ))}
+      </ol>
+    </section>
+  )}
+
+  {exp.length > 0 && (
+    <section class="sec wrap">
+      <header class="sec-head">
+        <span class="label">Experience</span><span class="label muted">經歷</span>
+        <a class="label lnk sec-more" href={u('/experience/')}>完整經歷</a>
+      </header>
+      <ul class="rows">
+        {exp.map((x) => (
+          <li class="row row-xp">
+            <span class="row-a muted">{x.data.period}</span>
+            <span class="row-b"><strong>{x.data.title}</strong><span class="muted">{x.data.org}</span></span>
+            <span class="row-c">{x.data.summary}</span>
+            <span class="row-d label muted">{x.data.type}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {posts.length > 0 && (
+    <section class="sec wrap">
+      <header class="sec-head">
+        <span class="label">Journal</span><span class="label muted">文章</span>
+        <a class="label lnk sec-more" href={u('/blog/')}>全部文章</a>
+      </header>
+      <ul class="rows">
+        {posts.map((x) => (
+          <li class="row row-link">
+            <a href={u(`/blog/${x.id}/`)}>
+              <span class="row-a muted">{fmtDate(x.data.date)}</span>
+              <span class="row-b row-title">{x.data.title}</span>
+              <span class="row-c muted">{x.data.summary}</span>
+              <Arrow class="row-arrow" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Layout>

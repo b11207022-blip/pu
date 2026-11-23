@@ -1,5 +1,26 @@
 ---
-// 暫時沿用舊版；重做時整個檔案換掉
-import P from "../../../legacy/pages/blog-index.astro";
+import Layout from '../Layout.astro';
+import PageHead from '../components/PageHead.astro';
+import Arrow from '../components/Arrow.astro';
+import Phrase from '../components/Phrase.astro';
+import { getPosts, u, fmtDate, readMinutes } from '../../../lib/site';
+const posts = await getPosts();
 ---
-<P {...Astro.props} />
+<Layout title="文章" page="blog">
+  <PageHead label="Journal — 文章" meta={`(${String(posts.length).padStart(2, '0')})`} title="文章" en="Journal" />
+  <section class="sec sec-tight wrap">
+    {posts.length === 0 && <p class="empty">還沒有文章。</p>}
+    <ul class="rows posts">
+      {posts.map((x) => (
+        <li class="row row-link row-post">
+          <a href={u(`/blog/${x.id}/`)}>
+            <span class="row-a muted">{fmtDate(x.data.date)}</span>
+            <span class="row-b"><span class="row-title"><Phrase text={x.data.title} /></span><span class="muted row-sum">{x.data.summary}</span></span>
+            <span class="row-d label muted">{readMinutes(x.body)} min{x.data.tags.length ? ` · ${x.data.tags[0]}` : ''}</span>
+            <Arrow class="row-arrow" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Layout>

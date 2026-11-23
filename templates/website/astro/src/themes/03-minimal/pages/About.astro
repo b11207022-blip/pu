@@ -1,5 +1,73 @@
 ---
-// 暫時沿用舊版；重做時整個檔案換掉
-import P from "../../../legacy/pages/about.astro";
+import Layout from '../Layout.astro';
+import PageHead from '../components/PageHead.astro';
+import Phrase from '../components/Phrase.astro';
+import { getProfile, u, img } from '../../../lib/site';
+import { render } from 'astro:content';
+const profile = await getProfile();
+const p = profile.data;
+const { Content } = await render(profile);
+const photos = p.photos.filter((x) => x && x !== p.avatar).slice(0, 3);
+const split = (s: string) => { const m = s.split(/[：:]/); return m.length > 1 ? [m[0], m.slice(1).join('：')] : [s, '']; };
 ---
-<P {...Astro.props} />
+<Layout title="關於" page="about">
+  <PageHead label="About — 關於" meta={p.location} title={p.name} en={p.nameEn} lead={p.role} />
+
+  <section class="ab wrap">
+    <aside class:list={['ab-side', { 'no-photo': !p.avatar }]}>
+      {p.avatar && <figure class="ab-photo" data-img><img src={img(p.avatar)} alt={p.name} fetchpriority="high" /></figure>}
+      <dl class="facts" data-fade>
+        {p.status && <div><dt>Now</dt><dd>{p.status}</dd></div>}
+        {p.location && <div><dt>Based in</dt><dd>{p.location}</dd></div>}
+        {p.email && <div><dt>Email</dt><dd><a class="lnk" href={`mailto:${p.email}`}>{p.email}</a></dd></div>}
+        {p.resume && <div><dt>Resume</dt><dd><a class="lnk" href={u(p.resume)} target="_blank" rel="noopener">下載履歷</a></dd></div>}
+        {p.links.length > 0 && <div><dt>Elsewhere</dt><dd class="dd-links">{p.links.map((l) => <a class="lnk" href={u(l.url)} target="_blank" rel="noopener">{l.label}</a>)}</dd></div>}
+      </dl>
+    </aside>
+    <div class="ab-main prose prose-lead" data-fade><Content /></div>
+  </section>
+
+  {p.quote && (
+    <section class="sec wrap quote-sec">
+      <p class="label muted">Belief</p>
+      <blockquote class="statement statement-c" data-lines><Phrase text={p.quote} /></blockquote>
+    </section>
+  )}
+
+  {p.traits.length > 0 && (
+    <section class="sec wrap">
+      <header class="sec-head"><span class="label">Approach</span><span class="label muted">做事的方式</span></header>
+      <ol class="traits" data-stagger>
+        {p.traits.map((t, i) => <li><span class="label muted">{String(i + 1).padStart(2, '0')}</span><h3>{t.title}</h3><p>{t.text}</p></li>)}
+      </ol>
+    </section>
+  )}
+
+  {p.skills.length > 0 && (
+    <section class="sec wrap">
+      <header class="sec-head"><span class="label">Capabilities</span><span class="label muted">技能</span></header>
+      <ul class="rows">
+        {p.skills.map((s) => (
+          <li class="row row-skill"><span class="row-a">{s.group}</span><span class="row-b skill-items">{s.items.map((it) => <span>{it}</span>)}</span></li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {photos.length > 0 && (
+    <section class="sec wrap">
+      <div class:list={['ab-photos', `n-${photos.length}`]}>
+        {photos.map((ph, i) => <figure data-img><img src={img(ph)} alt="" loading="lazy" decoding="async" /></figure>)}
+      </div>
+    </section>
+  )}
+
+  {p.interests.length > 0 && (
+    <section class="sec wrap">
+      <header class="sec-head"><span class="label">Off-screen</span><span class="label muted">工作以外</span></header>
+      <ul class="interests" data-stagger>
+        {p.interests.map((s) => { const [a, b] = split(s); return <li><span class="int-a">{a}</span>{b && <span class="int-b muted">{b}</span>}</li>; })}
+      </ul>
+    </section>
+  )}
+</Layout>

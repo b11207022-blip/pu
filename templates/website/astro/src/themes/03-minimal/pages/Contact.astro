@@ -1,5 +1,25 @@
 ---
-// 暫時沿用舊版；重做時整個檔案換掉
-import P from "../../../legacy/pages/contact.astro";
+import Layout from '../Layout.astro';
+import ContactForm from '../../../shared/ContactForm.astro';
+import Arrow from '../components/Arrow.astro';
+import Phrase from '../components/Phrase.astro';
+import { getProfile, u } from '../../../lib/site';
+const p = (await getProfile()).data;
 ---
-<P {...Astro.props} />
+<Layout title="聯絡" page="contact" cta={false}>
+  <section class="ph wrap ct-head">
+    <div class="ph-top" data-fade><span class="label">Contact — 聯絡</span>{p.status && <span class="label muted">{p.status}</span>}</div>
+    <h1 class="ph-title" data-lines><Phrase text="有想法，就寫信給我。" /></h1>
+    {p.email && <a class="ct-mail" href={`mailto:${p.email}`} data-fade><span>{p.email}</span><Arrow /></a>}
+  </section>
+  <section class="sec wrap ct">
+    <dl class="facts" data-fade>
+      {p.status && <div><dt>Now</dt><dd>{p.status}</dd></div>}
+      {p.location && <div><dt>Based in</dt><dd>{p.location}</dd></div>}
+      <div><dt>Reply</dt><dd>通常一兩天內回覆</dd></div>
+      {p.links.length > 0 && <div><dt>Elsewhere</dt><dd class="dd-links">{p.links.map((l) => <a class="lnk" href={u(l.url)} target="_blank" rel="noopener">{l.label}</a>)}</dd></div>}
+      {p.resume && <div><dt>Resume</dt><dd><a class="lnk" href={u(p.resume)} target="_blank" rel="noopener">下載履歷</a></dd></div>}
+    </dl>
+    <div class="ct-form" data-fade><ContactForm email={p.email} /></div>
+  </section>
+</Layout>
