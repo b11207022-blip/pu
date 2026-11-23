@@ -11,9 +11,11 @@
   - `posts/<英文檔名>.md`：文章，一篇一份（沒有文章就把資料夾清空，導覽列會自動藏起來）
 - `site.config.mjs`：只改 `theme`、`accent`、`contactEndpoint` 這三行
 - `public/images/`：放照片，欄位填 `/images/檔名.jpg`
+  - 大頭照 `avatar`、生活照 `photos`（關於頁）、作品封面 `cover`、作品頁更多截圖 `gallery`（每張可加 `caption`）
+  - 範例的 `portrait.jpg`、`desk.jpg`、`projects/` 是示範用，換成自己的之後可以刪
 
 ## 不要改的地方
-- `src/themes/`、`src/components/`、`src/styles/`、`src/pages/`、`src/layouts/`、`scripts/`、`astro.config.mjs`
+- `src/themes/`、`src/shared/`、`src/lib/`、`src/legacy/`、`src/pages/`、`scripts/`、`astro.config.mjs`
 - 不要裝新套件、不要改 `package.json`
 - 使用者想要的版面改不出來，就換一個風格（`npm run themes` 比較），不要自己寫 CSS
 
@@ -31,7 +33,7 @@
 - 字串裡有冒號 `:`、井號 `#`，或開頭是數字，前後加雙引號。
 - `start` 用 `YYYY-MM`（排序用），`period` 是顯示用文字。
 - 作品 `featured: true` 才會上首頁，最多放 3 個；`order` 小的排前面。
-- 沒有照片就填 `""`，不要拿網路圖、不要用 AI 生圖。
+- 沒有照片就填 `""`（`photos`、`gallery` 就整行拿掉），不要拿網路圖、不要用 AI 生圖。
 - 內容只能來自使用者提供的資料（`我的資料.md`、`網站內容.md`），沒寫的數字、獎項、公司名不要自己編。
 
 ## 出錯時

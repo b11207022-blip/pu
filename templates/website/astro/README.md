@@ -99,6 +99,9 @@ Public repo 誰都看得到：手機、地址、生日、身分證字號、帳�
 
 ## 給老師：改範本
 
-- 風格：`src/themes/<編號>/theme.mjs` 決定版型（`header`：bar／center／float／side，`hero`：statement／bento／split／terminal／minimal／cv，`projects`：grid／list／stack／index，`timeline`：line／table／cards），`theme.css` 決定配色和細節。共用骨架在 `src/styles/base.css`。
+- 每個風格是一套完整的版面：`src/themes/<編號>/` 裡有自己的 `Layout.astro`、`pages/`、元件和 CSS。怎麼做、要遵守什麼，見 [`src/themes/README.md`](src/themes/README.md)。
+- 共用的只有資料讀取（`src/lib/site.ts`）、`<head>`（`src/shared/Seo.astro`）、聯絡表單（`src/shared/ContactForm.astro`）、動畫工具（`src/lib/motion.ts`：GSAP、ScrollTrigger、SplitText、Lenis）。
+- 檢查一個風格的每一頁：`npm run shoot -- 05`（桌機＋手機截圖到 `theme-previews/05-brutal/`）；加 `--no-images` 看學生還沒放照片時的樣子。
 - 改了範例內容，要跑 `npm run prompt` 重新產生 `網頁版AI-prompt.md`（範例是從 `src/content/` 打包的）。
-- 改了風格，跑 `npm run themes` 檢查 10 種；README 的預覽圖在 `previews/`。
+- 改了風格，跑 `npm run themes` 看 10 種並排；README 的預覽圖在 `previews/`。
+- 範例照片來源見 `public/images/CREDITS.md`（Unsplash License）；作品畫面是用 HTML 畫的。

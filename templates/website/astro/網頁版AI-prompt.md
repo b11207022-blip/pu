@@ -5,7 +5,7 @@
 2. 格式完全照下面的範例：每個檔案前面一行「===== 檔案：路徑 =====」，最後一段是「===== 待確認 =====」。
 3. 欄位名稱、順序照範例，不要新增、不要改名。字串裡有冒號「:」、井號「#」或開頭是數字時，前後加雙引號。
 4. 作品、經歷、文章一個一份檔案，檔名用英文小寫和「-」（會變成網址），例如 src/content/projects/club-signup.md。
-5. avatar、cover、resume 先留空字串 ""，我之後自己放照片。
+5. 照片先不要填：avatar、cover、resume 留空字串 ""，photos、gallery 整行拿掉（範例裡的照片是示範用的），我之後自己放。
 
 內容品質（這是重點，網站好不好看一半靠內容）：
 - tagline：一句話講我想解決什麼問題、想做什麼。不要「熱愛學習、樂於挑戰」這種每個人都能寫的話。
@@ -31,7 +31,10 @@ tagline: 把複雜的流程，做成每個人都用得順手的介面。
 intro: 我是資管系三年級的林小安，喜歡從使用者卡住的地方找題目。做過校園二手書平台、系學會報名系統，正在找 2027 暑期前端實習。
 status: 正在找 2027 暑期前端實習
 location: 桃園，台灣
-avatar: ""
+avatar: /images/portrait.jpg
+photos:
+  - /images/portrait-2.jpg
+  - /images/desk.jpg
 email: anna.lin.demo@example.com
 resume: ""
 links:
@@ -94,6 +97,10 @@ links:
     url: https://example.com
   - label: GitHub
     url: https://github.com/
+cover: /images/projects/book-swap.webp
+gallery:
+  - src: /images/projects/book-swap-mobile.webp
+    caption: 手機版：找書、篩選系所
 featured: true
 order: 1
 ---
@@ -126,6 +133,14 @@ results:
 links:
   - label: Figma 原型
     url: https://www.figma.com/
+cover: /images/projects/budget-redesign.webp
+gallery:
+  - src: /images/projects/budget-redesign-old.webp
+    caption: 改版前：記一筆要 6 步
+  - src: /images/projects/budget-redesign-add.webp
+    caption: 改版後：先輸入金額，分類一層選完
+  - src: /images/projects/budget-redesign-home.webp
+    caption: 首頁：這個月還可以花多少
 featured: true
 order: 3
 ---
@@ -159,6 +174,7 @@ results:
 links:
   - label: 系統介紹
     url: https://example.com
+cover: /images/projects/club-signup.webp
 featured: true
 order: 2
 ---
@@ -191,6 +207,7 @@ results:
 links:
   - label: GitHub
     url: https://github.com/
+cover: /images/notebook.jpg
 featured: false
 order: 4
 ---
