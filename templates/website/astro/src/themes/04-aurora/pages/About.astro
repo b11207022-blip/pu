@@ -1,6 +1,6 @@
 ---
 import Layout from '../Layout.astro';
-import Monogram from '../components/Monogram.astro';
+import Avatar from '../components/Avatar.astro';
 import SectionHead from '../components/SectionHead.astro';
 import { getProfile, img, u } from '../../../lib/site';
 import { render } from 'astro:content';
@@ -12,17 +12,17 @@ const hero = img(p.photos[0] || p.avatar);
 const more = p.photos.slice(p.photos[0] ? 1 : 0).map((s) => img(s)!).filter(Boolean);
 ---
 <Layout title="關於" page="about">
-  <section class="page-hero wrap">
+  <section class="page-hero wrap glass glass-xl" data-pane>
     <p class="eyebrow" data-intro>About</p>
-    <h1 class="page-title"><span class="gt" data-split>關於{p.name}</span></h1>
+    <h1 class="page-title"><span data-split>關於{p.name}</span></h1>
     {p.quote && <p class="page-lead" data-intro>「{p.quote}」</p>}
   </section>
 
   <section class="about wrap">
-    <aside class="id-card glass spot" data-intro>
+    <aside class="id-card glass" data-pane data-tilt>
       {hero
         ? <div class="id-photo"><img src={hero} alt={`${p.name} 的照片`} loading="eager" /></div>
-        : <div class="id-emblem"><Monogram size="lg" /><span class="id-rings" aria-hidden="true"></span></div>}
+        : <div class="id-emblem"><Avatar size="lg" /></div>}
       <div class="id-body">
         <p class="id-name">{p.name}</p>
         {p.nameEn && <p class="id-en">{p.nameEn}</p>}
@@ -40,10 +40,10 @@ const more = p.photos.slice(p.photos[0] ? 1 : 0).map((s) => img(s)!).filter(Bool
         )}
       </div>
     </aside>
-    <div class="about-main">
-      <div class="prose prose-lg" data-reveal><Content /></div>
+    <div class="about-main glass" data-reveal>
+      <div class="prose prose-lg"><Content /></div>
       {p.highlights.length > 0 && (
-        <dl class="about-stats" data-reveal>
+        <dl class="about-stats">
           {p.highlights.map((h) => <div><dd>{h.value}</dd><dt>{h.label}</dt></div>)}
         </dl>
       )}
@@ -53,7 +53,7 @@ const more = p.photos.slice(p.photos[0] ? 1 : 0).map((s) => img(s)!).filter(Bool
   {more.length > 0 && (
     <section class="wrap photo-row" aria-label="照片">
       {more.map((s, i) => (
-        <figure class="photo glass" data-reveal><img src={s} alt={`${p.name} 的照片 ${i + 2}`} loading="lazy" /></figure>
+        <figure class="photo glass" data-reveal data-tilt><img src={s} alt={`${p.name} 的照片 ${i + 2}`} loading="lazy" /></figure>
       ))}
     </section>
   )}
@@ -63,7 +63,7 @@ const more = p.photos.slice(p.photos[0] ? 1 : 0).map((s) => img(s)!).filter(Bool
       <SectionHead eyebrow="Toolkit" title="我會用的工具" />
       <div class="skill-grid">
         {p.skills.map((g) => (
-          <div class="glass skill spot" data-reveal>
+          <div class="glass skill" data-reveal data-tilt>
             <h3>{g.group}</h3>
             <ul>{g.items.map((s) => <li>{s}</li>)}</ul>
           </div>
@@ -77,7 +77,7 @@ const more = p.photos.slice(p.photos[0] ? 1 : 0).map((s) => img(s)!).filter(Bool
       <SectionHead eyebrow="Principles" title="我做事的方式" />
       <div class="traits">
         {p.traits.map((t, i) => (
-          <article class="glass trait spot" data-reveal>
+          <article class:list={['glass trait', `t-${['pink', 'blue', 'lime', 'orange'][i % 4]}`]} data-reveal data-tilt>
             <span class="trait-no">{String(i + 1).padStart(2, '0')}</span>
             <h3>{t.title}</h3>
             <p>{t.text}</p>

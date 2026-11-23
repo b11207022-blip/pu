@@ -5,25 +5,25 @@ const items = await navItems();
 const year = new Date().getFullYear();
 const onContact = Astro.url.pathname.startsWith(u('/contact/'));
 ---
-<footer class="site-foot">
+<footer class="site-foot wrap">
   {!onContact && (
-    <section class="foot-cta wrap">
-      <div class="glow-rule"></div>
-      <p class="eyebrow" data-reveal>Next step</p>
-      <h2 class="foot-title" data-reveal>有想一起做的事？<br />我很樂意聊聊。</h2>
-      <div class="foot-actions" data-reveal>
-        <a class="btn btn-light magnet" href={u('/contact/')}>聯絡我<span class="arrow" aria-hidden="true">→</span></a>
+    <section class="foot-cta glass glass-ink" data-tilt data-reveal>
+      <p class="eyebrow">Next step</p>
+      <h2 class="foot-title">有想一起做的事？<br />我很樂意聊聊。</h2>
+      <div class="foot-actions">
+        <a class="btn btn-white magnet" href={u('/contact/')}>聯絡我<span class="arrow" aria-hidden="true">→</span></a>
         {p.email && (
-          <button class="btn btn-ghost copy" type="button" data-copy={p.email}>
+          <button class="btn btn-clear copy" type="button" data-copy={p.email}>
             <span class="copy-label">{p.email}</span>
           </button>
         )}
       </div>
+      <span class="foot-orb" aria-hidden="true"></span>
     </section>
   )}
-  <div class="foot-bar wrap">
+  <div class="foot-bar glass">
     <div class="foot-col">
-      <p class="foot-name">{p.name}{p.nameEn && <span> · {p.nameEn}</span>}</p>
+      <p class="foot-name">{p.name}{p.nameEn && <span>{p.nameEn}</span>}</p>
       <p class="foot-role">{p.role}</p>
     </div>
     <nav class="foot-col foot-nav" aria-label="頁尾導覽">
@@ -34,6 +34,6 @@ const onContact = Astro.url.pathname.startsWith(u('/contact/'));
         {p.links.map((l) => <a href={u(l.url)} target="_blank" rel="noopener">{l.label}<span aria-hidden="true"> ↗</span></a>)}
       </div>
     )}
+    <p class="foot-copy"><span>© {year} {p.name}</span>{p.location && <span>{p.location}</span>}</p>
   </div>
-  <p class="foot-copy wrap"><span>© {year} {p.name}</span>{p.location && <span>{p.location}</span>}</p>
 </footer>

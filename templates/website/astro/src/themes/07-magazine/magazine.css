@@ -1,20 +1,25 @@
 /* ==========================================================================
-   07 文藝雜誌 — Print magazine feature spread
-   米色紙張、襯線中文、直排標題、朱紅印章、細框圖版、圖說。
-   主色（印章、強調）可以用 site.config.mjs 的 accent 換掉（--accent）。
+   07 藍染雜誌 — Aizome (indigo-dyed) magazine edition
+   深藍染布為底、生成色（未漂白的米白）文字、朱紅印章、絞染點紋與波紋分隔線、
+   圖版用米白卡紙框起來；部分區塊翻成「米白紙＋藍墨」的內頁，做出翻頁節奏。
+   主色（強調）可以用 site.config.mjs 的 accent 換掉（--accent）。
    ========================================================================== */
 
 html {
-  --paper: #F2ECE1;
-  --paper-2: #E8E0D1;
-  --paper-3: #DDD3C1;
-  --ink: #26211D;
-  --ink-2: #4B443D;
-  --mute: #857A6D;
-  --accent: #A23A26;
-  --on-accent: #F6F0E6;
-  --line: rgba(38, 33, 29, .2);
-  --line-2: rgba(38, 33, 29, .45);
+  /* 藍染底（--paper 是「底色」、--ink 是「字色」，翻面區塊會把兩者對調） */
+  --paper: #1B2A4A;
+  --paper-2: #22355E;
+  --paper-3: #2E4676;
+  --ink: #EFE6D2;
+  --ink-2: #D3CAB5;
+  --mute: #A3ADC4;
+  --accent: #F08A6E;          /* 藍底上的朱色字（較亮，才讀得清楚） */
+  --seal: #D2462E;            /* 印章本身的朱紅 */
+  --on-accent: #EFE6D2;
+  --mat: #EFE6D2;             /* 圖版卡紙 */
+  --line: rgba(239, 230, 210, .18);
+  --line-2: rgba(239, 230, 210, .42);
+  --dye: 27, 42, 74;
 
   --m: clamp(18px, 4vw, 72px);
   --g: clamp(14px, 1.8vw, 28px);
@@ -45,17 +50,45 @@ html {
 *, *::before, *::after { box-sizing: border-box; }
 body {
   margin: 0; line-height: 1.8; overflow-x: clip;
-  background:
-    radial-gradient(120% 80% at 50% 0%, rgba(255, 252, 245, .55), transparent 60%),
-    radial-gradient(140% 120% at 50% 120%, rgba(120, 96, 64, .10), transparent 60%),
-    var(--paper);
-  background-attachment: fixed;
+  background: transparent;
 }
-/* 紙張纖維：全頁一層很淡的雜訊，連照片上也有，像印出來的 */
+/* 藍染布紋：經緯線（細格紋）＋染色深淺不均的雲紋，全部用漸層畫，不用圖片 */
 body::before {
-  content: ''; position: fixed; inset: 0; z-index: 400; pointer-events: none; opacity: .5; mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .28 0 0 0 0 .2 0 0 0 .42 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, rgba(239, 230, 210, .045) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, .12) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(239, 230, 210, .018) 0 1px, transparent 1px 7px),
+    radial-gradient(60% 40% at 12% 8%, rgba(60, 92, 150, .38), transparent 70%),
+    radial-gradient(50% 45% at 88% 30%, rgba(10, 18, 36, .45), transparent 70%),
+    radial-gradient(70% 50% at 30% 85%, rgba(48, 76, 128, .32), transparent 70%),
+    radial-gradient(40% 35% at 80% 92%, rgba(8, 14, 30, .4), transparent 70%),
+    var(--paper);
 }
+/* 米白紙內頁：把底色與字色對調（區塊、卡片都可以加 .inv） */
+.inv, .letter, .factfile, .sidebox:not(.sidebox-meta), .ct-letter, .bl-lead {
+  --paper: #EFE6D2;
+  --paper-2: #E5DAC2;
+  --paper-3: #D8CBB0;
+  --ink: #1B2A4A;
+  --ink-2: #33456D;
+  --mute: #5A6582;
+  --accent: #B5381F;
+  --line: rgba(27, 42, 74, .18);
+  --line-2: rgba(27, 42, 74, .42);
+  background-color: var(--paper);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(27, 42, 74, .022) 0 1px, transparent 1px 4px),
+    radial-gradient(80% 60% at 20% 10%, rgba(255, 252, 240, .6), transparent 70%),
+    radial-gradient(70% 60% at 90% 100%, rgba(150, 120, 70, .12), transparent 70%);
+  color: var(--ink);
+}
+/* 絞染（しぼり）分隔：一排白點＋一道波紋 */
+.shibori { display: block; height: 18px; color: var(--ink);
+  background:
+    radial-gradient(circle, currentColor 1.6px, transparent 2.2px) 0 0 / 14px 8px repeat-x,
+    radial-gradient(circle at 50% 100%, transparent 5.5px, currentColor 6px 7px, transparent 7.5px) 0 10px / 16px 8px repeat-x;
+  opacity: .55; }
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
 h1, h2, h3, h4, p, ol, ul, dl, dd, figure, blockquote { margin: 0; padding: 0; }
@@ -85,7 +118,7 @@ html.lenis, html.lenis body { height: auto; }
 h1, h2, h3, .cv-tag, .op-lead, .feat-s, .art-stand, .pull p, .essay-stand, .letters-big, .nextart-t, .cv-line-t { text-wrap: balance; }
 
 /* 翻頁轉場 */
-.turn { position: fixed; inset: 0; z-index: 450; background: var(--paper); box-shadow: -40px 0 80px rgba(38, 33, 29, .22), -1px 0 0 var(--line); pointer-events: none; }
+.turn { position: fixed; inset: 0; z-index: 450; background: #EFE6D2 repeating-linear-gradient(0deg, rgba(27, 42, 74, .03) 0 1px, transparent 1px 4px); box-shadow: -40px 0 80px rgba(0, 0, 0, .45); pointer-events: none; }
 .turning body::after { content: ''; position: fixed; inset: 0; z-index: 450; background: var(--paper); animation: turn-safe .4s 1.4s forwards; }
 @keyframes turn-safe { to { opacity: 0; visibility: hidden; } }
 
@@ -149,14 +182,15 @@ h1, h2, h3, .cv-tag, .op-lead, .feat-s, .art-stand, .pull p, .essay-stand, .lett
 
 /* ---------------- 共用：圖版、圖說、印章 ---------------- */
 .plate { position: relative; }
-.plate-frame { position: relative; overflow: hidden; background: var(--paper-2); box-shadow: 0 0 0 1px var(--line-2); }
+.plate-frame { position: relative; overflow: hidden; background: var(--paper-2); border: clamp(8px, 1vw, 16px) solid var(--mat); box-shadow: 0 0 0 1px rgba(0, 0, 0, .25), 0 24px 50px -28px rgba(0, 0, 0, .7); }
+.plate-frame::after { content: ''; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px rgba(27, 42, 74, .35); pointer-events: none; }
 .plate-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .plate-frame[data-parallax] img { inset: -8% 0; height: 116%; }
 .cap { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-top: 12px; font-size: 13px; line-height: 1.6; color: var(--ink-2); letter-spacing: .04em; }
 .cap-n { color: var(--accent); font-weight: 600; letter-spacing: .12em; }
 .cap-credit { margin-left: auto; color: var(--mute); }
 
-.seal { display: inline-grid; place-items: center; width: var(--s); height: var(--s); flex: none; background: var(--accent); color: var(--on-accent); border-radius: calc(var(--s) * .08); box-shadow: inset 0 0 0 calc(var(--s) * .05) var(--accent), inset 0 0 0 calc(var(--s) * .075) color-mix(in srgb, var(--on-accent) 70%, transparent); transform: rotate(-3deg); font-family: var(--serif); font-weight: 900; line-height: 1; }
+.seal { display: inline-grid; place-items: center; width: var(--s); height: var(--s); flex: none; background: var(--seal); color: #EFE6D2; border-radius: calc(var(--s) * .08); box-shadow: inset 0 0 0 calc(var(--s) * .05) var(--seal), inset 0 0 0 calc(var(--s) * .075) rgba(239, 230, 210, .7); transform: rotate(-3deg); font-family: var(--serif); font-weight: 900; line-height: 1; }
 .seal > span { writing-mode: vertical-rl; font-size: calc(var(--s) * .4); letter-spacing: .02em; display: block; max-height: calc(var(--s) * .9); }
 .seal-1 > span { font-size: calc(var(--s) * .6); writing-mode: horizontal-tb; }
 .seal-3 > span, .seal-4 > span { font-size: calc(var(--s) * .34); max-height: calc(var(--s) * .72); line-height: 1.05; }
@@ -183,7 +217,11 @@ h1, h2, h3, .cv-tag, .op-lead, .feat-s, .art-stand, .pull p, .essay-stand, .lett
 
 /* ---------------- 區塊（左邊直排標題） ---------------- */
 .sx { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); column-gap: var(--g); padding: clamp(28px, 3vw, 44px) var(--m) 0; margin: 0 0 clamp(96px, 11vw, 200px); position: relative; }
-.sx::before { content: ''; position: absolute; left: var(--m); right: var(--m); top: 0; height: 4px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.sx::before { content: ''; position: absolute; left: var(--m); right: var(--m); top: 0; height: 10px; border-top: 1px solid var(--ink);
+  background: radial-gradient(circle, var(--ink) 1.3px, transparent 1.9px) 0 7px / 12px 6px repeat-x; opacity: .9; }
+/* 翻面成米白紙的區塊：上下留白，像夾進去的一張別色紙 */
+.sx.inv { margin-bottom: clamp(96px, 11vw, 200px); padding-bottom: clamp(56px, 7vw, 112px); padding-top: clamp(40px, 5vw, 72px); box-shadow: 0 -1px 0 rgba(0,0,0,.2), 0 30px 60px -30px rgba(0,0,0,.5); }
+.sx.inv::before { top: clamp(14px, 2vw, 28px); }
 .rail { position: relative; }
 .rail-in { position: sticky; top: calc(var(--hd) + 28px); display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
 .rail-no { font-size: 13px; letter-spacing: .1em; color: var(--accent); }
@@ -209,7 +247,7 @@ h1, h2, h3, .cv-tag, .op-lead, .feat-s, .art-stand, .pull p, .essay-stand, .lett
 .cv-strip-r { justify-self: end; }
 .cv-mast { font-family: var(--latin); font-weight: 400; font-size: min(calc((100vw - 2 * var(--m)) / (var(--len) * .5)), 19rem); line-height: .86; letter-spacing: -.035em; text-align: center; white-space: nowrap; padding: .06em 0 .04em; font-variation-settings: 'opsz' 144; }
 .cv-rule { display: flex; align-items: center; gap: 18px; font-size: 13px; letter-spacing: .24em; color: var(--ink-2); }
-.cv-rule::before, .cv-rule::after { content: ''; flex: 1; height: 4px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.cv-rule::before, .cv-rule::after { content: ''; flex: 1; height: 9px; background: radial-gradient(circle at 50% 100%, transparent 5px, var(--ink-2) 5.5px 6.5px, transparent 7px) 0 0 / 14px 9px repeat-x; }
 .cv-body { display: grid; grid-template-columns: var(--cols); column-gap: var(--g); align-items: start; margin-top: clamp(32px, 4vw, 64px); }
 .cv-lines { grid-column: 1 / 4; align-self: stretch; display: flex; flex-direction: column; }
 .cv-k { font-size: 13px; letter-spacing: .3em; color: var(--accent); padding-bottom: 12px; border-bottom: 1px solid var(--line-2); }
@@ -295,8 +333,14 @@ h1, h2, h3, .cv-tag, .op-lead, .feat-s, .art-stand, .pull p, .essay-stand, .lett
   .feat-text, .feat.flip .feat-text { grid-column: 1 / -1; grid-row: 2; margin-top: 24px; }
 }
 
-/* 直排引言 */
-.vq { position: relative; display: flex; flex-direction: column; align-items: center; padding: clamp(40px, 6vw, 96px) var(--m); margin-bottom: clamp(96px, 11vw, 200px); }
+/* 直排引言：背後是一圈圈絞染（雲絞）的點紋 */
+.vq::before, .letters::before { content: ''; position: absolute; left: 50%; top: 50%; width: min(92vw, 860px); aspect-ratio: 1; transform: translate(-50%, -50%); z-index: -1; pointer-events: none;
+  background: repeating-radial-gradient(circle, rgba(239, 230, 210, .16) 0 2px, transparent 2px 18px);
+  -webkit-mask: repeating-conic-gradient(#000 0 2.4deg, transparent 2.4deg 6deg), radial-gradient(closest-side, #000 55%, transparent);
+  -webkit-mask-composite: source-in; mask: repeating-conic-gradient(#000 0 2.4deg, transparent 2.4deg 6deg) intersect, radial-gradient(closest-side, #000 55%, transparent); }
+.letters { position: relative; isolation: isolate; overflow: hidden; }
+.letters::before { width: min(120vw, 1100px); opacity: .7; }
+.vq { isolation: isolate; overflow: hidden; position: relative; display: flex; flex-direction: column; align-items: center; padding: clamp(40px, 6vw, 96px) var(--m); margin-bottom: clamp(96px, 11vw, 200px); }
 .vq-mark { font-size: clamp(120px, 14vw, 220px); line-height: .6; color: var(--accent); height: .45em; margin-bottom: .1em; }
 .vq-text { writing-mode: vertical-rl; font-weight: 700; font-size: clamp(30px, 3.2vw, 52px); line-height: 1.7; letter-spacing: .2em; max-height: 14em; }
 .vq-by { margin-top: 32px; font-size: 14px; letter-spacing: .2em; color: var(--ink-2); display: flex; gap: 10px; align-items: baseline; }
@@ -340,7 +384,9 @@ h1, h2, h3, .cv-tag, .op-lead, .feat-s, .art-stand, .pull p, .essay-stand, .lett
 /* ---------------- 頁尾：版權頁 ---------------- */
 .ft { position: relative; padding: 0 var(--m) 24px; }
 .ft-end { text-align: center; padding-bottom: clamp(48px, 6vw, 88px); }
-.ft-end .rule { margin-bottom: clamp(48px, 6vw, 88px); }
+.ft-end .rule { margin-bottom: clamp(48px, 6vw, 88px); height: 18px; background:
+    radial-gradient(circle, var(--ink-2) 1.5px, transparent 2px) 0 0 / 14px 8px repeat-x,
+    radial-gradient(circle at 50% 100%, transparent 5.5px, var(--ink-2) 6px 7px, transparent 7.5px) 0 10px / 16px 8px repeat-x; }
 .ft-fin { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; }
 .ft-fin .it { font-size: clamp(56px, 6vw, 96px); line-height: 1; font-weight: 300; }
 .ft-fin-zh { font-size: 13px; letter-spacing: .6em; color: var(--mute); padding-left: .6em; }
@@ -464,7 +510,7 @@ h1, h2, h3, .cv-tag, .op-lead, .feat-s, .art-stand, .pull p, .essay-stand, .lett
 .pl-lead-t a:hover { color: var(--accent); }
 .pl-lead-s { margin-top: 18px; font-size: 17px; line-height: 1.95; color: var(--ink-2); }
 .pl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); gap: clamp(56px, 6vw, 96px) var(--g); padding: clamp(32px, 3vw, 44px) var(--m) 0; margin-bottom: clamp(96px, 11vw, 200px); position: relative; }
-.pl-grid::before { content: ''; position: absolute; left: var(--m); right: var(--m); top: 0; height: 4px; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+.pl-grid::before { content: ''; position: absolute; left: var(--m); right: var(--m); top: 0; height: 10px; border-top: 1px solid var(--ink); background: radial-gradient(circle, var(--ink) 1.3px, transparent 1.9px) 0 7px / 12px 6px repeat-x; }
 .pl-grid a { display: block; }
 .pl-grid .feat-k { margin-top: 20px; }
 .pl-t { font-weight: 900; font-size: clamp(23px, 2vw, 30px); line-height: 1.4; letter-spacing: .04em; transition: color .4s; text-wrap: balance; }
@@ -554,7 +600,8 @@ h1, h2, h3, .cv-tag, .op-lead, .feat-s, .art-stand, .pull p, .essay-stand, .lett
 }
 
 /* ---------------- 專欄列表 ---------------- */
-.bl-lead { display: block; text-align: center; padding: 0 var(--m); margin: 0 auto clamp(80px, 10vw, 160px); max-width: 1100px; }
+.bl-lead { display: block; text-align: center; padding: clamp(36px, 5vw, 72px) clamp(20px, 4vw, 64px); margin: 0 var(--m) clamp(80px, 10vw, 160px); box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .6); }
+@media (min-width: 1240px) { .bl-lead { margin-inline: auto; max-width: 1100px; } }
 .bl-lead-k { font-size: 13px; letter-spacing: .2em; color: var(--accent); }
 .bl-lead-k .it { font-size: 18px; letter-spacing: 0; }
 .bl-lead-t { margin-top: 20px; font-weight: 900; font-size: clamp(34px, 4.4vw, 72px); line-height: 1.35; letter-spacing: .05em; transition: color .5s; }
@@ -610,7 +657,7 @@ h1, h2, h3, .cv-tag, .op-lead, .feat-s, .art-stand, .pull p, .essay-stand, .lett
 
 /* ---------------- 聯絡：讀者來函 ---------------- */
 .ct { display: grid; grid-template-columns: var(--cols); column-gap: var(--g); padding: 0 var(--m); margin-bottom: clamp(96px, 11vw, 200px); align-items: start; }
-.ct-letter { grid-column: 1 / 8; position: relative; background: var(--paper-2); box-shadow: 0 0 0 1px var(--line-2), 0 30px 60px -40px rgba(38, 33, 29, .45); padding: clamp(28px, 4vw, 64px); }
+.ct-letter { grid-column: 1 / 8; position: relative; background: var(--paper-2); box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .6); padding: clamp(28px, 4vw, 64px); }
 .ct-letter::before { content: ''; position: absolute; inset: 10px; border: 1px solid var(--line); pointer-events: none; }
 .ct-to { font-weight: 700; font-size: clamp(22px, 2vw, 28px); letter-spacing: .1em; margin-bottom: 28px; }
 .ct-side { grid-column: 9 / 13; display: grid; gap: 40px; }
@@ -662,4 +709,8 @@ h1, h2, h3, .cv-tag, .op-lead, .feat-s, .art-stand, .pull p, .essay-stand, .lett
   .art-byline { flex-direction: column; align-items: flex-start; gap: 4px; }
   .art-byline span + span::before { display: none; }
   .art-cover .tplate { aspect-ratio: 4 / 3 !important; }
+}
+/* 手機窄欄：導言如果一段標點間的字放不下，改成一般換行（strict 不讓標點跑到行首） */
+@media (max-width: 760px) {
+  .op-lead.kp, .art-stand.kp, .essay-stand.kp, .feat-s.kp { word-break: normal; line-break: strict; }
 }

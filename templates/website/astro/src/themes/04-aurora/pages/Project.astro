@@ -1,6 +1,7 @@
 ---
 import Layout from '../Layout.astro';
 import Device from '../components/Device.astro';
+import W from '../components/W.astro';
 import { img, u } from '../../../lib/site';
 import { render } from 'astro:content';
 
@@ -12,12 +13,12 @@ const num = (s: string) => { const all = s.match(/\d[\d,.]*(?:\s*[–~-]\s*\d[\d
 ---
 <Layout title={d.title} description={d.summary} image={d.cover || undefined} page="project">
   <article class="case">
-    <header class="case-hero wrap">
+    <header class="case-hero wrap glass glass-xl" data-pane>
       <a class="back" href={u('/projects/')} data-intro><span aria-hidden="true">←</span> 所有作品</a>
       <p class="eyebrow" data-intro>Case study · {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}</p>
-      <h1 class="case-title"><span class="gt" data-split>{d.title}</span></h1>
+      <h1 class="case-title"><span data-split><W text={d.title} /></span></h1>
       <p class="page-lead" data-intro>{d.summary}</p>
-      <dl class="case-meta glass" data-intro>
+      <dl class="case-meta" data-intro>
         {d.role && <div><dt>我負責</dt><dd>{d.role}</dd></div>}
         {d.period && <div><dt>期間</dt><dd>{d.period}</dd></div>}
         {d.tags.length > 0 && <div><dt>技術</dt><dd class="chips">{d.tags.map((t: string) => <span class="chip">{t}</span>)}</dd></div>}
@@ -26,19 +27,17 @@ const num = (s: string) => { const all = s.match(/\d[\d,.]*(?:\s*[–~-]\s*\d[\d
     </header>
 
     {cover && <section class="stage wrap" aria-label="作品畫面">
-      <div class="stage-glow" aria-hidden="true"></div>
       <Device src={cover} alt={`${d.title} 畫面`} label={d.title} eager />
     </section>}
 
     {d.results.length > 0 && (
       <section class="wrap results" aria-label="成果">
-        <div class="glow-rule"></div>
-        <p class="eyebrow" data-reveal>Outcome</p>
+        <p class="eyebrow eyebrow-pill" data-reveal>Outcome</p>
         <ul class="result-grid" style={`--n:${Math.min(d.results.length, 3)}`}>
           {d.results.map((r: string) => {
             const n = num(r);
             return (
-              <li class="glass spot" data-reveal>
+              <li class="glass" data-reveal data-tilt>
                 {n ? <strong class="result-n">{n}</strong> : <span class="result-mark" aria-hidden="true"></span>}
                 <span>{r}</span>
               </li>
@@ -49,15 +48,15 @@ const num = (s: string) => { const all = s.match(/\d[\d,.]*(?:\s*[–~-]\s*\d[\d
     )}
 
     <section class="wrap case-body">
-      <div class="prose prose-lg" data-reveal><Content /></div>
+      <div class="prose prose-lg glass prose-pane" data-reveal><Content /></div>
     </section>
 
     {d.gallery.length > 0 && (
       <section class="wrap gallery" aria-label="更多畫面">
-        <p class="eyebrow" data-reveal>Gallery</p>
+        <p class="eyebrow eyebrow-pill" data-reveal>Gallery</p>
         <div class="gallery-row">
           {d.gallery.map((g: any) => (
-            <figure class="shot" data-reveal>
+            <figure class="shot glass" data-reveal data-tilt>
               <div class="shot-frame"><img src={img(g.src)} alt={g.caption || d.title} loading="lazy" /></div>
               {g.caption && <figcaption>{g.caption}</figcaption>}
             </figure>
@@ -68,7 +67,7 @@ const num = (s: string) => { const all = s.match(/\d[\d,.]*(?:\s*[–~-]\s*\d[\d
 
     {next && next.id !== entry.id && (
       <nav class="wrap next-case" aria-label="下一個作品">
-        <a class="glass spot next-card" href={u(`/projects/${next.id}/`)}>
+        <a class="glass next-card" data-tilt href={u(`/projects/${next.id}/`)}>
           <span class="eyebrow">Next project</span>
           <span class="next-title">{next.data.title}</span>
           <span class="next-sum">{next.data.summary}</span>
