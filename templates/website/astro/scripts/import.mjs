@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // 把網頁版 AI（Gemini／ChatGPT）寫好的「網站內容.md」拆進 src/content/。
 //   npm run import -- ~/Downloads/網站內容.md
-// 不給路徑：依序找 ./網站內容.md、~/Downloads/網站內容.md、~/下載/網站內容.md
+// 不給路徑：依序找 ./網站內容.md、../網站內容.md、~/Downloads/網站內容.md、~/下載/網站內容.md
 //
 // 格式：每個檔案前面一行  ===== 檔案：src/content/projects/book-swap.md =====
 //       最後可以有        ===== 待確認 =====（會存成 待確認.md）
@@ -21,7 +21,7 @@ if (major < 22 || (major === 22 && minor < 23)) fail(`Node.js 版本太舊（現
 const arg = process.argv[2];
 const candidates = arg
   ? [arg.replace(/^~(?=$|\/|\\)/, os.homedir())]
-  : [path.join(root, '網站內容.md'), path.join(os.homedir(), 'Downloads', '網站內容.md'), path.join(os.homedir(), '下載', '網站內容.md')];
+  : [path.join(root, '網站內容.md'), path.join(root, '..', '網站內容.md'), path.join(os.homedir(), 'Downloads', '網站內容.md'), path.join(os.homedir(), '下載', '網站內容.md')];
 const file = candidates.find((f) => fs.existsSync(f));
 if (!file) fail(`找不到檔案：${candidates.join('、')}`);
 
@@ -75,6 +75,22 @@ console.log(`已匯入：個人資料 1、作品 ${count('projects')}、經歷 $
 console.log(`舊內容備份在 .backup/${stamp}/`);
 if (files.some((f) => f.rel === '待確認.md')) console.log('還有待確認的項目，見 待確認.md');
 
+// 網站放在 Obsidian 保管庫裡（例如 my-portfolio/site/）：請 Obsidian 略過網站資料夾，
+// 不然 node_modules 裡幾百個 .md 會塞滿搜尋和關係圖
+const obsidian = path.join(root, '..', '.obsidian');
+if (fs.existsSync(obsidian)) {
+  try {
+    const f = path.join(obsidian, 'app.json');
+    const conf = fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : {};
+    const dir = path.basename(root) + '/';
+    if (!(conf.userIgnoreFilters || []).includes(dir)) {
+      conf.userIgnoreFilters = [...(conf.userIgnoreFilters || []), dir];
+      fs.writeFileSync(f, JSON.stringify(conf, null, 2));
+      console.log(`Obsidian 會略過 ${dir}（重開 Obsidian 後生效）`);
+    }
+  } catch { /* 設定檔讀不懂就不動 */ }
+}
+
 // 檢查格式（欄位缺漏、型別錯誤會在這裡抓到）
 const astroBin = path.join(root, 'node_modules', 'astro', 'bin', 'astro.mjs');
 if (!fs.existsSync(astroBin)) { console.log('\n還沒安裝套件：先跑 npm install，再跑 npm run build 檢查。'); process.exit(0); }
@@ -84,4 +100,4 @@ if (r.status !== 0) {
   console.error(`\n內容格式有問題，網站還不能建置：\n${msg}\n\n照上面的檔名和欄位修正後，再跑一次 npm run build。`);
   process.exit(1);
 }
-console.log('格式檢查通過。下一步：npm run dev，打開 http://localhost:4321 看網站。');
+console.log('格式檢查通過。下一步：npm run dev，打開它給的網址看網站。');

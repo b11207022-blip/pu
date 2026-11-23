@@ -5,3 +5,4 @@ dist-themes/
 .backup/
 .DS_Store
 theme-previews/
+.vercel/

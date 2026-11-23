@@ -11,6 +11,7 @@
 - `.github/workflows/deploy.yml`：推上 main 自動部署 GitHub Pages，子路徑自動處理。
 - `contact-worker/`：Cloudflare Worker＋D1 聯絡表單，含擋機器人、IP 限流、只允許自己的網站；有網域可開寄信通知（寄到驗證過的自己信箱，免費）。
 - `personal/` 保留為一頁式舊版；README 的課程下載表改成 `astro/`。
+- `npm run import` 也會找上一層的 `網站內容.md`；網站放在 Obsidian 保管庫裡（例如 `my-portfolio/site/`）時，自動請 Obsidian 略過網站資料夾。
 - `npm run dev`、`npm run themes` 給 AI 跑時會把預覽放到背景，指令不會卡住；`npm run dev` 每次先關掉舊的再開，改了 `site.config.mjs` 再跑一次就套用。
 
 ## 2026-11-09　AGENTS.md 檔名跟上課簡報一致
