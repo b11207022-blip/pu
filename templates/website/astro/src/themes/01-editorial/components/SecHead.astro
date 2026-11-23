@@ -7,7 +7,7 @@ const { num, en, zh, count, href, link, id } = Astro.props;
 <div class="sh" id={id}>
   <span class="rule" data-rule></span>
   <div class="sh-in">
-    <span class="mono sh-n">({num})</span>
+    <span class="sh-n" aria-hidden="true">{num}</span>
     <h2 class="sh-t"><span class="en">{en}</span><span class="zh">{zh}</span></h2>
     {count && <span class="mono sh-c">{count}</span>}
     {href && <a class="mono sh-a ul" href={u(href)}>{link}<span aria-hidden="true"> →</span></a>}

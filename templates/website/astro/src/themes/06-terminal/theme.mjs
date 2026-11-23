@@ -1,8 +1,10 @@
-// 開發者 OS：石墨色介面、等寬字、⌘K 指令面板、視窗與分頁、作品頁像 README／PR。
-// 適合：資工、資管、想讓人一看就知道你會寫程式
+// 復古桌面：九〇年代末的 Mac OS 8／Windows 98 桌面。藍綠色圖案桌布、選單列時鐘、桌面圖示，
+// 內容放在可以拖曳、關閉、放大、收合的灰色立體視窗裡；⌘K 開「尋找」對話框；手機變成單視窗＋Dock。
+// 適合：想讓人會心一笑、好玩又有記憶點（資工、資管、設計、遊戲都合適）
 export default {
-  label: '開發者終端',
-  description: '石墨色視窗介面、⌘K 指令面板、打字開場、README 風格的作品頁',
-  themeColor: '#0B0C0E',
-  fonts: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap',
+  label: '復古桌面',
+  description: '九〇年代電腦桌面：圖案桌布、可拖曳的灰色視窗、桌面圖示、縮放框動畫、⌘K 尋找',
+  themeColor: '#008080',
+  favicon: { bg: '#008080', fg: '#ffffff', radius: 4 },
+  fonts: 'https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&family=Noto+Sans+TC:wght@400;500;700;900&display=swap',
 };

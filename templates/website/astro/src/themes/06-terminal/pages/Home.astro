@@ -1,193 +1,137 @@
 ---
 import Layout from '../Layout.astro';
-import Mark from '../components/Mark.astro';
-import Window from '../components/Window.astro';
-import ProjectBrowser from '../components/ProjectBrowser.astro';
-import { getProfile, getProjects, getPosts, getExperience, u, fmtDate, readMinutes } from '../../../lib/site';
-import { hash } from '../lib';
+import Win from '../components/Win.astro';
+import Icon from '../components/Icon.astro';
+import { getProfile, getProjects, getPosts, getExperience, u, img, fmtDate, initials } from '../../../lib/site';
+import { bars, fileName, n2 } from '../lib';
 
 const p = (await getProfile()).data;
 const projects = await getProjects();
 const picked = projects.filter((x) => x.data.featured);
 const featured = (picked.length ? picked : projects).slice(0, 6);
-const posts = (await getPosts()).slice(0, 3);
+const posts = (await getPosts()).slice(0, 4);
 const exp = (await getExperience()).slice(0, 4);
-const handle = (p.nameEn || p.name).toLowerCase().replace(/\s+/g, '-');
-const stack = p.skills.flatMap((g) => g.items).slice(0, 4).join(' · ');
-const clauses = p.tagline.split(/(?<=[，,。；;：:！？])/).filter((c) => c.trim());
-const rows = [
-  ['role', p.role],
-  p.location && ['location', p.location],
-  stack && ['stack', stack],
-  p.email && ['email', p.email],
-].filter(Boolean) as [string, string][];
+const avatar = img(p.avatar);
+const pct = bars(p.highlights.map((h) => h.value));
 ---
-<Layout>
-  <section class="hero wrap">
-    <div class="hero-copy">
-      {p.status && <p class="pill" data-intro><span class="led"></span>{p.status}</p>}
-      <h1 class="hero-title" data-intro>{clauses.map((c, i) => <span class="cl">{c}{i === clauses.length - 1 && <span class="caret" aria-hidden="true"></span>}</span>)}</h1>
-      <p class="hero-intro" data-intro>{p.intro}</p>
-      <div class="hero-actions" data-intro>
-        <a class="btn btn-primary" href={u('/projects/')}>看作品 <span aria-hidden="true">→</span></a>
-        <button class="btn btn-ghost" type="button" data-palette-open>
-          <kbd><span data-mod>⌘</span>K</kbd> 打開指令面板
-        </button>
-      </div>
-    </div>
-
-    <div class="win term" data-term data-intro>
-      <header class="win-bar">
-        <span class="win-lights" aria-hidden="true"><i></i><i></i><i></i></span>
-        <span class="win-title">{handle} — zsh</span>
-        <span class="win-meta">80×24</span>
-      </header>
-      <div class="win-body term-body">
-        <p class="t-line" data-step><span class="ps">~</span> <span class="t-cmd" data-type>whoami</span></p>
-        <div class="t-out neo" data-out>
-          <Mark size={104} photo />
-          <div class="neo-info">
-            <p class="neo-head"><span class="tok-key">{handle}</span><span class="tok-dim">@</span><span class="tok-fn">portfolio</span></p>
-            <p class="neo-name">{p.name}{p.nameEn && <span class="tok-dim"> · {p.nameEn}</span>}</p>
-            <dl class="kv">
-              {rows.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
-            </dl>
-          </div>
-        </div>
-        {projects.length > 0 && (
-          <>
-            <p class="t-line" data-step><span class="ps">~</span> <span class="t-cmd" data-type>ls projects/</span></p>
-            <p class="t-out t-ls" data-out>
-              {projects.map((x) => <a href={u(`/projects/${x.id}/`)}>{x.id}/</a>)}
-            </p>
-          </>
+<Layout stage="home">
+  <Win id="w-hello" title="Welcome" icon="app" class="w-hello" main label="歡迎">
+    <div class="hello">
+      <figure class:list={['hello-pic', !avatar && 'is-empty']}>
+        {avatar ? (
+          <img src={avatar} alt={`${p.name} 的大頭照`} width="1200" height="1200" decoding="async" />
+        ) : (
+          <span class="hello-init" aria-hidden="true"><Icon kind="app" size={48} /><b>{initials(p.name, p.nameEn)}</b></span>
         )}
-        <p class="t-line t-last"><span class="ps">~</span> <span class="caret" aria-hidden="true"></span></p>
+        <figcaption>{avatar ? fileName(p.avatar) : 'no-photo.pict'}</figcaption>
+      </figure>
+      <div class="hello-id">
+        {p.nameEn && <p class="hello-en">{p.nameEn}</p>}
+        <h1 class="hello-name">{p.name}</h1>
+        <p class="hello-role">{p.role}</p>
+        {p.status && <p class="hello-status"><span class="led" aria-hidden="true"></span>{p.status}</p>}
       </div>
     </div>
-  </section>
+    <p class="hello-tag">{p.tagline}</p>
+    <p class="hello-intro">{p.intro}</p>
+    <div class="btns">
+      <a class="btn btn-default" href={u('/projects/')}>打開作品</a>
+      <a class="btn" href={u('/about/')}>關於我</a>
+      <a class="btn" href={u('/contact/')}>聯絡</a>
+    </div>
+  </Win>
 
   {p.highlights.length > 0 && (
-    <section class="wrap metrics" aria-label="重點數字">
-      {p.highlights.map((h, i) => (
-        <div class="metric" data-reveal>
-          <span class="metric-k">{`0${i + 1}`.slice(-2)}</span>
-          <span class="metric-v">{h.value}</span>
-          <span class="metric-l">{h.label}</span>
-        </div>
-      ))}
-    </section>
+    <Win id="w-hl" title="Highlights" icon="app" class="w-hl" plain label="重點數字" info={`${p.highlights.length} 項`} infoR="已完成">
+      <ul class="hl">
+        {p.highlights.map((h, i) => (
+          <li>
+            <span class="hl-v">{h.value}</span>
+            <span class="hl-l">{h.label}</span>
+            <span class="prog" aria-hidden="true"><i data-prog style={`width:${pct[i]}%`}></i></span>
+          </li>
+        ))}
+      </ul>
+    </Win>
   )}
 
   {featured.length > 0 && (
-    <section class="sec wrap">
-      <div class="sec-head">
-        <div>
-          <p class="sec-k" data-reveal>// selected work</p>
-          <h2 class="sec-title" data-reveal>精選作品</h2>
-        </div>
-        <a class="link" href={u('/projects/')} data-reveal>全部 {projects.length} 個作品 <span aria-hidden="true">→</span></a>
-      </div>
-      <ProjectBrowser projects={featured} title="~/projects --featured" />
-    </section>
+    <Win id="w-prj" title="Projects" icon="folder" class="w-prj" label="精選作品" info={`${featured.length} 個項目${projects.length > featured.length ? `，共 ${projects.length} 個` : ''}`} infoR="按兩下打開">
+      <ul class="files">
+        {featured.map((x) => {
+          const cover = img(x.data.cover);
+          return (
+            <li>
+              <a class="file" href={u(`/projects/${x.id}/`)}>
+                <span class:list={['file-thumb', !cover && 'is-doc']}>
+                  {cover ? <img src={cover} alt="" loading="lazy" decoding="async" /> : (
+                    <span class="doc-prev" aria-hidden="true"><Icon kind="doc" size={32} /><span>{x.data.summary}</span></span>
+                  )}
+                </span>
+                <span class="file-name">{x.data.title}</span>
+                {x.data.period && <span class="file-meta">{x.data.period}</span>}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+      <a slot="foot" class="btn btn-sm" href={u('/projects/')}>打開資料夾</a>
+    </Win>
   )}
 
-  {p.skills.length > 0 && (
-    <section class="sec wrap two">
-      <div class="sec-side">
-        <p class="sec-k" data-reveal>// stack</p>
-        <h2 class="sec-title" data-reveal>我會用的工具</h2>
-        <p class="sec-lead" data-reveal>從介面設計、前端開發到部署，以及把 AI 放進日常的工作流程。</p>
-        <a class="link" href={u('/about/')} data-reveal>更多關於我 <span aria-hidden="true">→</span></a>
-      </div>
-      <Window title="skills.ts" meta="TypeScript">
-        <ol class="code">
-          <li><span class="tok-kw">export const</span> <span class="tok-fn">skills</span> <span class="tok-op">=</span> {'{'}</li>
-          {p.skills.map((g) => (
-            <li class="ind"><span class="tok-key">'{g.group}'</span><span class="tok-op">:</span> [{g.items.map((s, i) => <><span class="tok-str">'{s}'</span>{i < g.items.length - 1 && <span class="tok-op">, </span>}</>)}],</li>
-          ))}
-          <li>{'}'} <span class="tok-kw">as const</span>;</li>
-        </ol>
-      </Window>
-    </section>
+  <Win id="w-about" title="About Me.txt" icon="text" class="w-about" label="關於我">
+    {p.quote && <p class="doc-quote">{p.quote}</p>}
+    {p.traits.length > 0 ? (
+      <ol class="mini-traits">
+        {p.traits.map((t, i) => <li><span class="mt-n">{n2(i + 1)}</span><span><b>{t.title}</b>{t.text}</span></li>)}
+      </ol>
+    ) : <p class="doc-p">{p.intro}</p>}
+    <a slot="foot" class="btn btn-sm" href={u('/about/')}>讀完整檔案</a>
+  </Win>
+
+  {exp.length > 0 && (
+    <Win id="w-exp" title="Experience.log" icon="log" class="w-exp" label="經歷" info={`最近 ${exp.length} 筆`}>
+      <ol class="log">
+        {exp.map((x) => (
+          <li>
+            <span class="log-d">{x.data.period}</span>
+            <span class="log-t">{x.data.title}</span>
+            <span class="log-o">{x.data.org}{x.data.type && <em>{x.data.type}</em>}</span>
+          </li>
+        ))}
+      </ol>
+      <a slot="foot" class="btn btn-sm" href={u('/experience/')}>看完整經歷</a>
+    </Win>
   )}
 
-  {(exp.length > 0 || posts.length > 0) && (
-    <section class:list={['sec wrap duo', (exp.length === 0 || posts.length === 0) && 'solo']}>
-      {exp.length > 0 && (
-        <div>
-          <div class="sec-head sm">
-            <div><p class="sec-k" data-reveal>// git log</p><h2 class="sec-title" data-reveal>最近在做</h2></div>
-            <a class="link" href={u('/experience/')} data-reveal>完整經歷 <span aria-hidden="true">→</span></a>
-          </div>
-          <ol class="log">
-            {exp.map((x, i) => (
-              <li data-reveal>
-                <a href={u('/experience/')}>
-                  <span class="log-hash">{hash(x.id)}</span>
-                  <span class="log-main">
-                    <span class="log-title">{x.data.title}{i === 0 && <span class="label label-accent">HEAD</span>}</span>
-                    <span class="log-org">{x.data.org}</span>
-                  </span>
-                  <span class="log-date">{x.data.period}</span>
-                </a>
-              </li>
-            ))}
-          </ol>
-        </div>
-      )}
-      {posts.length > 0 && (
-        <div>
-          <div class="sec-head sm">
-            <div><p class="sec-k" data-reveal>// writing</p><h2 class="sec-title" data-reveal>最近寫的</h2></div>
-            <a class="link" href={u('/blog/')} data-reveal>所有文章 <span aria-hidden="true">→</span></a>
-          </div>
-          <ol class="log">
-            {posts.map((x) => (
-              <li data-reveal>
-                <a href={u(`/blog/${x.id}/`)}>
-                  <span class="log-hash">{fmtDate(x.data.date)}</span>
-                  <span class="log-main">
-                    <span class="log-title">{x.data.title}</span>
-                    <span class="log-org">{x.data.summary}</span>
-                  </span>
-                  <span class="log-date">{readMinutes(x.body)} min</span>
-                </a>
-              </li>
-            ))}
-          </ol>
-        </div>
-      )}
-    </section>
+  {posts.length > 0 && (
+    <Win id="w-posts" title="Writing" icon="folder" class="w-posts" label="文章" info={`${posts.length} 篇`}>
+      <ul class="rows">
+        {posts.map((x) => (
+          <li>
+            <a class="row" href={u(`/blog/${x.id}/`)}>
+              <Icon kind="text" size={16} />
+              <span class="row-t">{x.data.title}</span>
+              <time class="row-d" datetime={x.data.date.toISOString()}>{fmtDate(x.data.date)}</time>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a slot="foot" class="btn btn-sm" href={u('/blog/')}>全部文章</a>
+    </Win>
   )}
+
+  <Win id="w-mail" title="Mail" icon="mail" class="w-mail alert" plain label="聯絡">
+    <div class="alert-in">
+      <Icon kind="mail" size={48} />
+      <div>
+        <p class="alert-t">有想一起做的事嗎？</p>
+        <p>實習、合作或只是想交流，都歡迎來信。通常一兩天內回覆。</p>
+      </div>
+    </div>
+    <div slot="foot" class="btns btns-end">
+      {p.email && <a class="btn" href={`mailto:${p.email}`}>直接寫信</a>}
+      <a class="btn btn-default" href={u('/contact/')}>聯絡我</a>
+    </div>
+  </Win>
 </Layout>
-
-<script>
-  import { gsap, onReady } from '../../../lib/motion';
-  // 開場：打 whoami，印出資料，再打 ls
-  onReady(() => {
-    const term = document.querySelector('[data-term]');
-    if (!term) return;
-    const tl = gsap.timeline({ delay: 0.45 });
-    const steps = term.querySelectorAll<HTMLElement>('[data-step]');
-    const outs = term.querySelectorAll<HTMLElement>('[data-out]');
-    const last = term.querySelector('.t-last');
-    gsap.set([...steps, ...outs, last], { opacity: 0 });
-    steps.forEach((step, i) => {
-      const el = step.querySelector<HTMLElement>('[data-type]')!;
-      const text = el.textContent || '';
-      const o = { n: 0 };
-      tl.set(step, { opacity: 1 })
-        .add(() => { el.textContent = ''; step.classList.add('typing'); })
-        .to(o, { n: text.length, duration: text.length * 0.065, ease: 'none', onUpdate: () => { el.textContent = text.slice(0, Math.round(o.n)); } })
-        .add(() => step.classList.remove('typing'), '+=0.18');
-      const out = outs[i];
-      if (out) {
-        tl.set(out, { opacity: 1 });
-        tl.from(out.querySelectorAll('.mark, .neo-head, .neo-name, .kv > div, a'), { opacity: 0, x: -6, duration: 0.25, stagger: 0.045, ease: 'power2.out' });
-        tl.to({}, { duration: 0.25 });
-      }
-    });
-    tl.set(last, { opacity: 1 });
-  });
-</script>

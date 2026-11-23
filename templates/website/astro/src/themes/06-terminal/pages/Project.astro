@@ -1,82 +1,71 @@
 ---
 import Layout from '../Layout.astro';
-import Window from '../components/Window.astro';
-import Diff from '../components/Diff.astro';
-import { img, u } from '../../../lib/site';
+import Win from '../components/Win.astro';
+import Icon from '../components/Icon.astro';
+import { u, img } from '../../../lib/site';
 import { render } from 'astro:content';
+import { fileName, n2 } from '../lib';
 
 const { entry, index = 0, total = 1, prev, next } = Astro.props;
 const d = entry.data;
 const { Content } = await render(entry);
-const cover = img(d.cover);
-const file = d.cover ? d.cover.split('/').pop() : '';
+const shots = [d.cover ? { src: d.cover, caption: d.title } : null, ...d.gallery].filter((s): s is { src: string; caption?: string } => !!s && !!s.src);
 ---
-<Layout title={d.title} description={d.summary} image={d.cover || undefined} path={`projects/${entry.id}`}>
-  <article class="wrap pr">
-    <header class="pr-head">
-      <p class="crumb" data-intro><a href={u('/projects/')}>projects</a> <span class="tok-dim">/</span> {entry.id} <span class="tok-dim">· {String(index + 1).padStart(2, '0')} of {String(total).padStart(2, '0')}</span></p>
-      <h1 class="pr-title" data-intro>{d.title}</h1>
-      <div class="pr-badges" data-intro>
-        <span class="badge-ok"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Shipped</span>
-        {d.period && <span class="tok-dim">{d.period}</span>}
-      </div>
+<Layout title={d.title} description={d.summary} image={d.cover} stage="page">
+  <Win id="w-main" title={d.title} icon="doc" class="w-main" main label="作品說明" info={`作品 ${n2(index + 1)} / ${n2(total)}`} infoR={d.period}>
+    <header class="doc-head">
+      <p class="kicker"><a href={u('/projects/')}>Projects</a> / {n2(index + 1)}</p>
+      <h1 class="doc-title">{d.title}</h1>
+      <p class="doc-lead">{d.summary}</p>
     </header>
-
-    <div class="pr-grid">
-      <div class="pr-main">
-        {cover && (
-          <Window title={file || 'preview'} meta="Preview" class="shot" flush>
-            <img src={cover} alt={`${d.title} 畫面`} decoding="async" />
-          </Window>
-        )}
-        {d.results.length > 0 && (
-          <Window title="results.diff" meta={`+${d.results.length} −0`} flush>
-            <Diff results={d.results} file={entry.id} />
-          </Window>
-        )}
-        <Window title="README.md" meta="Markdown">
-          <div class="prose"><Content /></div>
-        </Window>
-        {d.gallery.length > 0 && (
-          <div class="pr-gallery">
-            {d.gallery.map((g: any) => (
-              <figure class="g-item" data-reveal>
-                <div class="g-frame"><img src={img(g.src)} alt={g.caption || d.title} loading="lazy" decoding="async" /></div>
-                {g.caption && <figcaption><span class="tok-comment">// </span>{g.caption}</figcaption>}
-              </figure>
-            ))}
-          </div>
-        )}
-      </div>
-      <aside class="pr-side">
-        <div class="side-box" data-reveal>
-          <p class="side-k">About</p>
-          <p class="side-sum">{d.summary}</p>
-          {d.links.length > 0 && (
-            <ul class="side-links">
-              {d.links.map((l: any) => <li><a href={u(l.url)} target="_blank" rel="noopener"><span class="tok-fn">↗</span> {l.label}</a></li>)}
-            </ul>
-          )}
-        </div>
-        {d.tags.length > 0 && (
-          <div class="side-box" data-reveal>
-            <p class="side-k">Stack</p>
-            <p class="side-tags">{d.tags.map((t: string) => <span class="label label-accent">{t}</span>)}</p>
-          </div>
-        )}
-        <dl class="side-box side-dl" data-reveal>
-          {d.role && <div><dt>Role</dt><dd>{d.role}</dd></div>}
-          {d.period && <div><dt>Period</dt><dd>{d.period}</dd></div>}
-          <div><dt>Status</dt><dd><span class="led"></span> 已完成</dd></div>
-        </dl>
-      </aside>
-    </div>
-
-    {(prev || next) && (
-      <nav class="pager" aria-label="其他作品">
-        {prev ? <a href={u(`/projects/${prev.id}/`)} class="pg"><span class="pg-k">← prev</span><span class="pg-t">{prev.data.title}</span></a> : <span></span>}
-        {next && next.id !== entry.id ? <a href={u(`/projects/${next.id}/`)} class="pg pg-next"><span class="pg-k">next →</span><span class="pg-t">{next.data.title}</span></a> : <span></span>}
-      </nav>
+    <dl class="getinfo getinfo-box">
+      {d.role && <div><dt>角色：</dt><dd>{d.role}</dd></div>}
+      {d.period && <div><dt>期間：</dt><dd>{d.period}</dd></div>}
+      {d.tags.length > 0 && <div><dt>類型：</dt><dd class="tags">{d.tags.map((t) => <span class="tag">{t}</span>)}</dd></div>}
+    </dl>
+    {d.links.length > 0 && (
+      <p class="btns">{d.links.map((l, i) => <a class:list={['btn', i === 0 && 'btn-default']} href={u(l.url)} target="_blank" rel="noopener">{l.label}<span class="ext" aria-hidden="true">↗</span></a>)}</p>
     )}
-  </article>
+    {d.results.length > 0 && (
+      <section class="doc-sec" aria-labelledby="h-res">
+        <h2 id="h-res" class="doc-h2">成果</h2>
+        <ul class="done">{d.results.map((r) => <li><span class="chk is-on" aria-hidden="true"></span>{r}</li>)}</ul>
+      </section>
+    )}
+    <div class="prose"><Content /></div>
+    <nav slot="foot" class="pager" aria-label="其他作品">
+      {prev ? <a class="btn btn-sm" href={u(`/projects/${prev.id}/`)}><span aria-hidden="true">◀ </span>{prev.data.title}</a> : <a class="btn btn-sm" href={u('/projects/')}>所有作品</a>}
+      {next && next.id !== entry.id && <a class="btn btn-sm btn-default" href={u(`/projects/${next.id}/`)}>{next.data.title}<span aria-hidden="true"> ▶</span></a>}
+    </nav>
+  </Win>
+
+  <div class="side">
+    {shots.length > 0 ? (
+      shots.map((s, i) => (
+        <Win id={`w-shot-${i}`} title={fileName(s.src)} icon="image" class="w-viewer" plain label="圖片檢視器" info={i === 0 ? '預覽' : `圖 ${i + 1}`} infoR="100%">
+          <figure class="viewer">
+            <div class="viewer-stage">
+              <a href={img(s.src)} target="_blank" rel="noopener" aria-label={`看原圖：${s.caption || d.title}`}>
+                <img src={img(s.src)} alt={s.caption ? s.caption : `${d.title} 的畫面`} loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />
+              </a>
+            </div>
+            {s.caption && s.caption !== d.title && <figcaption>{s.caption}</figcaption>}
+          </figure>
+        </Win>
+      ))
+    ) : (
+      <Win id="w-getinfo" title={`${d.title} 資訊`} icon="doc" class="w-card" plain label="作品資訊">
+        <div class="idcard">
+          <span class="idcard-ic is-doc" aria-hidden="true"><Icon kind="doc" size={48} /></span>
+          <p class="idcard-name">{d.title}</p>
+          <p class="idcard-en">{[d.period, d.role].filter(Boolean).join('・')}</p>
+        </div>
+        <dl class="getinfo">
+          <div><dt>成果：</dt><dd>{d.results.length} 項</dd></div>
+          <div><dt>連結：</dt><dd>{d.links.length ? d.links.map((l) => l.label).join('、') : '無'}</dd></div>
+          <div><dt>截圖：</dt><dd>還沒有</dd></div>
+        </dl>
+      </Win>
+    )}
+  </div>
 </Layout>
