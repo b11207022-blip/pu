@@ -1,7 +1,7 @@
-// 柔和黏土：粉嫩色、圓潤立體、可愛但不幼稚。適合：想親切、好接近
+// 柔和黏土：薰衣草、蜜桃、薄荷的粉嫩漸層，圓潤的黏土質感卡片，Q 彈的互動。適合：想親切、好接近，但仍然精緻
 export default {
-  label: '柔和黏土', description: '粉嫩配色、圓潤立體卡片',
-  header: 'float', hero: 'split', projects: 'grid', timeline: 'cards',
-  brandMark: true, themeColor: '#F6F1FF',
-  fonts: 'https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&family=JetBrains+Mono:wght@500&display=swap',
+  label: '柔和黏土',
+  description: '粉嫩漸層、圓潤黏土卡片、慢慢飄的泡泡與 Q 彈互動',
+  themeColor: '#F5F0FF',
+  fonts: 'https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&family=Huninn&family=Noto+Sans+TC:wght@400;500;700&display=swap',
 };
