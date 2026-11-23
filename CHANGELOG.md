@@ -1,5 +1,17 @@
 # 更新紀錄
 
+## 2026-11-23　個人網站 Astro 版：10 種風格、多頁、聯絡表單
+
+舊版是一頁式 HTML，AI 要自己排版，免費模型做出來偏陽春。新版把版面全部寫成程式，AI 只負責內容。
+
+- 新增 `templates/website/astro/`：Astro 7 多頁網站，首頁、關於、作品（列表＋每個作品一頁）、經歷、文章、聯絡、404。
+- 10 種風格（`src/themes/01–10`）：瑞士編輯、Bento、極簡、極光暗色、新粗獷、終端機、文藝雜誌、作品集工作室、柔和黏土、履歷 CV。不只換顏色，頁首、首頁主視覺、作品列表、經歷的版型也不同。`site.config.mjs` 改一行就換。
+- 內容分工：網頁版 Gemini／ChatGPT 照 `網頁版AI-prompt.md` 寫好 `網站內容.md`，`npm run import` 拆進 `src/content/` 並檢查格式；OpenCode 只跑指令。prompt 寫了內容品質要求（作品三段、成果要數字、不准編）。
+- `npm run themes`：用自己的內容做出 10 種版本加截圖，在 http://localhost:4400 比較。
+- `.github/workflows/deploy.yml`：推上 main 自動部署 GitHub Pages，子路徑自動處理。
+- `contact-worker/`：Cloudflare Worker＋D1 聯絡表單，含擋機器人、IP 限流、只允許自己的網站；有網域可開寄信通知（寄到驗證過的自己信箱，免費）。
+- `personal/` 保留為一頁式舊版；README 的課程下載表改成 `astro/`。
+
 ## 2026-11-09　AGENTS.md 檔名跟上課簡報一致
 
 - 新文圖檔名改成 `<編號>-mine.html`（例如 `templates/01-mine.html`），文案存 `out/01-mine.fb.txt`，跟簡報裡的指令一樣。

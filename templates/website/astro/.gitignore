@@ -1,0 +1,7 @@
+node_modules/
+dist/
+dist-themes/
+.astro/
+.backup/
+.DS_Store
+theme-previews/

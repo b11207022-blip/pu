@@ -19,7 +19,7 @@ md（SSOT）：我的資料／品牌資料（Obsidian 筆記）
 | | 內容 | 在哪裡 |
 |---|---|---|
 | **1. md as SSOT 範本** | 個人版「我的資料」、店家版「品牌資料」；一份筆記講一件事，AI 只讀用得到的 | [`ssot/`](ssot/README.md) |
-| **2. 個人品牌網站** | 從 SSOT 做出網站：個人版、店家形象官網、JSON 產網站；再用 Vercel CLI 上線 | [`templates/website/`](templates/website/README.md)、[`skills/exec-vercel-cli/`](skills/exec-vercel-cli) |
+| **2. 個人品牌網站** | 從 SSOT 做出網站：Astro 多頁個人網站（10 種風格、聯絡表單接 Cloudflare D1）、店家形象官網、JSON 產網站；GitHub Pages／Vercel 上線 | [`templates/website/`](templates/website/README.md)、[`skills/exec-vercel-cli/`](skills/exec-vercel-cli) |
 | **3. SSOT 產生的文圖** | 10 張社群文圖加 10 種風格，AI 讀 SSOT 只填字；出圖和發 FB 粉專的腳本 | [`templates/posts/`](templates/posts/README.md)、[`scripts/`](scripts) |
 | **4. SSOT 做履歷** | 讀 SSOT，用 WPORT CLI 建線上履歷、照職缺客製、面試準備 | [`skills/exec-wport-cli/`](skills/exec-wport-cli)、[`skills/gen-resume/`](skills/gen-resume)、[`templates/resume/`](templates/resume) |
 | **5. CLI 和常見工具** | 給 AI 讀的說明書（Skill）：WPORT CLI、Vercel CLI、GA4、HypeLink 品牌頁和活動、填表單蓋章 | [`skills/`](skills/INDEX.md) |
@@ -53,7 +53,8 @@ md（SSOT）：我的資料／品牌資料（Obsidian 筆記）
 | 課程 | 搬這些 | 搬到你資料夾後叫 |
 |---|---|---|
 | 品牌行銷 AI 加速器（小店家、個人品牌） | `templates/posts/`、`scripts/`、`照片/`、`AGENTS.md`、`.env.example` | `templates/`、`scripts/`、`照片/`、`AGENTS.md`、`.env.example` |
-| Vibe Coding 工作坊（大學生、求職者） | `templates/website/personal/` 裡的東西、`ssot/個人/我的資料.md`、`ssot/個人/我的資料/` | 放在資料夾最上層 |
+| Vibe Coding 工作坊（大學生、求職者） | `templates/website/astro/` 裡的東西（含 `.github/`）、`ssot/個人/我的資料.md`、`ssot/個人/我的資料/` | 放在資料夾最上層；步驟見 [`templates/website/astro/README.md`](templates/website/astro/README.md) |
+| Vibe Coding 一頁式舊版 | `templates/website/personal/` 裡的東西 | 放在資料夾最上層 |
 
 以前的 `ericlu-sys/brand_template`、`ericlu-sys/teaching_template` 已經合併到這裡，之後只更新這一份。改了什麼見 [`CHANGELOG.md`](CHANGELOG.md)。
 
@@ -176,7 +177,7 @@ wport-ai-starter-kit/
 │   ├── 個人/                 #    我的資料、resume.md、about-me.md
 │   └── 店家/                 #    品牌資料（範例店）
 ├── templates/                # 所有範本都在這
-│   ├── website/              # ② 網站：personal/、shop/、JSON 產生器
+│   ├── website/              # ② 網站：astro/（10 種風格＋聯絡表單）、personal/、shop/、JSON 產生器
 │   ├── posts/                # ③ 文圖：10 張範本、10 種風格
 │   ├── resume/               # ④ 履歷
 │   ├── report/               #    職涯、客製化、面試報告

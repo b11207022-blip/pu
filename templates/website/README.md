@@ -4,7 +4,8 @@
 
 | 資料夾 | 是什麼 |
 |---|---|
-| [`personal/`](personal/README.md) | 個人網站範本（Vibe Coding 課，Eric 的資料當範例） |
+| [`astro/`](astro/README.md) | **個人網站主力範本**：Astro 多頁（首頁、關於、作品、經歷、文章、聯絡）、10 種風格、網頁版 AI 寫內容＋一行匯入、GitHub Pages 自動部署、聯絡表單接 Cloudflare Worker＋D1 |
+| [`personal/`](personal/README.md) | 一頁式個人網站（舊版，Eric 的資料當範例） |
 | [`shop/`](shop/README.md) | 店家形象官網範本（品牌行銷課，竹籬笆咖啡當範例） |
 | `examples/output/` | 用 `render.mjs` 做出來的範例成品（cute、terminal 兩種主題） |
 

@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { getProfile } from '../lib/site';
+const p = (await getProfile()).data;
+---
+<Base title="聯絡" description={`聯絡${p.name}`}>
+  <section class="page-head contact-head">
+    <div data-reveal>
+      <p class="kicker">Contact</p>
+      <h1 class="page-title">一起聊聊</h1>
+      <p class="page-lead">{p.status ? `${p.status}。` : ''}實習、專案合作或只是想交流，都歡迎留言，我會盡快回覆。</p>
+    </div>
+  </section>
+  <section class="sec contact-grid">
+    <ContactForm email={p.email} />
+    <aside class="contact-side" data-reveal>
+      {p.email && <div><p class="kicker">Email</p><a class="contact-email" href={`mailto:${p.email}`}>{p.email}</a></div>}
+      {p.links.length > 0 && (
+        <div>
+          <p class="kicker">Elsewhere</p>
+          <ul class="contact-links">{p.links.map((l) => <li><a href={l.url} target="_blank" rel="noopener">{l.label}<span aria-hidden="true">↗</span></a></li>)}</ul>
+        </div>
+      )}
+      {p.location && <div><p class="kicker">Based in</p><p>{p.location}</p></div>}
+    </aside>
+  </section>
+</Base>
