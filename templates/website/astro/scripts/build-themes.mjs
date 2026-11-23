@@ -3,6 +3,7 @@
 //   npm run themes            全部風格：建置＋截圖，最後開一個本機網址可以點進去看
 //   npm run themes -- 03 07   只做 03、07
 //   npm run themes -- --no-shots   不截圖（電腦沒有 Chrome／Edge 時）
+//   AI（OpenCode）跑的時候預覽會丟到背景，指令不會卡住
 // 截圖存在 theme-previews/<風格>.png（桌機）和 <風格>-mobile.png（手機）
 import { spawnSync, spawn } from 'node:child_process';
 import fs from 'node:fs';
@@ -56,7 +57,8 @@ const server = http.createServer((req, res) => {
   res.writeHead(200, { 'content-type': types[path.extname(f)] || 'application/octet-stream' });
   fs.createReadStream(f).pipe(res);
 });
-await new Promise((ok) => server.listen(4400, ok));
+// 4400 已經被上一次的預覽佔用就沿用它（讀的是同一個資料夾）
+const listening = await new Promise((ok) => { server.once('error', () => ok(false)); server.listen(4400, () => ok(true)); });
 const origin = 'http://localhost:4400';
 
 // 找 Chrome／Edge
@@ -105,5 +107,13 @@ main{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:
 .img{aspect-ratio:4/3;overflow:hidden;background:#e4e4e7}.img img{width:100%;display:block}.c p{margin:12px 16px 0}.c small{display:block;color:#666;margin:0 16px 16px}code{background:#e4e4e7;padding:2px 6px;border-radius:5px}</style>
 <header><h1>同一份內容，10 種風格</h1><p>點進去看完整網站。選好後，把 <code>site.config.mjs</code> 的 <code>theme</code> 改成那個編號。</p></header><main>${cards}</main>`);
 
+if (args.includes('--exit')) { console.log(`\n建好了：dist-themes/、theme-previews/`); if (listening) server.close(); process.exit(0); }
+if (!listening) { console.log(`\n打開 ${origin} 比較 10 種風格（預覽已經在跑）`); process.exit(0); }
+// 給 AI 跑的時候（不是終端機）：預覽丟到背景，指令馬上結束，不會卡住
+if (!process.stdout.isTTY && !serveOnly) {
+  server.close();
+  spawn(process.execPath, [fileURLToPath(import.meta.url), '--serve'], { cwd: root, detached: true, stdio: 'ignore', windowsHide: true }).unref();
+  console.log(`\n打開 ${origin} 比較 10 種風格（預覽在背景執行）`);
+  process.exit(0);
+}
 console.log(`\n打開 ${origin} 比較 10 種風格（按 Ctrl+C 結束）`);
-if (args.includes('--exit')) { server.close(); process.exit(0); }

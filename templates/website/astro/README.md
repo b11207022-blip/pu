@@ -47,7 +47,7 @@ run: npm run import          # 會自己到「下載」資料夾找 網站內容
 # 3. 只回報上面指令的結果，不要改其他檔案
 ```
 
-成功後跑 `npm run dev`，打開 http://localhost:4321 看網站。
+成功後跑 `npm run dev`，打開它給的網址（通常是 http://localhost:4321）看網站。之後改了 `site.config.mjs`（換風格、主色），再跑一次 `npm run dev` 就會套用。
 
 ### 3. 選風格、上線
 

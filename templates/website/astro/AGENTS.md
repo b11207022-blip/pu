@@ -22,8 +22,8 @@
 |---|---|
 | 第一次：安裝 | `npm install` |
 | 匯入網頁版 AI 寫的內容 | `npm run import`（自己到「下載」找 `網站內容.md`；別的位置就 `npm run import -- 路徑`） |
-| 本機預覽 | `npm run dev`，打開 http://localhost:4321 |
-| 比較 10 種風格 | `npm run themes`，打開 http://localhost:4400（圖在 `theme-previews/`） |
+| 本機預覽 | `npm run dev`，回報它給的網址（通常是 http://localhost:4321）；改了 `site.config.mjs` 就再跑一次 |
+| 比較 10 種風格 | `npm run themes`（約 30 秒，跑完會自己結束），打開 http://localhost:4400（圖在 `theme-previews/`） |
 | 檢查能不能上線 | `npm run build` |
 
 ## 欄位規則（改內容時照做）
