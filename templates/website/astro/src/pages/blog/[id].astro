@@ -1,24 +1,9 @@
 ---
-import Base from '../../layouts/Base.astro';
-import Tags from '../../components/Tags.astro';
-import { getPosts, u, fmtDate } from '../../lib/site';
-import { render } from 'astro:content';
+import Page from '@theme/pages/Post.astro';
+import { getPosts } from '../../lib/site';
 export async function getStaticPaths() {
-  return (await getPosts()).map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+  const all = await getPosts();
+  return all.map((entry, i) => ({ params: { id: entry.id }, props: { entry, prev: all[i - 1], next: all[i + 1] } }));
 }
-const { entry } = Astro.props;
-const { Content } = await render(entry);
 ---
-<Base title={entry.data.title} description={entry.data.summary}>
-  <article class="post">
-    <header class="page-head post-head">
-      <div data-reveal>
-        <a class="back" href={u('/blog/')}>← 所有文章</a>
-        <h1 class="page-title">{entry.data.title}</h1>
-        <p class="page-lead"><time datetime={entry.data.date.toISOString()}>{fmtDate(entry.data.date)}</time></p>
-        <Tags items={entry.data.tags} />
-      </div>
-    </header>
-    <div class="prose narrow" data-reveal><Content /></div>
-  </article>
-</Base>
+<Page {...Astro.props} />

@@ -1,16 +1,4 @@
 ---
-import Base from '../../layouts/Base.astro';
-import ProjectList from '../../components/ProjectList.astro';
-import { getProjects } from '../../lib/site';
-const items = await getProjects();
+import Page from '@theme/pages/Projects.astro';
 ---
-<Base title="作品" description="做過的專案、作品與成果。">
-  <section class="page-head">
-    <div data-reveal>
-      <p class="kicker">Work</p>
-      <h1 class="page-title">作品</h1>
-      <p class="page-lead">每一個作品都寫了背景、我負責的部分和成果。點進去看細節。</p>
-    </div>
-  </section>
-  <section class="sec"><ProjectList items={items} /></section>
-</Base>
+<Page />

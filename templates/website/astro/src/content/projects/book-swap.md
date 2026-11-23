@@ -13,6 +13,10 @@ links:
     url: https://example.com
   - label: GitHub
     url: https://github.com/
+cover: /images/projects/book-swap.webp
+gallery:
+  - src: /images/projects/book-swap-mobile.webp
+    caption: 手機版：找書、篩選系所
 featured: true
 order: 1
 ---

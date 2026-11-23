@@ -1,0 +1,8 @@
+---
+import { u, initials } from '../../lib/site';
+interface Props { src?: string; name: string; nameEn?: string; size?: string }
+const { src, name, nameEn, size } = Astro.props;
+---
+<div class="avatar" style={size ? `--size:${size}` : undefined}>
+  {src ? <img src={u(src)} alt={name} loading="eager" /> : <span aria-hidden="true">{initials(name, nameEn)}</span>}
+</div>

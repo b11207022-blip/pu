@@ -6,7 +6,10 @@ tagline: 把複雜的流程，做成每個人都用得順手的介面。
 intro: 我是資管系三年級的林小安，喜歡從使用者卡住的地方找題目。做過校園二手書平台、系學會報名系統，正在找 2027 暑期前端實習。
 status: 正在找 2027 暑期前端實習
 location: 桃園，台灣
-avatar: ""
+avatar: /images/portrait.jpg
+photos:
+  - /images/portrait-2.jpg
+  - /images/desk.jpg
 email: anna.lin.demo@example.com
 resume: ""
 links:

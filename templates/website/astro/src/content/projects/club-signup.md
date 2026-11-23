@@ -11,6 +11,7 @@ results:
 links:
   - label: 系統介紹
     url: https://example.com
+cover: /images/projects/club-signup.webp
 featured: true
 order: 2
 ---

@@ -18,6 +18,7 @@ const profile = defineCollection({
     status: z.string().optional(),          // 現在在找什麼：正在找 2027 暑期前端實習
     location: z.string().optional(),
     avatar: z.string().optional(),          // 大頭照：/images/me.jpg（放在 public/images/）
+    photos: z.array(z.string()).default([]), // 其他照片（關於頁用）：生活照、工作照
     email: z.string().optional(),
     resume: z.string().optional(),          // 履歷 PDF 網址或 /files/resume.pdf
     links: z.array(link).default([]),
@@ -39,7 +40,8 @@ const projects = defineCollection({
     period: text.optional(),          // 2025.09 – 2026.01
     tags: z.array(z.string()).default([]),
     results: z.array(z.string()).default([]), // 成果，最好有數字
-    cover: z.string().optional(),           // /images/xxx.jpg；沒有就留空，會自動產生色塊封面
+    cover: z.string().optional(),           // 封面：作品截圖 /images/xxx.jpg；沒有就留空，版面會自己處理
+    gallery: z.array(z.object({ src: z.string(), caption: z.string().optional() })).default([]), // 作品頁的更多截圖
     links: z.array(link).default([]),
     featured: z.boolean().default(false),   // 要不要放首頁
     order: z.number().default(99),          // 排序，小的在前
@@ -68,6 +70,7 @@ const posts = defineCollection({
     date: z.coerce.date(),
     summary: z.string(),
     tags: z.array(z.string()).default([]),
+    cover: z.string().optional(),
   }),
 });
 

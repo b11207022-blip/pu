@@ -1,0 +1,23 @@
+---
+// 經歷：line | table | cards
+import type { CollectionEntry } from 'astro:content';
+import { theme } from '../../lib/site';
+interface Props { items: CollectionEntry<'experience'>[]; full?: boolean }
+const { items, full = false } = Astro.props;
+const v = theme.timeline;
+---
+<ol class={`tl tl-${v}`}>
+  {items.map((e, i) => (
+    <li data-reveal style={`--d:${i}`}>
+      <div class="tl-when">
+        <span class="tl-period">{e.data.period}</span>
+        {e.data.type && <span class="tl-type">{e.data.type}</span>}
+      </div>
+      <div class="tl-what">
+        <h3>{e.data.title}<span class="tl-org">{e.data.org}</span></h3>
+        <p>{e.data.summary}</p>
+        {full && e.data.points.length > 0 && <ul class="tl-points">{e.data.points.map((pt) => <li>{pt}</li>)}</ul>}
+      </div>
+    </li>
+  ))}
+</ol>

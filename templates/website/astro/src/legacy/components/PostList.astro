@@ -1,0 +1,17 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { u, fmtDate } from '../../lib/site';
+interface Props { items: CollectionEntry<'posts'>[] }
+const { items } = Astro.props;
+---
+<ul class="posts">
+  {items.map((p, i) => (
+    <li data-reveal style={`--d:${i}`}>
+      <a href={u(`/blog/${p.id}/`)}>
+        <time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date)}</time>
+        <strong>{p.data.title}</strong>
+        <span>{p.data.summary}</span>
+      </a>
+    </li>
+  ))}
+</ul>

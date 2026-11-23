@@ -1,0 +1,64 @@
+---
+import '../styles/base.css';
+import '@theme/theme.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { config, theme, themeId, getProfile, u } from '../../lib/site';
+
+interface Props { title?: string; description?: string; wide?: boolean }
+const { title, description, wide = false } = Astro.props;
+const p = (await getProfile()).data;
+const pageTitle = title ? `${title}｜${p.name}` : `${p.name}｜${p.role}`;
+const desc = description || p.intro;
+const accent = config.accent ? `:root{--accent:${config.accent}}` : '';
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+---
+<!doctype html>
+<html lang={config.lang} data-theme={themeId} data-header={theme.header}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{pageTitle}</title>
+  <meta name="description" content={desc} />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={desc} />
+  <meta property="og:type" content="website" />
+  {canonical && <link rel="canonical" href={canonical} />}
+  {p.avatar && <meta property="og:image" content={u(p.avatar)} />}
+  <meta name="theme-color" content={theme.themeColor} />
+  <link rel="icon" href={u('/favicon.svg')} type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href={theme.fonts} />
+  {accent && <style set:html={accent} />}
+  <script is:inline>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+  <a class="skip" href="#main">跳到內容</a>
+  <div class="shell">
+    <Header />
+    <main id="main" class:list={['main', { wide }]}>
+      <slot />
+    </main>
+    <Footer />
+  </div>
+  <script>
+    // 捲到才浮現；系統設定「減少動態」就直接顯示
+    const els = document.querySelectorAll('[data-reveal]');
+    if (location.search.includes('shot') || matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+      els.forEach((el) => el.classList.add('in'));
+    } else {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -8% 0px' });
+      els.forEach((el) => io.observe(el));
+    }
+    // 手機選單
+    const btn = document.querySelector('[data-menu]');
+    btn?.addEventListener('click', () => {
+      const open = document.documentElement.classList.toggle('menu-open');
+      btn.setAttribute('aria-expanded', String(open));
+    });
+  </script>
+</body>
+</html>

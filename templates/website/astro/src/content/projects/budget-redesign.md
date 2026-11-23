@@ -10,6 +10,14 @@ results:
 links:
   - label: Figma 原型
     url: https://www.figma.com/
+cover: /images/projects/budget-redesign.webp
+gallery:
+  - src: /images/projects/budget-redesign-old.webp
+    caption: 改版前：記一筆要 6 步
+  - src: /images/projects/budget-redesign-add.webp
+    caption: 改版後：先輸入金額，分類一層選完
+  - src: /images/projects/budget-redesign-home.webp
+    caption: 首頁：這個月還可以花多少
 featured: true
 order: 3
 ---

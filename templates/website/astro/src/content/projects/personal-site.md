@@ -10,6 +10,7 @@ results:
 links:
   - label: GitHub
     url: https://github.com/
+cover: /images/notebook.jpg
 featured: false
 order: 4
 ---
