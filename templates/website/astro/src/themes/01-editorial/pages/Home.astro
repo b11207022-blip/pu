@@ -45,21 +45,20 @@ const secContact = next();
         <h1 class="hero-name" style={`--len:${nameLen}`} data-hero-chars>{p.name}</h1>
       </div>
       {p.avatar ? (
-        <Media class="hero-photo" src={p.avatar} alt={p.name} ratio="4 / 5" hero gray caption={`${p.name}${p.location ? '，' + p.location : ''}`}><span slot="cap" class="fig">Fig. 01</span></Media>
+        <Media class="hero-photo" src={p.avatar} alt={p.name} ratio="1 / 1" hero gray />
       ) : (
-        <dl class="hero-sheet" data-hero-fade>
-          <div class="hs-head mono"><span class="sq"></span><span>Profile sheet</span><span>No.01</span></div>
-          <div><dt>Name</dt><dd>{p.name}{p.nameEn && <small>{p.nameEn}</small>}</dd></div>
-          <div><dt>Role</dt><dd>{p.role}</dd></div>
-          {p.location && <div><dt>Based</dt><dd>{p.location}</dd></div>}
-          {p.status && <div><dt>Status</dt><dd class="red">{p.status}</dd></div>}
-          <div><dt>Works</dt><dd>{n2(projects.length)}</dd></div>
-        </dl>
+        <div class="hero-disc" data-hero-fade aria-hidden="true">
+          <span class="disc-k mono">Index</span>
+          <span class="disc-n">{n2(projects.length)}</span>
+          <span class="disc-l mono">Works {year}</span>
+        </div>
       )}
+      <p class="hero-v mono" aria-hidden="true">{p.role}<span>■</span>{year}</p>
     </div>
     <div class="hero-foot">
       <p class:list={['hero-tag', kp(p.tagline)]} data-hero-lines>{p.tagline}</p>
       <div class="hero-side">
+        {p.status && <p class="hero-status" data-hero-fade><span class="sq" aria-hidden="true"></span>{p.status}</p>}
         <p class="hero-intro" data-hero-lines>{p.intro}</p>
         <div class="hero-cta" data-hero-fade>
           <a class="btn" href={u('/projects/')}><span>看作品</span><span aria-hidden="true">→</span></a>
@@ -140,7 +139,7 @@ const secContact = next();
   )}
 
   {exp.length > 0 && (
-    <section class="sec">
+    <section class="sec sec-exp">
       <SecHead num={secExp} en="Experience" zh="經歷" href="/experience/" link="全部經歷" />
       <ol class="xrows">
         {exp.map((e, i) => (
@@ -157,7 +156,7 @@ const secContact = next();
   )}
 
   {posts.length > 0 && (
-    <section class="sec">
+    <section class="sec sec-posts">
       <SecHead num={secPosts} en="Writing" zh="文章" href="/blog/" link="全部文章" />
       <ol class="prow-list">
         {posts.map((x) => (

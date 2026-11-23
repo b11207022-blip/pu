@@ -1,32 +1,46 @@
 ---
 import Layout from '../Layout.astro';
-import { img, u, fmtDate, readMinutes } from '../../../lib/site';
+import Win from '../components/Win.astro';
+import { u, img, fmtDate, readMinutes, getProfile } from '../../../lib/site';
 import { render } from 'astro:content';
+import { fileName } from '../lib';
 const { entry, prev, next } = Astro.props;
 const d = entry.data;
 const { Content } = await render(entry);
+const p = (await getProfile()).data;
 const cover = img(d.cover);
 ---
-<Layout title={d.title} description={d.summary} image={d.cover || undefined} path={`writing/${entry.id}`}>
-  <article class="wrap post">
-    <header class="post-head">
-      <p class="crumb" data-intro><a href={u('/blog/')}>writing</a> <span class="tok-dim">/</span> {entry.id}.md</p>
-      <h1 class="post-title" data-intro>{d.title}</h1>
-      <p class="page-lead" data-intro>{d.summary}</p>
-      <div class="fm" data-intro>
-        <span><span class="tok-key">date</span><span class="tok-op">:</span> <span class="tok-num">{fmtDate(d.date)}</span></span>
-        <span><span class="tok-key">read</span><span class="tok-op">:</span> <span class="tok-num">{readMinutes(entry.body)} min</span></span>
-        {d.tags.length > 0 && <span><span class="tok-key">tags</span><span class="tok-op">:</span> [{d.tags.map((t: string, i: number) => <><span class="tok-str">{t}</span>{i < d.tags.length - 1 && ', '}</>)}]</span>}
-      </div>
-    </header>
-    {cover && <figure class="post-cover" data-reveal><img src={cover} alt="" decoding="async" /></figure>}
-    <div class="prose post-body" data-reveal><Content /></div>
-    <p class="eof" aria-hidden="true">EOF</p>
+<Layout title={d.title} description={d.summary} image={d.cover} stage="page post">
+  <Win id="w-main" title={d.title} icon="text" class="w-main" main label="文章" info={fmtDate(d.date)} infoR={`${readMinutes(entry.body)} 分鐘`}>
+    <article>
+      <header class="doc-head">
+        <p class="kicker"><a href={u('/blog/')}>Writing</a> / <time datetime={d.date.toISOString()}>{fmtDate(d.date)}</time></p>
+        <h1 class="doc-title doc-title-post">{d.title}</h1>
+        <p class="doc-lead">{d.summary}</p>
+      </header>
+      <div class="prose prose-post"><Content /></div>
+    </article>
     {(prev || next) && (
-      <nav class="pager" aria-label="其他文章">
-        {prev ? <a href={u(`/blog/${prev.id}/`)} class="pg"><span class="pg-k">← newer</span><span class="pg-t">{prev.data.title}</span></a> : <span></span>}
-        {next ? <a href={u(`/blog/${next.id}/`)} class="pg pg-next"><span class="pg-k">older →</span><span class="pg-t">{next.data.title}</span></a> : <span></span>}
+      <nav slot="foot" class="pager" aria-label="其他文章">
+        {prev ? <a class="btn btn-sm" href={u(`/blog/${prev.id}/`)}><span aria-hidden="true">◀ </span>較新：{prev.data.title}</a> : <span></span>}
+        {next && <a class="btn btn-sm" href={u(`/blog/${next.id}/`)}>較舊：{next.data.title}<span aria-hidden="true"> ▶</span></a>}
       </nav>
     )}
-  </article>
+  </Win>
+  <div class="side">
+    <Win id="w-info" title="簡介" icon="doc" class="w-info" plain label="文章資訊">
+      <dl class="getinfo">
+        <div><dt>作者：</dt><dd>{p.name}</dd></div>
+        <div><dt>日期：</dt><dd>{fmtDate(d.date)}</dd></div>
+        <div><dt>長度：</dt><dd>約 {readMinutes(entry.body)} 分鐘</dd></div>
+        {d.tags.length > 0 && <div><dt>標籤：</dt><dd class="tags">{d.tags.map((t) => <span class="tag">{t}</span>)}</dd></div>}
+      </dl>
+      <a class="btn btn-sm" href={u('/blog/')}>所有文章</a>
+    </Win>
+    {cover && (
+      <Win id="w-cover" title={fileName(d.cover)} icon="image" class="w-viewer" plain label="封面" info="預覽">
+        <div class="viewer"><div class="viewer-stage"><img src={cover} alt="" decoding="async" /></div></div>
+      </Win>
+    )}
+  </div>
 </Layout>
