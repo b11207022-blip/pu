@@ -4,9 +4,9 @@ import { getPosts, img, u, fmtDate, readMinutes } from '../../../lib/site';
 const posts = await getPosts();
 ---
 <Layout title="文章" page="blog">
-  <section class="page-hero wrap">
+  <section class="page-hero wrap glass glass-xl" data-pane>
     <p class="eyebrow" data-intro>Writing · {String(posts.length).padStart(2, '0')}</p>
-    <h1 class="page-title"><span class="gt" data-split>文章</span></h1>
+    <h1 class="page-title"><span data-split>文章</span></h1>
     <p class="page-lead" data-intro>做作品時的心得和學習筆記。</p>
   </section>
   {posts.length > 0 ? (
@@ -14,7 +14,7 @@ const posts = await getPosts();
       {posts.map((x, i) => {
         const cover = img(x.data.cover);
         return (
-          <a class:list={['post-row glass spot', cover && 'has-cover']} href={u(`/blog/${x.id}/`)} data-reveal>
+          <a class:list={['post-row glass', cover && 'has-cover']} href={u(`/blog/${x.id}/`)} data-reveal>
             <span class="post-no">{String(posts.length - i).padStart(2, '0')}</span>
             <span class="post-main">
               <span class="post-meta"><time datetime={x.data.date.toISOString()}>{fmtDate(x.data.date)}</time><span>{readMinutes(x.body)} 分鐘</span>{x.data.tags.slice(0, 2).map((t) => <span>{t}</span>)}</span>

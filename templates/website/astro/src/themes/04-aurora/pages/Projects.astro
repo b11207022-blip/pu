@@ -6,16 +6,16 @@ const projects = await getProjects();
 const tags = [...new Set(projects.flatMap((x) => x.data.tags))].slice(0, 10);
 ---
 <Layout title="作品" page="projects">
-  <section class="page-hero wrap">
+  <section class="page-hero wrap glass glass-xl" data-pane>
     <p class="eyebrow" data-intro>Work · {String(projects.length).padStart(2, '0')}</p>
-    <h1 class="page-title"><span class="gt" data-split>作品</span></h1>
+    <h1 class="page-title"><span data-split>作品</span></h1>
     <p class="page-lead" data-intro>每個作品都寫了背景、我負責的部分，和最後留下來的數字。</p>
   </section>
 
   {projects.length > 0 ? (
     <section class="wrap">
       {tags.length > 1 && projects.length > 2 && (
-        <div class="filters" role="toolbar" aria-label="依技術篩選" data-intro>
+        <div class="filters glass" role="toolbar" aria-label="依技術篩選" data-reveal>
           <button type="button" class="filter is-on" data-filter="" aria-pressed="true">全部</button>
           {tags.map((t) => <button type="button" class="filter" data-filter={t} aria-pressed="false">{t}</button>)}
         </div>
