@@ -6,7 +6,7 @@
 
 ```
 src/themes/05-brutal/
-  theme.mjs          名稱、說明、字型網址、themeColor（必填）
+  theme.mjs          名稱、說明、字型網址、themeColor（必填）、favicon（分頁小圖示的顏色：{ bg, fg, radius }，字是名字第一個字）
   Layout.astro       整個網站的外框：<html>、<head><Seo/></head>、頁首、頁尾、全站動畫
   pages/
     Home.astro       首頁                      /

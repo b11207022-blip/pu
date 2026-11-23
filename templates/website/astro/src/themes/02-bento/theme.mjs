@@ -4,5 +4,6 @@ export default {
   label: 'Bento 產品頁',
   description: '像 Apple 產品頁：超大標題、圓角方塊拼貼、筆電外框展示作品、捲動放大與數字跳動',
   themeColor: '#F5F5F7',
+  favicon: { bg: '#1d1d1f', fg: '#ffffff', radius: 14 },
   fonts: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap',
 };
