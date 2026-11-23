@@ -56,6 +56,11 @@ const year = new Date().getFullYear();
         </aside>
       )}
     </div>
+    <div class="hero-foot mono" data-up>
+      <a class="hero-scroll" href="#work"><span class="hero-scroll-line" aria-hidden="true"></span>Scroll</a>
+      <span class="hero-foot-c">{p.status ? <><span class="pulse"></span> {p.status}</> : p.role}</span>
+      <span>{work.length > 0 ? `Selected work — ${String(work.length).padStart(2, '0')}` : `©${year}`}</span>
+    </div>
   </section>
 
   <Marquee items={tags} />
