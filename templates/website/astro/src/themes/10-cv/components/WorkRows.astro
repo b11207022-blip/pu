@@ -11,7 +11,7 @@ const yr = (s?: string) => (s?.match(/\d{4}/)?.[0] ?? '');
     return (
       <li data-in>
         <a class:list={['wrow', { open: detail && i === 0, 'has-img': cover }]} href={u(`/projects/${x.id}/`)} data-peek={detail ? undefined : cover}>
-          <span class="d mono">{yr(x.data.period) || String(i + 1).padStart(2, '0')}</span>
+          <span class="d mono">{yr(x.data.period) || x.data.period || String(i + 1).padStart(2, '0')}</span>
           <span class="wt">
             <b>{x.data.title}</b>
             <span class="ws">{x.data.summary}</span>
