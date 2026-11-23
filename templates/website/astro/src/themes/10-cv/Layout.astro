@@ -16,7 +16,7 @@ const updated = fmtDate(new Date());
 <html lang={config.lang}>
 <head>
   <Seo title={title} description={description} image={image} />
-  <meta name="color-scheme" content="light dark" />
+  <meta name="color-scheme" content="light" />
 </head>
 <body data-page={page}>
   <a class="skip" href="#main">跳到內容</a>
@@ -54,9 +54,11 @@ const updated = fmtDate(new Date());
     </header>
 
     <main id="main" class="col">
+      <p class="doc-head mono" aria-hidden="true"><span><b>CV</b>&ensp;{p.nameEn || p.name}</span><span>{nav.find((n) => on(n.href))?.en || 'Page'}&ensp;·&ensp;{updated}</span></p>
       <slot />
       <footer class="foot">
         <span>© {new Date().getFullYear()} {p.nameEn || p.name}</span>
+        <span class="foot-end" aria-hidden="true">— 完 —</span>
         <span class="foot-up">更新於 {updated}</span>
         <button type="button" class="foot-k" data-cmdk-open>按 <kbd class="kbd">⌘</kbd><kbd class="kbd">K</kbd> 快速跳頁</button>
       </footer>

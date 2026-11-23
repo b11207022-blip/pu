@@ -1,8 +1,10 @@
-// 03 極簡：安靜的奢華感。米白與石墨、一套字體、細線、大量留白；作品是一份大字索引，滑過會浮出截圖。
-// 適合：想要沉穩、有質感、讓作品自己說話的人（工程、設計、研究都適合）
+// 像素冒險：像 Celeste、Stardew Valley 的選單。深靛夜空＋像素星星、點陣字、4px 缺角外框和階梯陰影。
+// 個人資料是角色卡、亮點是能力值量表、技能是背包、作品是任務卡、經歷是冒險紀錄、聯絡是對話框。
+// 適合：遊戲、資工、喜歡有梗又想讓人記住的人
 export default {
-  label: '極簡索引',
-  description: '米白與石墨、細線與留白；作品是大字索引，滑過浮出截圖',
-  themeColor: '#F4F2EE',
-  fonts: 'https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap',
+  label: '像素冒險',
+  description: '深靛夜空與點陣字的遊戲選單：角色卡、能力值量表、技能背包、任務卡作品、打字機對話框',
+  themeColor: '#14152B',
+  favicon: { bg: '#14152b', fg: '#ffd166', radius: 4, font: "'DotGothic16','Noto Sans TC',monospace" },
+  fonts: 'https://fonts.googleapis.com/css2?family=DotGothic16&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap',
 };

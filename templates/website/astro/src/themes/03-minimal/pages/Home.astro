@@ -1,121 +1,103 @@
 ---
 import Layout from '../Layout.astro';
-import WorkIndex from '../components/WorkIndex.astro';
-import Arrow from '../components/Arrow.astro';
-import Phrase from '../components/Phrase.astro';
-import { getProfile, getProjects, getExperience, getPosts, u, img, fmtDate } from '../../../lib/site';
+import CharCard from '../components/CharCard.astro';
+import Meters from '../components/Meters.astro';
+import Inventory from '../components/Inventory.astro';
+import QuestCard from '../components/QuestCard.astro';
+import Ground from '../components/Ground.astro';
+import Px from '../components/Px.astro';
+import { getProfile, getProjects, getExperience, getPosts, u, fmtDate, readMinutes } from '../../../lib/site';
+import { pad } from '../components/game';
+
 const p = (await getProfile()).data;
 const projects = await getProjects();
-const featured = projects.filter((x) => x.data.featured);
-const work = (featured.length ? featured : projects).slice(0, 6);
-const exp = (await getExperience()).slice(0, 4);
+const featured = (projects.filter((x) => x.data.featured).length ? projects.filter((x) => x.data.featured) : projects).slice(0, 4);
+const exp = (await getExperience()).slice(0, 3);
 const posts = (await getPosts()).slice(0, 3);
-const wide = p.photos.length ? p.photos[p.photos.length - 1] : undefined;
-const year = new Date().getFullYear();
 ---
 <Layout page="home">
-  <section class="hero wrap">
-    <div class="hero-top" data-fade>
-      <span class="label">Portfolio — {year}</span>
-      <span class="label muted hero-role">{p.role}</span>
-    </div>
-    <h1 class="hero-title" data-lines><Phrase text={p.tagline} /></h1>
-    <div class:list={['hero-foot', { 'no-photo': !p.avatar }]}>
-      <dl class="facts" data-fade>
-        {p.status && <div><dt>Now</dt><dd>{p.status}</dd></div>}
-        {p.location && <div><dt>Based in</dt><dd>{p.location}</dd></div>}
-        {p.email && <div><dt>Contact</dt><dd><a class="lnk" href={`mailto:${p.email}`}>{p.email}</a></dd></div>}
-      </dl>
-      <div class="hero-intro" data-fade>
-        <p>{p.intro}</p>
-        <div class="hero-links">
-          <a class="btn" href={u('/projects/')}><span>看作品</span><Arrow /></a>
-          <a class="lnk" href={u('/about/')}>關於我</a>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="hero-k" data-in><span class="ph-chip">NEW GAME</span><span>{p.nameEn ? `${p.nameEn.toUpperCase()}'S PORTFOLIO` : 'PORTFOLIO'}</span></p>
+        <h1 class="hero-t" data-in><span class="sr">{p.name}：</span>{p.tagline}</h1>
+        <p class="hero-intro" data-in>{p.intro}</p>
+        <div class="hero-ctas" data-in>
+          <a class="pbtn t-gold" href={u('/projects/')}><Px name="cursor" scale={2} />開始冒險：看作品</a>
+          <a class="pbtn t-line" href={u('/about/')}>查看角色</a>
         </div>
+        <p class="hero-hint" data-in aria-hidden="true"><span class="blink">PRESS START</span></p>
       </div>
-      {p.avatar && (
-        <figure class="hero-photo" data-img>
-          <img src={img(p.avatar)} alt={p.name} fetchpriority="high" />
-          <figcaption class="label muted">{p.nameEn || p.name}{p.location ? ` — ${p.location}` : ''}</figcaption>
-        </figure>
-      )}
+      <div class="hero-card" data-in>
+        <CharCard />
+      </div>
     </div>
+    <Ground class="hero-ground" />
   </section>
 
   {p.highlights.length > 0 && (
-    <section class="wrap stats-sec">
-      <ul class="stats" data-stagger>
-        {p.highlights.map((h) => <li><span class="stat-v" data-count>{h.value}</span><span class="stat-l">{h.label}</span></li>)}
-      </ul>
-    </section>
-  )}
-
-  {work.length > 0 && (
-    <section class="sec wrap" id="work">
-      <header class="sec-head">
-        <span class="label">Selected Work</span>
-        <span class="label muted">({String(work.length).padStart(2, '0')})</span>
-        <a class="label lnk sec-more" href={u('/projects/')}>全部作品 {projects.length}</a>
-      </header>
-      <WorkIndex items={work} />
-    </section>
-  )}
-
-  {wide && (
-    <section class="wide wrap">
-      <figure class="wide-fig" data-img><img src={img(wide)} alt="" loading="lazy" decoding="async" /></figure>
-    </section>
-  )}
-
-  {p.traits.length > 0 && (
     <section class="sec wrap">
-      <header class="sec-head"><span class="label">Approach</span><span class="label muted">做事的方式</span></header>
-      {p.quote && <p class="statement" data-lines><Phrase text={p.quote} /></p>}
-      <ol class="traits" data-stagger>
-        {p.traits.map((t, i) => (
-          <li><span class="label muted">{String(i + 1).padStart(2, '0')}</span><h3>{t.title}</h3><p>{t.text}</p></li>
-        ))}
-      </ol>
+      <div class="sec-h"><h2 class="sec-t"><span class="sec-k">STATS</span>能力值</h2></div>
+      <Meters items={p.highlights} />
+    </section>
+  )}
+
+  {featured.length > 0 && (
+    <section class="sec wrap">
+      <div class="sec-h">
+        <h2 class="sec-t"><span class="sec-k">QUEST BOARD</span>精選任務</h2>
+        <a class="sec-more" href={u('/projects/')}>全部 {projects.length} 個任務<Px name="cursor" scale={2} /></a>
+      </div>
+      <div class:list={['qgrid', `n${featured.length}`]}>
+        {featured.map((x) => <QuestCard entry={x} index={projects.indexOf(x)} />)}
+      </div>
+    </section>
+  )}
+
+  {p.skills.length > 0 && (
+    <section class="sec wrap">
+      <div class="sec-h"><h2 class="sec-t"><span class="sec-k">ITEMS</span>技能背包</h2></div>
+      <Inventory skills={p.skills} />
     </section>
   )}
 
   {exp.length > 0 && (
     <section class="sec wrap">
-      <header class="sec-head">
-        <span class="label">Experience</span><span class="label muted">經歷</span>
-        <a class="label lnk sec-more" href={u('/experience/')}>完整經歷</a>
-      </header>
-      <ul class="rows">
-        {exp.map((x) => (
-          <li class="row row-xp">
-            <span class="row-a muted">{x.data.period}</span>
-            <span class="row-b"><strong>{x.data.title}</strong><span class="muted">{x.data.org}</span></span>
-            <span class="row-c">{x.data.summary}</span>
-            <span class="row-d label muted">{x.data.type}</span>
+      <div class="sec-h">
+        <h2 class="sec-t"><span class="sec-k">SAVE FILES</span>冒險紀錄</h2>
+        <a class="sec-more" href={u('/experience/')}>完整紀錄<Px name="cursor" scale={2} /></a>
+      </div>
+      <ol class="saves">
+        {exp.map((e, i) => (
+          <li class:list={['save box', i === 0 ? 't-mint' : 't-line']} data-rise>
+            <span class="save-n">FILE {pad(i + 1)}</span>
+            <div class="save-main">
+              <h3>{e.data.title}</h3>
+              <p>{e.data.org}</p>
+            </div>
+            <span class="save-meta">{e.data.type && <span class="chip">{e.data.type}</span>}<span class="save-p">{e.data.period}</span></span>
           </li>
         ))}
-      </ul>
+      </ol>
     </section>
   )}
 
   {posts.length > 0 && (
     <section class="sec wrap">
-      <header class="sec-head">
-        <span class="label">Journal</span><span class="label muted">文章</span>
-        <a class="label lnk sec-more" href={u('/blog/')}>全部文章</a>
-      </header>
-      <ul class="rows">
-        {posts.map((x) => (
-          <li class="row row-link">
-            <a href={u(`/blog/${x.id}/`)}>
-              <span class="row-a muted">{fmtDate(x.data.date)}</span>
-              <span class="row-b row-title">{x.data.title}</span>
-              <span class="row-c muted">{x.data.summary}</span>
-              <Arrow class="row-arrow" />
-            </a>
-          </li>
+      <div class="sec-h">
+        <h2 class="sec-t"><span class="sec-k">JOURNAL</span>冒險日誌</h2>
+        <a class="sec-more" href={u('/blog/')}>所有日誌<Px name="cursor" scale={2} /></a>
+      </div>
+      <div class="jgrid">
+        {posts.map((x, i) => (
+          <a class="jn box t-line" href={u(`/blog/${x.id}/`)} data-rise>
+            <span class="jn-top"><Px name="book" scale={3} /><span class="jn-d">{fmtDate(x.data.date)}</span></span>
+            <h3>{x.data.title}</h3>
+            <p>{x.data.summary}</p>
+            <span class="jn-m">{readMinutes(x.body)} MIN READ</span>
+          </a>
         ))}
-      </ul>
+      </div>
     </section>
   )}
 </Layout>

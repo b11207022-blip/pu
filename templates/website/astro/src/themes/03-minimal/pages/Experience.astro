@@ -1,37 +1,49 @@
 ---
 import Layout from '../Layout.astro';
 import PageHead from '../components/PageHead.astro';
-import { getExperience } from '../../../lib/site';
+import Px from '../components/Px.astro';
+import { getExperience, u } from '../../../lib/site';
+import { pad, tones } from '../components/game';
+
 const exp = await getExperience();
-const groups: { year: string; items: typeof exp }[] = [];
-exp.forEach((x) => {
-  const y = (x.data.start.match(/\d{4}/) || ['—'])[0];
-  const g = groups.find((g) => g.year === y);
-  g ? g.items.push(x) : groups.push({ year: y, items: [x] });
-});
-const span = groups.length ? (groups.length > 1 ? `${groups[groups.length - 1].year} — ${groups[0].year}` : groups[0].year) : undefined;
+const types = [...new Set(exp.map((e) => e.data.type || '經歷'))];
+const toneOf = (t?: string) => tones[types.indexOf(t || '經歷') % tones.length];
+const counts = types.map((t) => ({ t, n: exp.filter((e) => (e.data.type || '經歷') === t).length }));
 ---
 <Layout title="經歷" page="experience">
-  <PageHead label="Experience — 經歷" meta={span} title="經歷" en="Experience" />
-  <section class="sec sec-tight wrap">
-    {groups.length === 0 && <p class="empty">經歷整理中。</p>}
-    {groups.map((g) => (
-      <div class="xp">
-        <div class="xp-y"><span>{g.year}</span></div>
-        <div class="xp-items">
-          {g.items.map((x) => (
-            <article class="xp-item" data-fade>
-              <div class="xp-head">
-                <h2>{x.data.title}</h2>
-                {x.data.type && <span class="label muted">{x.data.type}</span>}
+  <PageHead stage="STAGE 04" en="SAVE FILES" title="冒險紀錄" lead={exp.length ? `${exp.length} 個存檔，從最近的開始讀取。` : '冒險才剛開始，第一個存檔還沒寫入。'} icon="key">
+    {counts.length > 0 && (
+      <ul class="ph-legend" data-in>
+        {counts.map((c) => <li class={`chip t-${toneOf(c.t)}`}>{c.t}<b>x{c.n}</b></li>)}
+      </ul>
+    )}
+  </PageHead>
+
+  <section class="wrap sec-tight">
+    {exp.length > 0 ? (
+      <ol class="log">
+        {exp.map((e, i) => (
+          <li class="log-it" data-rise>
+            <span class={`log-node t-${toneOf(e.data.type)}`} aria-hidden="true"></span>
+            <article class={`log-card box t-${i === 0 ? 'mint' : 'line'}`}>
+              <div class="box-bar"><span class="box-t">FILE {pad(i + 1)}{i === 0 && <span class="np"> · NOW PLAYING</span>}</span><span class="box-m">{e.data.period}</span></div>
+              <div class="log-in">
+                <div class="log-head">
+                  <h2 class="log-t">{e.data.title}</h2>
+                  {e.data.type && <span class={`chip t-${toneOf(e.data.type)}`}>{e.data.type}</span>}
+                </div>
+                <p class="log-org">{e.data.org}</p>
+                <p class="log-sum">{e.data.summary}</p>
+                {e.data.points.length > 0 && (
+                  <ul class="log-pts">{e.data.points.map((pt) => <li><Px name="check" scale={2} />{pt}</li>)}</ul>
+                )}
               </div>
-              <p class="xp-org">{x.data.org}<span class="muted"> — {x.data.period}</span></p>
-              <p class="xp-sum">{x.data.summary}</p>
-              {x.data.points.length > 0 && <ul class="xp-pts">{x.data.points.map((pt) => <li>{pt}</li>)}</ul>}
             </article>
-          ))}
-        </div>
-      </div>
-    ))}
+          </li>
+        ))}
+      </ol>
+    ) : (
+      <div class="empty box t-line"><Px name="scroll" scale={6} class="bob" /><p>還沒有存檔。先去<a href={u('/projects/')}>任務看板</a>看看吧。</p></div>
+    )}
   </section>
 </Layout>

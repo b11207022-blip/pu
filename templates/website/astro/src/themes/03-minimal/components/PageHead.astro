@@ -1,14 +1,13 @@
 ---
-import Phrase from './Phrase.astro';
-interface Props { label: string; meta?: string; title: string; lead?: string; en?: string }
-const { label, meta, title, lead, en } = Astro.props;
+// 內頁標頭：關卡編號＋大字標題＋一句說明
+import Px from './Px.astro';
+interface Props { stage: string; en: string; title: string; lead?: string; icon?: string; count?: number; countLabel?: string }
+const { stage, en, title, lead, icon = 'star', count, countLabel } = Astro.props;
 ---
 <header class="ph wrap">
-  <div class="ph-top" data-fade>
-    <span class="label">{label}</span>
-    {meta && <span class="label muted">{meta}</span>}
-  </div>
-  <h1 class="ph-title" data-lines><Phrase text={title} />{en && <span class="ph-en">{en}</span>}</h1>
-  {lead && <p class="ph-lead" data-fade>{lead}</p>}
+  <p class="ph-stage" data-in><span class="ph-chip">{stage}</span><span class="ph-en">{en}</span></p>
+  <h1 class="ph-t" data-in><Px name={icon} scale={5} class="ph-ico bob" />{title}</h1>
+  {lead && <p class="ph-lead" data-in>{lead}</p>}
+  {count !== undefined && <p class="ph-count" data-in><b data-count>{count}</b>{countLabel}</p>}
   <slot />
 </header>
