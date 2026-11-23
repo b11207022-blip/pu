@@ -1,5 +1,17 @@
 # 更新紀錄
 
+## 2026-11-23　Astro 範本 10 種風格全部重做（作品集等級）
+
+舊版 10 種風格共用同一套骨架，只換顏色和小版型，質感不夠。這次每一種都重做成一整套網站。
+
+- 每個風格自己擁有版面：`src/themes/<編號>/` 有自己的 `Layout.astro`、9 個頁面、元件和 CSS；共用的只剩資料讀取、`<head>`、聯絡表單、動畫工具。規則見 `src/themes/README.md`。
+- 加入 GSAP（ScrollTrigger、SplitText）和 Lenis 平滑捲動；`?shot` 和「減少動態」時直接顯示最後狀態。
+- 範例有真的圖：Unsplash 人像與桌面照（`public/images/CREDITS.md`），作品截圖是用 HTML 畫出來的介面（書窩 BookNest、系學會報名後台、記帳 App）。
+- 內容欄位新增 `photos`（關於頁照片）、`gallery`（作品頁更多截圖）、文章 `cover`；網頁版 AI prompt 要求照片先留空。
+- 每種風格都設計了「沒有照片」的版面（`npm run shoot -- <編號> --no-images` 檢查）。
+- 新工具 `npm run shoot -- <編號>`：建置一個風格並把每一頁截圖（桌機＋手機）。
+- 移除舊的共用骨架 `src/legacy`。
+
 ## 2026-11-23　個人網站 Astro 版：10 種風格、多頁、聯絡表單
 
 舊版是一頁式 HTML，AI 要自己排版，免費模型做出來偏陽春。新版把版面全部寫成程式，AI 只負責內容。

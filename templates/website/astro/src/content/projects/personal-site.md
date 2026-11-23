@@ -10,7 +10,7 @@ results:
 links:
   - label: GitHub
     url: https://github.com/
-cover: /images/notebook.jpg
+cover: /images/projects/personal-site.webp
 featured: false
 order: 4
 ---

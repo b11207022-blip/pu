@@ -3,7 +3,8 @@
 版型、動畫、手機版、分頁都做好了。你只要準備**內容**，選一個**風格**，就有一個多頁的個人網站：
 
 - 首頁、關於、作品（列表＋每個作品一頁）、經歷、文章、聯絡，共 6 種頁面
-- 10 種風格，改一行設定就換，內容不用動
+- 10 種風格，每一種都是完整的一套網站（版型、動畫、手機版都不同），改一行設定就換，內容不用動
+- GSAP 捲動動畫、平滑捲動；沒有放照片也有設計過的版面
 - 推上 GitHub 自動部署到 GitHub Pages；也能放 Vercel、Cloudflare
 - 聯絡表單可以接 Cloudflare Worker：留言存進 D1 資料庫，有網域還能寄信通知你（見 [`contact-worker/`](contact-worker/README.md)）
 
@@ -13,10 +14,10 @@
 
 | | | |
 |---|---|---|
-| ![](previews/01-editorial.jpg)<br>**01-editorial** 瑞士編輯：大字、細線、編號 | ![](previews/02-bento.jpg)<br>**02-bento** Bento 格狀：方塊拼貼 | ![](previews/03-minimal.jpg)<br>**03-minimal** 極簡單欄：黑白、留白 |
-| ![](previews/04-aurora.jpg)<br>**04-aurora** 極光暗色：發光漸層 | ![](previews/05-brutal.jpg)<br>**05-brutal** 新粗獷：粗框、色塊 | ![](previews/06-terminal.jpg)<br>**06-terminal** 終端機：命令列 |
-| ![](previews/07-magazine.jpg)<br>**07-magazine** 文藝雜誌：米色、襯線 | ![](previews/08-studio.jpg)<br>**08-studio** 作品集：左側欄、大圖 | ![](previews/09-soft.jpg)<br>**09-soft** 柔和黏土：粉嫩圓潤 |
-| ![](previews/10-cv.jpg)<br>**10-cv** 履歷 CV：資訊卡、深藍 | | |
+| ![](previews/01-editorial.jpg)<br>**01-editorial** 瑞士編輯：超大字、網格、紅色編號 | ![](previews/02-bento.jpg)<br>**02-bento** Apple 產品頁：筆電外框、捲動放大 | ![](previews/03-minimal.jpg)<br>**03-minimal** 極簡索引：大字作品索引、滑過浮出截圖 |
+| ![](previews/04-aurora.jpg)<br>**04-aurora** 極光暗色：流動極光、毛玻璃 | ![](previews/05-brutal.jpg)<br>**05-brutal** 新粗獷：色塊、可拖的貼紙 | ![](previews/06-terminal.jpg)<br>**06-terminal** 開發者終端：⌘K 指令面板、打字開場 |
+| ![](previews/07-magazine.jpg)<br>**07-magazine** 文藝雜誌：直排標題、印章、圖說 | ![](previews/08-studio.jpg)<br>**08-studio** 作品集工作室：左側欄、大圖展開 | ![](previews/09-soft.jpg)<br>**09-soft** 柔和黏土：粉嫩、Q 彈互動 |
+| ![](previews/10-cv.jpg)<br>**10-cv** 履歷 CV：單欄精排、可列印 |  |  |
 
 自己的內容換好之後跑 `npm run themes`，會用**你的內容**做出 10 種版本給你比較。
 

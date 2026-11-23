@@ -15,7 +15,7 @@
   - 範例的 `portrait.jpg`、`desk.jpg`、`projects/` 是示範用，換成自己的之後可以刪
 
 ## 不要改的地方
-- `src/themes/`、`src/shared/`、`src/lib/`、`src/legacy/`、`src/pages/`、`scripts/`、`astro.config.mjs`
+- `src/themes/`、`src/shared/`、`src/lib/`、`src/pages/`、`scripts/`、`astro.config.mjs`
 - 不要裝新套件、不要改 `package.json`
 - 使用者想要的版面改不出來，就換一個風格（`npm run themes` 比較），不要自己寫 CSS
 
