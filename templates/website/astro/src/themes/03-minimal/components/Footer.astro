@@ -1,0 +1,46 @@
+---
+import { getProfile, navItems, u } from '../../../lib/site';
+import Arrow from './Arrow.astro';
+interface Props { cta?: boolean }
+const { cta = true } = Astro.props;
+const p = (await getProfile()).data;
+const items = await navItems();
+const year = new Date().getFullYear();
+---
+<footer class="ft">
+  {cta && (
+    <a class="ft-cta wrap" href={u('/contact/')}>
+      <span class="label">Contact — 聯絡</span>
+      <span class="ft-big"><span class="ft-big-t">一起聊聊</span><Arrow class="ft-arrow" /></span>
+      {p.status && <span class="ft-status">{p.status}</span>}
+    </a>
+  )}
+  <div class="ft-grid wrap">
+    <div class="ft-id">
+      <p class="ft-name">{p.name}{p.nameEn && <span class="muted"> {p.nameEn}</span>}</p>
+      <p class="muted">{p.role}</p>
+    </div>
+    <div class="ft-col">
+      <p class="label">Index</p>
+      <ul>{items.map((it) => <li><a class="lnk" href={u(it.href)}>{it.label}</a></li>)}</ul>
+    </div>
+    {p.links.length > 0 && (
+      <div class="ft-col">
+        <p class="label">Elsewhere</p>
+        <ul>{p.links.map((l) => <li><a class="lnk" href={u(l.url)} target="_blank" rel="noopener">{l.label}</a></li>)}</ul>
+      </div>
+    )}
+    <div class="ft-col">
+      <p class="label">Contact</p>
+      <ul>
+        {p.email && <li><a class="lnk" href={`mailto:${p.email}`}>{p.email}</a></li>}
+        {p.location && <li class="muted">{p.location}</li>}
+        {p.resume && <li><a class="lnk" href={u(p.resume)} target="_blank" rel="noopener">履歷 PDF</a></li>}
+      </ul>
+    </div>
+  </div>
+  <div class="ft-base wrap">
+    <span>© {year} {p.name}{p.nameEn ? ` · ${p.nameEn}` : ''}</span>
+    <a class="lnk" href="#main">回到頂端</a>
+  </div>
+</footer>

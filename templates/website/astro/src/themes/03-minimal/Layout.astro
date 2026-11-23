@@ -1,0 +1,27 @@
+---
+// 03 極簡：全站外框
+import './styles.css';
+import Seo from '../../shared/Seo.astro';
+import Header from './components/Header.astro';
+import Footer from './components/Footer.astro';
+import { config } from '../../lib/site';
+interface Props { title?: string; description?: string; image?: string; page?: string; cta?: boolean }
+const { title, description, image, page = '', cta = true } = Astro.props;
+---
+<!doctype html>
+<html lang={config.lang} data-page={page}>
+<head>
+  <Seo title={title} description={description} image={image} />
+</head>
+<body>
+  <a class="skip" href="#main">跳到內容</a>
+  <Header />
+  <main id="main"><slot /></main>
+  <Footer cta={cta} />
+  <div class="cur" aria-hidden="true"></div>
+  <script>
+    import { init } from './components/fx';
+    init();
+  </script>
+</body>
+</html>

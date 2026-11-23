@@ -1,0 +1,14 @@
+---
+import Phrase from './Phrase.astro';
+interface Props { label: string; meta?: string; title: string; lead?: string; en?: string }
+const { label, meta, title, lead, en } = Astro.props;
+---
+<header class="ph wrap">
+  <div class="ph-top" data-fade>
+    <span class="label">{label}</span>
+    {meta && <span class="label muted">{meta}</span>}
+  </div>
+  <h1 class="ph-title" data-lines><Phrase text={title} />{en && <span class="ph-en">{en}</span>}</h1>
+  {lead && <p class="ph-lead" data-fade>{lead}</p>}
+  <slot />
+</header>

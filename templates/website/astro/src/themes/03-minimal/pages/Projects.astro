@@ -1,5 +1,16 @@
 ---
-// 暫時沿用舊版；重做時整個檔案換掉
-import P from "../../../legacy/pages/projects-index.astro";
+import Layout from '../Layout.astro';
+import PageHead from '../components/PageHead.astro';
+import WorkIndex from '../components/WorkIndex.astro';
+import { getProjects } from '../../../lib/site';
+const projects = await getProjects();
+const tags = [...new Set(projects.flatMap((x) => x.data.tags))];
 ---
-<P {...Astro.props} />
+<Layout title="作品" page="projects">
+  <PageHead label="Index — 作品" meta={`(${String(projects.length).padStart(2, '0')})`} title="作品" en="Work" lead={tags.length ? tags.join(' · ') : undefined} />
+  <section class="sec sec-tight wrap">
+    {projects.length > 0
+      ? <WorkIndex items={projects} full />
+      : <p class="empty">作品整理中。</p>}
+  </section>
+</Layout>
