@@ -21,7 +21,9 @@
 | [![](previews/07-magazine.jpg)](http://localhost:4400/07-magazine/)<br>**[07-magazine](http://localhost:4400/07-magazine/)** 藍染雜誌：深靛藍、直排、印章 | [![](previews/08-studio.jpg)](http://localhost:4400/08-studio/)<br>**[08-studio](http://localhost:4400/08-studio/)** 作品集工作室：暖黑＋螢光、大圖展開 | [![](previews/09-soft.jpg)](http://localhost:4400/09-soft/)<br>**[09-soft](http://localhost:4400/09-soft/)** 柔和黏土：粉嫩、Q 彈互動 |
 | [![](previews/10-cv.jpg)](http://localhost:4400/10-cv/)<br>**[10-cv](http://localhost:4400/10-cv/)** 紙本履歷：永遠淺色、襯線、可列印 |  |  |
 
-自己的內容換好之後跑 `npm run themes`，會用**你的內容**做出 10 種版本給你比較。
+自己的內容換好之後跑 `npm run themes`，打開 http://localhost:4400/ 會看到 **11 個版本**：你第 1 堂用聊天 AI 做的一頁式（`code_artifact.html`）＋用**你的內容**做出的 10 種風格，每一個都能點進去操作。
+
+第 1 堂做的一頁式：把你自己的 `code_artifact.html` 放在資料夾最上層，蓋掉範例那份（範例是老師的）。
 
 ## 怎麼用（三步）
 
@@ -83,6 +85,7 @@ run: gh api -X POST "repos/{owner}/{repo}/pages" -f build_type=workflow
 
 ```
 site.config.mjs        ← 風格、主色、表單網址（你會改的設定都在這）
+code_artifact.html     ← 第 1 堂用聊天 AI 做的一頁式網站（換成你的；npm run themes 會一起比較）
 src/content/           ← 網站內容（你會改的內容都在這）
   profile.md             個人資料＋自傳
   projects/*.md          作品

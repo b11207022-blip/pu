@@ -1,5 +1,11 @@
 # 更新紀錄
 
+## 2026-11-24　第 1 堂的一頁式併進 astro，總覽變 11 個版本
+
+- `templates/website/astro/code_artifact.html`：第 1 堂用聊天 AI 做的一頁式網站（範例是老師的，學生換成自己的）。
+- `npm run themes` 會把它放到 `dist-themes/00-one-page/`，跟 10 種風格一起截圖、列在 http://localhost:4400/ 第一張，每一個都能點進去操作。資料夾上一層有 `code_artifact.html` 也會抓。
+- README、AGENTS.md 補上 `code_artifact.html` 的用法。
+
 ## 2026-11-24　README 的 10 張預覽圖可以點開
 
 之前 README 的 10 張預覽只是圖片，點了不會開。

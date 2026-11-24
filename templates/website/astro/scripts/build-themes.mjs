@@ -7,6 +7,7 @@
 //   DEMO_BASE=/repo/ npm run themes -- --no-shots --exit   放上 GitHub Pages 用（網址在子路徑）
 //   AI（OpenCode）跑的時候預覽會丟到背景，指令不會卡住
 // 截圖存在 theme-previews/<風格>.png（桌機）和 <風格>-mobile.png（手機）
+// 資料夾裡有 code_artifact.html（第 1 堂用聊天 AI 做的一頁式網站），也會放進總覽，當第 11 個版本一起比
 import { spawnSync, spawn } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -30,6 +31,16 @@ const shots = path.join(root, 'theme-previews');
 fs.mkdirSync(out, { recursive: true });
 fs.mkdirSync(shots, { recursive: true });
 const astroBin = path.join(root, 'node_modules', 'astro', 'bin', 'astro.mjs');
+
+// 第 1 堂的一頁式網站：放在 dist-themes/00-one-page/
+const ONE = '00-one-page';
+const onePage = ['code_artifact.html', '../code_artifact.html'].map((f) => path.join(root, f)).find((f) => fs.existsSync(f));
+if (!serveOnly && onePage) {
+  fs.rmSync(path.join(out, ONE), { recursive: true, force: true });
+  fs.mkdirSync(path.join(out, ONE), { recursive: true });
+  fs.copyFileSync(onePage, path.join(out, ONE, 'index.html'));
+  console.log(`一頁式 ${path.relative(root, onePage)} … 完成`);
+}
 
 if (!serveOnly) {
   for (const t of themes) {
@@ -91,7 +102,7 @@ if (!noShots && !serveOnly) {
   const browser = findBrowser();
   if (!browser) console.log('沒找到 Chrome 或 Edge，跳過截圖。');
   else {
-    for (const t of themes) {
+    for (const t of [...(onePage ? [ONE] : []), ...themes]) {
       process.stdout.write(`截圖 ${t} … `);
       await shot(browser, `${origin}/${t}/?shot`, path.join(shots, `${t}.png`), 1440, 2200);
       await shot(browser, `${origin}/_frame?u=${encodeURIComponent(`/${t}/?shot`)}`, path.join(shots, `${t}-mobile.png`), 390, 1600);
@@ -112,14 +123,15 @@ const thumb = (t) => {
     return `_previews/${name}`;
   }
 };
-const cards = meta.filter((m) => fs.existsSync(path.join(out, m.t))).map((m) => ({ ...m, img: thumb(m.t) })).map((m) => `
+const one = fs.existsSync(path.join(out, ONE)) ? [{ t: ONE, label: '第 1 堂的一頁式', description: '你用聊天 AI 做的 code_artifact.html，一頁到底。跟下面 10 種比一比：多頁、動畫、手機版差在哪。' }] : [];
+const cards = [...one, ...meta].filter((m) => fs.existsSync(path.join(out, m.t))).map((m) => ({ ...m, img: thumb(m.t) })).map((m) => `
   <a class="c" href="${m.t}/"><div class="img">${m.img ? `<img src="${m.img}" loading="lazy" alt="${m.label}">` : ''}</div>
   <p><b>${m.t}</b>　${m.label}</p><small>${m.description}</small></a>`).join('');
-fs.writeFileSync(path.join(out, 'index.html'), `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>10 種風格</title>
+fs.writeFileSync(path.join(out, 'index.html'), `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${one.length ? '11 個版本' : '10 種風格'}</title>
 <style>body{margin:0;font:16px/1.6 system-ui,'Noto Sans TC',sans-serif;background:#f4f4f5;color:#111}h1{font-size:28px;margin:0 0 4px}header{padding:40px 24px 8px;max-width:1280px;margin:auto}header p{color:#666;margin:0}
 main{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;padding:24px;max-width:1280px;margin:auto}.c{background:#fff;border-radius:14px;overflow:hidden;color:inherit;text-decoration:none;box-shadow:0 1px 3px #0001;transition:transform .3s}.c:hover{transform:translateY(-4px)}
 .img{aspect-ratio:4/3;overflow:hidden;background:#e4e4e7}.img img{width:100%;display:block}.c p{margin:12px 16px 0}.c small{display:block;color:#666;margin:0 16px 16px}code{background:#e4e4e7;padding:2px 6px;border-radius:5px}</style>
-<header><h1>同一份內容，10 種風格</h1><p>點進去看完整網站。選好後，把 <code>site.config.mjs</code> 的 <code>theme</code> 改成那個編號。</p></header><main>${cards}</main>`);
+<header><h1>${one.length ? '你的網站：第 1 堂的一頁式＋10 種風格' : '同一份內容，10 種風格'}</h1><p>點進去看完整網站，每一頁都能操作。選好風格後，把 <code>site.config.mjs</code> 的 <code>theme</code> 改成那個編號（01–10）。</p></header><main>${cards}</main>`);
 
 if (args.includes('--exit')) { console.log(`\n建好了：dist-themes/、theme-previews/`); if (listening) server.close(); process.exit(0); }
 if (!listening) { console.log(`\n打開 ${origin} 比較 10 種風格（預覽已經在跑）`); process.exit(0); }
