@@ -1,5 +1,13 @@
 # 更新紀錄
 
+## 2026-11-24　10 種風格放上網，點了就能看
+
+之前 README 的 10 張預覽只是圖片，點了不會開。
+
+- 新增 `.github/workflows/theme-demos.yml`：`templates/website/astro/` 有改動推上 main，就把 10 種風格建置後放到 GitHub Pages（https://contactwport.github.io/wport-ai-starter-kit/ ，各風格在 `/<編號>/`）。
+- `npm run themes` 支援 `DEMO_BASE`（網站放在子路徑時用），總覽頁的連結與縮圖改成相對路徑；沒截圖時縮圖用 `previews/*.jpg`。
+- 範本 README 的預覽圖和編號都連到線上版本。
+
 ## 2026-11-23　Astro 範本 10 種風格全部重做（作品集等級）
 
 舊版 10 種風格共用同一套骨架，只換顏色和小版型，質感不夠。這次每一種都重做成一整套網站。

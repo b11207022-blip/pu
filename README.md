@@ -53,7 +53,7 @@ md（SSOT）：我的資料／品牌資料（Obsidian 筆記）
 | 課程 | 搬這些 | 搬到你資料夾後叫 |
 |---|---|---|
 | 品牌行銷 AI 加速器（小店家、個人品牌） | `templates/posts/`、`scripts/`、`照片/`、`AGENTS.md`、`.env.example` | `templates/`、`scripts/`、`照片/`、`AGENTS.md`、`.env.example` |
-| Vibe Coding 工作坊（大學生、求職者） | `templates/website/astro/` 裡的東西（含 `.github/`）、`ssot/個人/我的資料.md`、`ssot/個人/我的資料/` | 放在資料夾最上層；步驟見 [`templates/website/astro/README.md`](templates/website/astro/README.md) |
+| Vibe Coding 工作坊（大學生、求職者） | `templates/website/astro/` 裡的東西（含 `.github/`）、`ssot/個人/我的資料.md`、`ssot/個人/我的資料/` | 放在資料夾最上層；步驟見 [`templates/website/astro/README.md`](templates/website/astro/README.md)；10 種風格線上看：https://contactwport.github.io/wport-ai-starter-kit/ |
 | Vibe Coding 一頁式舊版 | `templates/website/personal/` 裡的東西 | 放在資料夾最上層 |
 
 以前的 `ericlu-sys/brand_template`、`ericlu-sys/teaching_template` 已經合併到這裡，之後只更新這一份。改了什麼見 [`CHANGELOG.md`](CHANGELOG.md)。

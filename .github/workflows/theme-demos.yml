@@ -1,0 +1,52 @@
+# 把 templates/website/astro 的 10 種風格放上 GitHub Pages，給學生點進去看。
+# 網址：https://contactwport.github.io/wport-ai-starter-kit/（總覽）、…/01-editorial/（各風格）
+# 第一次要先開 Pages（只做一次）：gh api -X POST "repos/{owner}/{repo}/pages" -f build_type=workflow
+name: Theme demos
+
+on:
+  push:
+    branches: [main]
+    paths: ['templates/website/astro/**', '.github/workflows/theme-demos.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: templates/website/astro
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: templates/website/astro/package-lock.json
+      - run: npm ci
+      - name: Build 10 themes
+        run: |
+          OWNER="$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')"
+          SITE_URL="https://$OWNER.github.io" DEMO_BASE="/${{ github.event.repository.name }}/" \
+            node scripts/build-themes.mjs --no-shots --exit
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: templates/website/astro/dist-themes
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

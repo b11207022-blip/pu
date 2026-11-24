@@ -4,6 +4,7 @@
 //   npm run themes -- 03 07   只做 03、07
 //   npm run themes -- --no-shots   不截圖（電腦沒有 Chrome／Edge 時）
 //   npm run themes -- --no-images  假裝沒有任何照片，檢查沒照片時的樣子
+//   DEMO_BASE=/repo/ npm run themes -- --no-shots --exit   放上 GitHub Pages 用（網址在子路徑）
 //   AI（OpenCode）跑的時候預覽會丟到背景，指令不會卡住
 // 截圖存在 theme-previews/<風格>.png（桌機）和 <風格>-mobile.png（手機）
 import { spawnSync, spawn } from 'node:child_process';
@@ -17,6 +18,8 @@ const args = process.argv.slice(2);
 const noShots = args.includes('--no-shots');
 const serveOnly = args.includes('--serve');
 const noImages = args.includes('--no-images');
+// 放在子路徑時（GitHub Pages：/wport-ai-starter-kit/）每個風格是 <DEMO_BASE><風格>/
+const demoBase = (process.env.DEMO_BASE || '/').replace(/\/?$/, '/').replace(/^\/?/, '/');
 const picks = args.filter((a) => !a.startsWith('--'));
 const all = fs.readdirSync(path.join(root, 'src/themes')).filter((f) => /^\d\d-/.test(f)).sort();
 const themes = picks.length ? all.filter((t) => picks.some((p) => t.startsWith(p.padStart(2, '0')) || t === p)) : all;
@@ -33,7 +36,7 @@ if (!serveOnly) {
     process.stdout.write(`建置 ${t} … `);
     const r = spawnSync(process.execPath, [astroBin, 'build', '--silent'], {
       cwd: root,
-      env: { ...process.env, ...(noImages ? { NO_IMAGES: '1' } : {}), THEME: t, BASE_PATH: `/${t}/`, OUT_DIR: path.join(out, t) },
+      env: { ...process.env, ...(noImages ? { NO_IMAGES: '1' } : {}), THEME: t, BASE_PATH: `${demoBase}${t}/`, OUT_DIR: path.join(out, t) },
       encoding: 'utf8',
     });
     if (r.status !== 0) { console.log('失敗'); console.error(r.stdout, r.stderr); process.exit(1); }
@@ -52,7 +55,6 @@ const server = http.createServer((req, res) => {
     res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
     return res.end(`<!doctype html><style>html,body{margin:0;background:#fff}iframe{border:0;width:390px;height:1600px;display:block}</style><iframe src="${src}"></iframe>`);
   }
-  if (p.startsWith('/_previews/')) p = path.join('..', 'theme-previews', p.slice(11));
   let f = path.join(out, p);
   if (fs.existsSync(f) && fs.statSync(f).isDirectory()) f = path.join(f, 'index.html');
   if (!fs.existsSync(f)) { res.writeHead(404); return res.end('not found'); }
@@ -100,8 +102,18 @@ if (!noShots && !serveOnly) {
 
 // 總覽頁
 const meta = await Promise.all(all.map(async (t) => ({ t, ...(await import(path.join(root, 'src/themes', t, 'theme.mjs'))).default })));
-const cards = meta.filter((m) => fs.existsSync(path.join(out, m.t))).map((m) => `
-  <a class="c" href="/${m.t}/"><div class="img">${fs.existsSync(path.join(shots, m.t + '.png')) ? `<img src="/_previews/${m.t}.png" loading="lazy" alt="">` : ''}</div>
+// 縮圖：這次有截圖就用新的，沒有就用 README 的 previews/*.jpg；複製到 dist-themes/_previews/，連結都用相對路徑
+fs.mkdirSync(path.join(out, '_previews'), { recursive: true });
+const thumb = (t) => {
+  for (const f of [path.join(shots, t + '.png'), path.join(root, 'previews', t + '.jpg')]) {
+    if (!fs.existsSync(f)) continue;
+    const name = t + path.extname(f);
+    fs.copyFileSync(f, path.join(out, '_previews', name));
+    return `_previews/${name}`;
+  }
+};
+const cards = meta.filter((m) => fs.existsSync(path.join(out, m.t))).map((m) => ({ ...m, img: thumb(m.t) })).map((m) => `
+  <a class="c" href="${m.t}/"><div class="img">${m.img ? `<img src="${m.img}" loading="lazy" alt="${m.label}">` : ''}</div>
   <p><b>${m.t}</b>　${m.label}</p><small>${m.description}</small></a>`).join('');
 fs.writeFileSync(path.join(out, 'index.html'), `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>10 種風格</title>
 <style>body{margin:0;font:16px/1.6 system-ui,'Noto Sans TC',sans-serif;background:#f4f4f5;color:#111}h1{font-size:28px;margin:0 0 4px}header{padding:40px 24px 8px;max-width:1280px;margin:auto}header p{color:#666;margin:0}
