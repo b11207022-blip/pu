@@ -10,6 +10,7 @@
   - `experience/<英文檔名>.md`：經歷，一段一份
   - `posts/<英文檔名>.md`：文章，一篇一份（沒有文章就把資料夾清空，導覽列會自動藏起來）
 - `site.config.mjs`：只改 `theme`、`accent`、`contactEndpoint` 這三行
+- `code_artifact.html`：第 1 堂做的一頁式網站，使用者給你他自己的就整份蓋掉，不要改裡面的內容
 - `public/images/`：放照片，欄位填 `/images/檔名.jpg`
   - 大頭照 `avatar`、生活照 `photos`（關於頁）、作品封面 `cover`、作品頁更多截圖 `gallery`（每張可加 `caption`）
   - 範例的 `me*.webp`、`projects/` 是老師的照片和截圖，換成自己的之後可以刪
@@ -25,7 +26,7 @@
 | 第一次：安裝 | `npm install` |
 | 匯入網頁版 AI 寫的內容 | `npm run import`（自己到「下載」找 `網站內容.md`；別的位置就 `npm run import -- 路徑`） |
 | 本機預覽 | `npm run dev`，回報它給的網址（通常是 http://localhost:4321）；改了 `site.config.mjs` 就再跑一次 |
-| 比較 10 種風格 | `npm run themes`（約 30 秒，跑完會自己結束），打開 http://localhost:4400（圖在 `theme-previews/`） |
+| 比較 11 個版本（第 1 堂一頁式＋10 種風格） | `npm run themes`（約 30 秒，跑完會自己結束），打開 http://localhost:4400（圖在 `theme-previews/`） |
 | 檢查能不能上線 | `npm run build` |
 
 ## 欄位規則（改內容時照做）
