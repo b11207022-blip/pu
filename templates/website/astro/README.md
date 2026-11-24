@@ -12,14 +12,14 @@
 
 ## 10 種風格
 
-點圖片或編號打開完整網站（每一頁都能點、動畫都會動）；10 種並排看：**[https://contactwport.github.io/wport-ai-starter-kit/](https://contactwport.github.io/wport-ai-starter-kit/)**
+先跑 `npm run themes`（約 30 秒），再點圖片或編號，就會在本機打開完整網站（每一頁都能點、動畫都會動）；10 種並排看：**[http://localhost:4400/](http://localhost:4400/)**
 
 | | | |
 |---|---|---|
-| [![](previews/01-editorial.jpg)](https://contactwport.github.io/wport-ai-starter-kit/01-editorial/)<br>**[01-editorial](https://contactwport.github.io/wport-ai-starter-kit/01-editorial/)** 瑞士海報：滿版紅、黑白交替、超大字 | [![](previews/02-bento.jpg)](https://contactwport.github.io/wport-ai-starter-kit/02-bento/)<br>**[02-bento](https://contactwport.github.io/wport-ai-starter-kit/02-bento/)** Apple 產品頁：白灰、筆電外框、捲動放大 | [![](previews/03-minimal.jpg)](https://contactwport.github.io/wport-ai-starter-kit/03-minimal/)<br>**[03-minimal](https://contactwport.github.io/wport-ai-starter-kit/03-minimal/)** 像素冒險：深藍星空、角色卡、任務卡 |
-| [![](previews/04-aurora.jpg)](https://contactwport.github.io/wport-ai-starter-kit/04-aurora/)<br>**[04-aurora](https://contactwport.github.io/wport-ai-starter-kit/04-aurora/)** 液態玻璃：繽紛漸層、毛玻璃面板 | [![](previews/05-brutal.jpg)](https://contactwport.github.io/wport-ai-starter-kit/05-brutal/)<br>**[05-brutal](https://contactwport.github.io/wport-ai-starter-kit/05-brutal/)** 新粗獷：米底、色塊、可拖的貼紙 | [![](previews/06-terminal.jpg)](https://contactwport.github.io/wport-ai-starter-kit/06-terminal/)<br>**[06-terminal](https://contactwport.github.io/wport-ai-starter-kit/06-terminal/)** 復古桌面：綠松石桌面、可拖的灰視窗 |
-| [![](previews/07-magazine.jpg)](https://contactwport.github.io/wport-ai-starter-kit/07-magazine/)<br>**[07-magazine](https://contactwport.github.io/wport-ai-starter-kit/07-magazine/)** 藍染雜誌：深靛藍、直排、印章 | [![](previews/08-studio.jpg)](https://contactwport.github.io/wport-ai-starter-kit/08-studio/)<br>**[08-studio](https://contactwport.github.io/wport-ai-starter-kit/08-studio/)** 作品集工作室：暖黑＋螢光、大圖展開 | [![](previews/09-soft.jpg)](https://contactwport.github.io/wport-ai-starter-kit/09-soft/)<br>**[09-soft](https://contactwport.github.io/wport-ai-starter-kit/09-soft/)** 柔和黏土：粉嫩、Q 彈互動 |
-| [![](previews/10-cv.jpg)](https://contactwport.github.io/wport-ai-starter-kit/10-cv/)<br>**[10-cv](https://contactwport.github.io/wport-ai-starter-kit/10-cv/)** 紙本履歷：永遠淺色、襯線、可列印 |  |  |
+| [![](previews/01-editorial.jpg)](http://localhost:4400/01-editorial/)<br>**[01-editorial](http://localhost:4400/01-editorial/)** 瑞士海報：滿版紅、黑白交替、超大字 | [![](previews/02-bento.jpg)](http://localhost:4400/02-bento/)<br>**[02-bento](http://localhost:4400/02-bento/)** Apple 產品頁：白灰、筆電外框、捲動放大 | [![](previews/03-minimal.jpg)](http://localhost:4400/03-minimal/)<br>**[03-minimal](http://localhost:4400/03-minimal/)** 像素冒險：深藍星空、角色卡、任務卡 |
+| [![](previews/04-aurora.jpg)](http://localhost:4400/04-aurora/)<br>**[04-aurora](http://localhost:4400/04-aurora/)** 液態玻璃：繽紛漸層、毛玻璃面板 | [![](previews/05-brutal.jpg)](http://localhost:4400/05-brutal/)<br>**[05-brutal](http://localhost:4400/05-brutal/)** 新粗獷：米底、色塊、可拖的貼紙 | [![](previews/06-terminal.jpg)](http://localhost:4400/06-terminal/)<br>**[06-terminal](http://localhost:4400/06-terminal/)** 復古桌面：綠松石桌面、可拖的灰視窗 |
+| [![](previews/07-magazine.jpg)](http://localhost:4400/07-magazine/)<br>**[07-magazine](http://localhost:4400/07-magazine/)** 藍染雜誌：深靛藍、直排、印章 | [![](previews/08-studio.jpg)](http://localhost:4400/08-studio/)<br>**[08-studio](http://localhost:4400/08-studio/)** 作品集工作室：暖黑＋螢光、大圖展開 | [![](previews/09-soft.jpg)](http://localhost:4400/09-soft/)<br>**[09-soft](http://localhost:4400/09-soft/)** 柔和黏土：粉嫩、Q 彈互動 |
+| [![](previews/10-cv.jpg)](http://localhost:4400/10-cv/)<br>**[10-cv](http://localhost:4400/10-cv/)** 紙本履歷：永遠淺色、襯線、可列印 |  |  |
 
 自己的內容換好之後跑 `npm run themes`，會用**你的內容**做出 10 種版本給你比較。
 
