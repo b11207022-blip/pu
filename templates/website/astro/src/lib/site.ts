@@ -12,14 +12,25 @@ export function u(path = '/') {
   return base + (path.startsWith('/') ? path : '/' + path);
 }
 
+// NO_IMAGES=1：假裝使用者還沒放任何照片（檢查版面沒有照片時也好看）
+const noImages = typeof process !== 'undefined' && !!process.env?.NO_IMAGES;
+
+/** 圖片路徑：站內路徑會加上子路徑；沒填回傳 undefined */
+export function img(src?: string) {
+  return src ? u(src) : undefined;
+}
+
 export async function getProfile() {
   const [p] = await getCollection('profile');
   if (!p) throw new Error('缺少 src/content/profile.md');
+  if (noImages) p.data = { ...p.data, avatar: '', photos: [] };
   return p;
 }
 
 export async function getProjects() {
-  return (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+  const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+  if (noImages) all.forEach((x) => { x.data = { ...x.data, cover: '', gallery: [] }; });
+  return all;
 }
 
 export async function getExperience() {
@@ -27,7 +38,14 @@ export async function getExperience() {
 }
 
 export async function getPosts() {
-  return (await getCollection('posts')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  const all = (await getCollection('posts')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  if (noImages) all.forEach((x) => { x.data = { ...x.data, cover: '' }; });
+  return all;
+}
+
+/** 文章大約幾分鐘讀完（中文每分鐘約 400 字） */
+export function readMinutes(body = '') {
+  return Math.max(1, Math.round(body.replace(/\s+/g, '').length / 400));
 }
 
 export function fmtDate(d: Date) {

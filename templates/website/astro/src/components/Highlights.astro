@@ -1,9 +1,0 @@
----
-interface Props { items: { value: string; label: string }[] }
-const { items } = Astro.props;
----
-{items.length > 0 && (
-  <ul class="highlights" data-reveal>
-    {items.map((h) => <li><strong>{h.value}</strong><span>{h.label}</span></li>)}
-  </ul>
-)}

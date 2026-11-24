@@ -3,7 +3,7 @@
 //   npm run import -- ~/Downloads/網站內容.md
 // 不給路徑：依序找 ./網站內容.md、../網站內容.md、~/Downloads/網站內容.md、~/下載/網站內容.md
 //
-// 格式：每個檔案前面一行  ===== 檔案：src/content/projects/book-swap.md =====
+// 格式：每個檔案前面一行  ===== 檔案：src/content/projects/wport.md =====
 //       最後可以有        ===== 待確認 =====（會存成 待確認.md）
 // 匯入前會把舊的 src/content 備份到 .backup/<時間>/
 import fs from 'node:fs';
@@ -57,7 +57,7 @@ const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
 const backup = path.join(root, '.backup', stamp);
 fs.cpSync(path.join(root, 'src/content'), path.join(backup, 'content'), { recursive: true });
 
-// 出現在新內容裡的資料夾，舊檔全部換掉（範例的林小安不會留下來）
+// 出現在新內容裡的資料夾，舊檔全部換掉（範例的盧小熙不會留下來）
 for (const dir of ['projects', 'experience', 'posts']) {
   if (files.some((f) => f.rel.startsWith(`src/content/${dir}/`))) {
     const d = path.join(root, 'src/content', dir);

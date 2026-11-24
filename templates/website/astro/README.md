@@ -3,20 +3,21 @@
 版型、動畫、手機版、分頁都做好了。你只要準備**內容**，選一個**風格**，就有一個多頁的個人網站：
 
 - 首頁、關於、作品（列表＋每個作品一頁）、經歷、文章、聯絡，共 6 種頁面
-- 10 種風格，改一行設定就換，內容不用動
+- 10 種風格，每一種都是完整的一套網站（版型、動畫、手機版都不同），改一行設定就換，內容不用動
+- GSAP 捲動動畫、平滑捲動；沒有放照片也有設計過的版面
 - 推上 GitHub 自動部署到 GitHub Pages；也能放 Vercel、Cloudflare
 - 聯絡表單可以接 Cloudflare Worker：留言存進 D1 資料庫，有網域還能寄信通知你（見 [`contact-worker/`](contact-worker/README.md)）
 
-範例人物「林小安」是虛構的，全部換成你的。
+範例人物「盧小熙」是老師拿自己的資料和專案做的，全部換成你的。
 
 ## 10 種風格
 
 | | | |
 |---|---|---|
-| ![](previews/01-editorial.jpg)<br>**01-editorial** 瑞士編輯：大字、細線、編號 | ![](previews/02-bento.jpg)<br>**02-bento** Bento 格狀：方塊拼貼 | ![](previews/03-minimal.jpg)<br>**03-minimal** 極簡單欄：黑白、留白 |
-| ![](previews/04-aurora.jpg)<br>**04-aurora** 極光暗色：發光漸層 | ![](previews/05-brutal.jpg)<br>**05-brutal** 新粗獷：粗框、色塊 | ![](previews/06-terminal.jpg)<br>**06-terminal** 終端機：命令列 |
-| ![](previews/07-magazine.jpg)<br>**07-magazine** 文藝雜誌：米色、襯線 | ![](previews/08-studio.jpg)<br>**08-studio** 作品集：左側欄、大圖 | ![](previews/09-soft.jpg)<br>**09-soft** 柔和黏土：粉嫩圓潤 |
-| ![](previews/10-cv.jpg)<br>**10-cv** 履歷 CV：資訊卡、深藍 | | |
+| ![](previews/01-editorial.jpg)<br>**01-editorial** 瑞士海報：滿版紅、黑白交替、超大字 | ![](previews/02-bento.jpg)<br>**02-bento** Apple 產品頁：白灰、筆電外框、捲動放大 | ![](previews/03-minimal.jpg)<br>**03-minimal** 像素冒險：深藍星空、角色卡、任務卡 |
+| ![](previews/04-aurora.jpg)<br>**04-aurora** 液態玻璃：繽紛漸層、毛玻璃面板 | ![](previews/05-brutal.jpg)<br>**05-brutal** 新粗獷：米底、色塊、可拖的貼紙 | ![](previews/06-terminal.jpg)<br>**06-terminal** 復古桌面：綠松石桌面、可拖的灰視窗 |
+| ![](previews/07-magazine.jpg)<br>**07-magazine** 藍染雜誌：深靛藍、直排、印章 | ![](previews/08-studio.jpg)<br>**08-studio** 作品集工作室：暖黑＋螢光、大圖展開 | ![](previews/09-soft.jpg)<br>**09-soft** 柔和黏土：粉嫩、Q 彈互動 |
+| ![](previews/10-cv.jpg)<br>**10-cv** 紙本履歷：永遠淺色、襯線、可列印 |  |  |
 
 自己的內容換好之後跑 `npm run themes`，會用**你的內容**做出 10 種版本給你比較。
 
@@ -72,7 +73,7 @@ run: gh api -X POST "repos/{owner}/{repo}/pages" -f build_type=workflow
 | 加大頭照 | 照片放 `public/images/me.jpg`，`profile.md` 的 `avatar` 填 `/images/me.jpg` |
 | 作品加封面 | 照片放 `public/images/`，作品的 `cover` 填 `/images/檔名.jpg`；沒照片會自動產生色塊封面 |
 | 換主色 | `site.config.mjs` 的 `accent` 填色碼，例如 `'#1F5FAF'` |
-| 加作品 | 複製 `src/content/projects/book-swap.md`，改英文檔名和內容 |
+| 加作品 | 複製 `src/content/projects/wport.md`，改英文檔名和內容 |
 | 不想要文章頁 | 刪掉 `src/content/posts/` 裡的檔案，導覽列會自動拿掉 |
 | 聯絡表單 | 照 [`contact-worker/README.md`](contact-worker/README.md) 做，再把網址填進 `site.config.mjs` 的 `contactEndpoint` |
 
@@ -99,6 +100,9 @@ Public repo 誰都看得到：手機、地址、生日、身分證字號、帳�
 
 ## 給老師：改範本
 
-- 風格：`src/themes/<編號>/theme.mjs` 決定版型（`header`：bar／center／float／side，`hero`：statement／bento／split／terminal／minimal／cv，`projects`：grid／list／stack／index，`timeline`：line／table／cards），`theme.css` 決定配色和細節。共用骨架在 `src/styles/base.css`。
+- 每個風格是一套完整的版面：`src/themes/<編號>/` 裡有自己的 `Layout.astro`、`pages/`、元件和 CSS。怎麼做、要遵守什麼，見 [`src/themes/README.md`](src/themes/README.md)。
+- 共用的只有資料讀取（`src/lib/site.ts`）、`<head>`（`src/shared/Seo.astro`）、聯絡表單（`src/shared/ContactForm.astro`）、動畫工具（`src/lib/motion.ts`：GSAP、ScrollTrigger、SplitText、Lenis）。
+- 檢查一個風格的每一頁：`npm run shoot -- 05`（桌機＋手機截圖到 `theme-previews/05-brutal/`）；加 `--no-images` 看學生還沒放照片時的樣子。
 - 改了範例內容，要跑 `npm run prompt` 重新產生 `網頁版AI-prompt.md`（範例是從 `src/content/` 打包的）。
-- 改了風格，跑 `npm run themes` 檢查 10 種；README 的預覽圖在 `previews/`。
+- 改了風格，跑 `npm run themes` 看 10 種並排；README 的預覽圖在 `previews/`。
+- 範例照片與截圖的來源見 `public/images/CREDITS.md`。

@@ -3,6 +3,7 @@
 //   npm run themes            全部風格：建置＋截圖，最後開一個本機網址可以點進去看
 //   npm run themes -- 03 07   只做 03、07
 //   npm run themes -- --no-shots   不截圖（電腦沒有 Chrome／Edge 時）
+//   npm run themes -- --no-images  假裝沒有任何照片，檢查沒照片時的樣子
 //   AI（OpenCode）跑的時候預覽會丟到背景，指令不會卡住
 // 截圖存在 theme-previews/<風格>.png（桌機）和 <風格>-mobile.png（手機）
 import { spawnSync, spawn } from 'node:child_process';
@@ -15,6 +16,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
 const noShots = args.includes('--no-shots');
 const serveOnly = args.includes('--serve');
+const noImages = args.includes('--no-images');
 const picks = args.filter((a) => !a.startsWith('--'));
 const all = fs.readdirSync(path.join(root, 'src/themes')).filter((f) => /^\d\d-/.test(f)).sort();
 const themes = picks.length ? all.filter((t) => picks.some((p) => t.startsWith(p.padStart(2, '0')) || t === p)) : all;
@@ -31,7 +33,7 @@ if (!serveOnly) {
     process.stdout.write(`建置 ${t} … `);
     const r = spawnSync(process.execPath, [astroBin, 'build', '--silent'], {
       cwd: root,
-      env: { ...process.env, THEME: t, BASE_PATH: `/${t}/`, OUT_DIR: path.join(out, t) },
+      env: { ...process.env, ...(noImages ? { NO_IMAGES: '1' } : {}), THEME: t, BASE_PATH: `/${t}/`, OUT_DIR: path.join(out, t) },
       encoding: 'utf8',
     });
     if (r.status !== 0) { console.log('失敗'); console.error(r.stdout, r.stderr); process.exit(1); }
